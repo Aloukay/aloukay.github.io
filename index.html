@@ -8,9 +8,7 @@
 
 <style>
 
-html {
-    scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
     margin: 0;
@@ -23,38 +21,33 @@ body {
 nav {
     position: fixed;
     width: 100%;
-    padding: 12px 8%;
+    padding: 15px 10%;
     display: flex;
     justify-content: space-between;
-    backdrop-filter: blur(10px);
     background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
     z-index: 1000;
 }
 
 nav a {
     color: white;
     text-decoration: none;
-    margin-left: 15px;
-    font-size: 14px;
-}
-
-nav a:hover {
-    color: #00e0ff;
+    margin-left: 20px;
 }
 
 /* HERO */
 .hero {
-    height: 90vh;
+    height: 95vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0 8%;
+    padding: 0 10%;
     background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)),
     url('https://images.unsplash.com/photo-1581091215367-59ab6b63b9b3') no-repeat center/cover;
 }
 
 h1 {
-    font-size: 48px;
+    font-size: 52px;
     margin-bottom: 10px;
     background: linear-gradient(90deg, #00e0ff, #00ffa3);
     -webkit-background-clip: text;
@@ -63,65 +56,56 @@ h1 {
 
 h2 {
     color: #00e0ff;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 /* SECTIONS */
 section {
-    padding: 60px 8%;
+    padding: 80px 10%;
 }
 
 /* BUTTON */
 .btn {
-    margin: 8px 10px 0 0;
-    padding: 10px 20px;
+    margin-right: 10px;
+    padding: 12px 25px;
     background: linear-gradient(90deg, #00e0ff, #00ffa3);
     color: black;
-    border-radius: 25px;
+    border-radius: 30px;
     text-decoration: none;
     font-weight: bold;
     display: inline-block;
-    font-size: 14px;
-    transition: 0.3s;
-}
-
-.btn:hover {
-    transform: scale(1.05);
 }
 
 /* GRID */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
 }
 
 /* CARD */
 .card {
     background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(10px);
-    padding: 15px;
+    padding: 20px;
     border-radius: 12px;
     transition: 0.3s;
-    font-size: 14px;
 }
 
 .card:hover {
-    transform: translateY(-6px);
-    background: rgba(255,255,255,0.1);
+    transform: translateY(-5px);
 }
 
 /* TEXT */
 p {
-    font-size: 14px;
     color: #ccc;
+    line-height: 1.6;
 }
 
 /* ANIMATION */
 .fade {
     opacity: 0;
-    transform: translateY(30px);
-    transition: 0.8s;
+    transform: translateY(40px);
+    transition: 1s;
 }
 
 .show {
@@ -148,33 +132,35 @@ p {
 <!-- HERO -->
 <section class="hero">
 <h1>Mohammed Aloukay</h1>
-<p><b>Automation & Maintenance Leader</b></p>
-<p>Leading Teams | Driving Reliability | Industrial Excellence</p>
+<p><b>Electrical, Automation & Maintenance Leader</b></p>
+<p>Leading Teams | Driving Reliability | Industrial Performance</p>
 
 <div>
 <a class="btn" href="#projects">Projects</a>
-<a class="btn" href="Mohammed_Aloukay_CV.pdf" download>CV</a>
+<a class="btn" href="Mohammed_Aloukay_CV.pdf" download>Download CV</a>
 <a class="btn" href="https://www.linkedin.com/in/mohammed-aloukay-733482168/" target="_blank">LinkedIn</a>
 </div>
 </section>
 
 <!-- ABOUT -->
 <section id="about" class="fade">
-<h2>About</h2>
+<h2>About Me</h2>
 <p>
-17+ years at Procter & Gamble leading maintenance and automation teams,
-specialized in PLC, robotics, and reliability improvement.
+Electrical and Automation Leader with over 17 years of experience at Procter & Gamble.
+Specialized in PLC systems, robotics, and industrial reliability.
+Experienced in leading maintenance teams and improving system performance,
+reducing downtime, and optimizing operations.
 </p>
 </section>
 
 <!-- KPIs -->
 <section class="fade">
-<h2>Impact</h2>
+<h2>Performance Impact</h2>
 <div class="grid">
-<div class="card"><b>98%+</b><br>Uptime</div>
-<div class="card"><b>30%</b><br>Cost ↓</div>
-<div class="card"><b>20%</b><br>Downtime ↓</div>
-<div class="card"><b>17+</b><br>Years</div>
+<div class="card"><b>98%+</b><br>Machine Uptime</div>
+<div class="card"><b>30%</b><br>Cost Reduction</div>
+<div class="card"><b>20%</b><br>Downtime Reduction</div>
+<div class="card"><b>17+</b><br>Years Experience</div>
 </div>
 </section>
 
@@ -182,16 +168,29 @@ specialized in PLC, robotics, and reliability improvement.
 <section id="projects" class="fade">
 <h2>Projects</h2>
 <div class="grid">
-<div class="card">Reliability → -14% downtime</div>
-<div class="card">PLC Optimization → +Efficiency</div>
-<div class="card">Digital Dashboard → -30% cost</div>
+
+<div class="card">
+<b>Reliability Improvement</b><br>
+Reduced downtime by 14% through predictive maintenance strategies.
+</div>
+
+<div class="card">
+<b>Automation Optimization</b><br>
+Improved PLC systems and reduced machine faults across production lines.
+</div>
+
+<div class="card">
+<b>Digital Maintenance Dashboard</b><br>
+Developed Power BI tools reducing maintenance cost by 30%.
+</div>
+
 </div>
 </section>
 
 <!-- VIDEO -->
 <section class="fade">
-<h2>Demo</h2>
-<iframe width="100%" height="320"
+<h2>Project Demo</h2>
+<iframe width="100%" height="350"
 src="https://www.youtube.com/embed/XXXX"
 frameborder="0" allowfullscreen></iframe>
 </section>
@@ -199,18 +198,26 @@ frameborder="0" allowfullscreen></iframe>
 <!-- SKILLS -->
 <section id="skills" class="fade">
 <h2>Skills</h2>
-<p>PLC | SCADA | SAP | Robotics | Power BI</p>
+<p>
+PLC (Allen Bradley, Siemens, Mitsubishi)<br>
+SCADA / HMI Systems<br>
+SAP PM & Maintenance Strategy<br>
+Industrial Networks<br>
+Robotics & Automation<br>
+Power BI
+</p>
 </section>
 
 <!-- CONTACT -->
 <section id="contact" class="fade">
 <h2>Contact</h2>
 <p>Email: M.Aloukay@gmail.com</p>
+<p>Location: Jeddah, Saudi Arabia</p>
 </section>
 
 <!-- FOOTER -->
-<section style="text-align:center; padding:20px; background:#000;">
-<p style="font-size:12px;">© 2026 Mohammed Aloukay</p>
+<section style="text-align:center; padding:30px; background:#000;">
+<p>© 2026 Mohammed Aloukay | Automation & Maintenance Leader</p>
 </section>
 
 <script>
@@ -218,7 +225,7 @@ const elements = document.querySelectorAll('.fade');
 
 window.addEventListener('scroll', () => {
     elements.forEach(el => {
-        if(el.getBoundingClientRect().top < window.innerHeight - 80){
+        if(el.getBoundingClientRect().top < window.innerHeight - 100){
             el.classList.add('show');
         }
     });
