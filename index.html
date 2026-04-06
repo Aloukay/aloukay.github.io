@@ -8,6 +8,10 @@
 
 <style>
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
@@ -31,16 +35,10 @@ nav a {
     color: white;
     text-decoration: none;
     margin-left: 20px;
-    transition: 0.3s;
 }
 
 nav a:hover {
     color: #00e0ff;
-}
-
-/* SECTIONS */
-section {
-    padding: 100px 10%;
 }
 
 /* HERO */
@@ -49,6 +47,12 @@ section {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background: url('https://images.unsplash.com/photo-1581091215367-59ab6b63b9b3') no-repeat center/cover;
+}
+
+/* SECTIONS */
+section {
+    padding: 100px 10%;
 }
 
 h1 {
@@ -72,11 +76,13 @@ h2 {
     text-decoration: none;
     font-weight: bold;
     display: inline-block;
-    transition: 0.3s;
 }
 
-.btn:hover {
-    transform: scale(1.05);
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
 }
 
 /* CARD */
@@ -84,14 +90,12 @@ h2 {
     background: rgba(255,255,255,0.05);
     backdrop-filter: blur(10px);
     padding: 20px;
-    margin: 15px 0;
     border-radius: 15px;
     transition: 0.3s;
 }
 
 .card:hover {
     transform: translateY(-8px);
-    background: rgba(255,255,255,0.1);
 }
 
 /* ANIMATION */
@@ -126,7 +130,7 @@ h2 {
 <section class="hero">
 <h1>Mohammed Aloukay</h1>
 <p><b>Automation & Maintenance Leader</b></p>
-<p>Driving Reliability | Leading Teams | Industrial Excellence</p>
+<p>Leading Teams | Driving Reliability | Industrial Excellence</p>
 
 <a class="btn" href="#projects">View Projects</a>
 <a class="btn" href="Mohammed_Aloukay_CV.pdf" download>Download CV</a>
@@ -137,29 +141,22 @@ h2 {
 <section id="about" class="fade">
 <h2>About Me</h2>
 <p>
-17+ years experience at Procter & Gamble leading automation and maintenance teams.
-Specialized in PLC, robotics, and reliability engineering.
-Focused on maximizing uptime and driving industrial performance.
+17+ years experience at Procter & Gamble leading maintenance and automation teams.
+Specialized in PLC, robotics, and industrial reliability.
+Focused on maximizing uptime, reducing downtime, and driving performance.
 </p>
 </section>
 
-<!-- LEADERSHIP -->
+<!-- KPIs -->
 <section class="fade">
-<h2>Leadership</h2>
+<h2>Performance Impact</h2>
 
-<div class="card">Led multidisciplinary maintenance teams</div>
-<div class="card">Managed cross-functional operations</div>
-<div class="card">Developed team capabilities</div>
-
-</section>
-
-<!-- ACHIEVEMENTS -->
-<section class="fade">
-<h2>Achievements</h2>
-
-<div class="card">Reduced downtime by 20%</div>
-<div class="card">Uptime above 98%</div>
-<div class="card">Reduced cost by 30%</div>
+<div class="grid">
+<div class="card"><b>98%+</b><br>Machine Uptime</div>
+<div class="card"><b>30%</b><br>Cost Reduction</div>
+<div class="card"><b>20%</b><br>Downtime Reduction</div>
+<div class="card"><b>17+</b><br>Years Experience</div>
+</div>
 
 </section>
 
@@ -167,9 +164,13 @@ Focused on maximizing uptime and driving industrial performance.
 <section id="projects" class="fade">
 <h2>Projects</h2>
 
+<div class="grid">
+
 <div class="card">Reliability Improvement – Reduced downtime 14%</div>
 <div class="card">PLC Optimization – Increased efficiency</div>
 <div class="card">Digital Dashboard – Reduced cost 30%</div>
+
+</div>
 
 </section>
 
@@ -197,6 +198,11 @@ PLC / SCADA / SAP / Robotics / Power BI
 <section id="contact" class="fade">
 <h2>Contact</h2>
 <p>Email: M.Aloukay@gmail.com</p>
+</section>
+
+<!-- FOOTER -->
+<section style="text-align:center; padding:30px; background:#000;">
+<p>© 2026 Mohammed Aloukay | Automation & Maintenance Leader</p>
 </section>
 
 <script>
