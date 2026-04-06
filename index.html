@@ -4,126 +4,159 @@
 <meta charset="UTF-8">
 <title>Mohammed Aloukay</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
 <style>
+
 body {
     margin: 0;
-    font-family: Arial;
-    background-color: #0d1117;
+    font-family: 'Poppins', sans-serif;
+    background: #0b0f19;
     color: white;
+    scroll-behavior: smooth;
 }
-.container {
-    padding: 40px;
+
+section {
+    padding: 80px 10%;
 }
+
 h1 {
-    font-size: 42px;
+    font-size: 50px;
+    margin: 0;
 }
+
 h2 {
-    color: #00bcd4;
+    color: #00e0ff;
+    margin-bottom: 20px;
 }
-.section {
-    margin-top: 50px;
+
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
+
 .btn {
-    display: inline-block;
     margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #00bcd4;
+    padding: 12px 25px;
+    background: #00e0ff;
     color: black;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 30px;
+    font-weight: bold;
+    width: fit-content;
 }
+
+.card {
+    background: #111827;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    background: #1f2937;
+}
+
+.fade {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 1s;
+}
+
+.fade.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 </style>
 
 </head>
 
 <body>
 
-<div class="container">
-
+<section class="hero">
 <h1>Mohammed Aloukay</h1>
-<p><b>Electrical, Automation & Reliability Leader</b></p>
-<p>17+ Years at Procter & Gamble | PLC | Robotics | Smart Manufacturing</p>
+<p>Electrical, Automation & Reliability Leader</p>
+<p>Driving Industrial Performance & Smart Manufacturing</p>
 
+<a class="btn" href="#projects">View Projects</a>
 <a class="btn" href="https://www.linkedin.com/in/mohammed-aloukay-733482168/" target="_blank">LinkedIn</a>
+</section>
 
-<div class="section">
+<section class="fade">
 <h2>About Me</h2>
 <p>
-Global Electrical and Automation Leader with 17+ years of experience in industrial manufacturing at Procter & Gamble.
-Specialized in PLC programming, robotics, SCADA, and reliability engineering.
-Focused on maximizing uptime, reducing downtime, and driving digital transformation across production systems.
+17+ years at Procter & Gamble leading automation, PLC systems, and industrial reliability.
+Focused on maximizing uptime, reducing downtime, and driving digital transformation.
 </p>
-</div>
+</section>
 
-<div class="section">
+<section class="fade">
 <h2>Key Achievements</h2>
-<ul>
-<li>Reduced unplanned downtime by 20%</li>
-<li>Improved machine uptime by 7%</li>
-<li>Reduced maintenance costs by 30%</li>
-<li>Achieved 14% downtime reduction through reliability programs</li>
-<li>Led global automation and control system improvements</li>
-</ul>
-</div>
 
-<div class="section">
-<h2>Professional Experience</h2>
+<div class="card">Reduced downtime by 14%</div>
+<div class="card">Improved uptime to 98%+</div>
+<div class="card">Reduced maintenance costs by 30%</div>
+<div class="card">Reduced unplanned downtime by 20%</div>
 
-<p><b>PC&IS Leader – Procter & Gamble (2023 – Present)</b><br>
-Leading automation, robotics, and control system reliability across production lines.</p>
+</section>
 
-<p><b>E&I and Automation Coordinator (2011 – 2023)</b><br>
-Supervised PLC systems, robotics, and automation projects for high-speed production lines.</p>
-
-<p><b>Electrical Technician (2009 – 2011)</b><br>
-Maintenance and troubleshooting of electrical and instrumentation systems.</p>
-
-</div>
-
-<div class="section">
+<section id="projects" class="fade">
 <h2>Projects</h2>
 
-<p><b>Reliability & Downtime Reduction</b><br>
-Implemented predictive maintenance and reliability strategies reducing downtime by 14%.</p>
-
-<p><b>Digital Maintenance Transformation</b><br>
-Developed Power BI dashboards reducing maintenance cost by 30%.</p>
-
-<p><b>Automation & PLC Optimization</b><br>
-Optimized PLC logic and automation systems improving performance and uptime.</p>
-
+<div class="card">
+<b>Reliability Improvement</b><br>
+Implemented predictive maintenance reducing breakdowns and improving uptime.
 </div>
 
-<div class="section">
-<h2>Technical Skills</h2>
+<div class="card">
+<b>Automation Optimization</b><br>
+Enhanced PLC logic and reduced machine faults across production lines.
+</div>
+
+<div class="card">
+<b>Digital Maintenance Dashboard</b><br>
+Developed Power BI dashboards reducing maintenance costs by 30%.
+</div>
+
+</section>
+
+<section class="fade">
+<h2>Skills</h2>
 <p>
 PLC (Allen Bradley, Siemens, Mitsubishi)<br>
-SCADA / HMI Systems<br>
-Industrial Networks (Ethernet/IP, ControlNet, DeviceNet)<br>
-Robotics & Motion Control<br>
-SAP PM & Predictive Maintenance<br>
-Power BI & Digital Transformation
+SCADA / HMI<br>
+Industrial Networks<br>
+SAP PM<br>
+Robotics & Automation<br>
+Power BI
 </p>
-</div>
+</section>
 
-<div class="section">
-<h2>Certifications & Awards</h2>
-<ul>
-<li>P&G CEO Awards (2017, 2022)</li>
-<li>P&G Leadership Award (2023)</li>
-<li>Lean Six Sigma Certification</li>
-<li>OSHA Safety Certification</li>
-<li>GRCP Certification</li>
-</ul>
-</div>
-
-<div class="section">
+<section class="fade">
 <h2>Contact</h2>
 <p>Email: M.Aloukay@gmail.com</p>
 <p>Location: Jeddah, Saudi Arabia</p>
-</div>
+</section>
 
-</div>
+<script>
+
+const elements = document.querySelectorAll('.fade');
+
+window.addEventListener('scroll', () => {
+    elements.forEach(el => {
+        const position = el.getBoundingClientRect().top;
+        if(position < window.innerHeight - 100){
+            el.classList.add('show');
+        }
+    });
+});
+
+</script>
 
 </body>
 </html>
