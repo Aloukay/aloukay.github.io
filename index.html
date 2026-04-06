@@ -7,28 +7,37 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
+
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
     background: #0b0f19;
     color: white;
-    scroll-behavior: smooth;
 }
 
+/* NAVBAR */
+nav {
+    position: fixed;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    padding: 15px 10%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 1000;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+/* SECTIONS */
 section {
-    padding: 80px 10%;
+    padding: 100px 10%;
 }
 
-h1 {
-    font-size: 50px;
-    margin: 0;
-}
-
-h2 {
-    color: #00e0ff;
-    margin-bottom: 20px;
-}
-
+/* HERO */
 .hero {
     height: 100vh;
     display: flex;
@@ -36,18 +45,26 @@ h2 {
     justify-content: center;
 }
 
+h1 {
+    font-size: 50px;
+}
+
+h2 {
+    color: #00e0ff;
+}
+
+/* BUTTON */
 .btn {
     margin-top: 15px;
     padding: 12px 25px;
     background: #00e0ff;
     color: black;
-    text-decoration: none;
     border-radius: 30px;
-    font-weight: bold;
-    width: fit-content;
+    text-decoration: none;
     display: inline-block;
 }
 
+/* CARD */
 .card {
     background: #111827;
     padding: 20px;
@@ -58,91 +75,83 @@ h2 {
 
 .card:hover {
     transform: translateY(-5px);
-    background: #1f2937;
 }
 
+/* ANIMATION */
 .fade {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px);
     transition: 1s;
 }
 
-.fade.show {
+.show {
     opacity: 1;
     transform: translateY(0);
 }
+
 </style>
 </head>
 
 <body>
 
+<!-- NAVBAR -->
+<nav>
+<div>Aloukay</div>
+<div>
+<a href="#about">About</a>
+<a href="#projects">Projects</a>
+<a href="#skills">Skills</a>
+<a href="#contact">Contact</a>
+</div>
+</nav>
+
 <!-- HERO -->
 <section class="hero">
 <h1>Mohammed Aloukay</h1>
-<p><b>Electrical, Automation & Maintenance Leader</b></p>
-<p>Leading Maintenance Teams | Driving Reliability & Industrial Performance</p>
+<p><b>Automation & Maintenance Leader</b></p>
+<p>Driving Reliability | Leading Teams | Industrial Excellence</p>
 
-<a class="btn" href="#projects">View My Work</a>
+<a class="btn" href="#projects">View Projects</a>
 <a class="btn" href="Mohammed_Aloukay_CV.pdf" download>Download CV</a>
-<a class="btn" href="https://www.linkedin.com/in/mohammed-aloukay-733482168/" target="_blank">LinkedIn</a>
 </section>
 
 <!-- ABOUT -->
-<section class="fade">
+<section id="about" class="fade">
 <h2>About Me</h2>
 <p>
-Electrical, Automation and Maintenance Leader with over 17 years of experience at Procter & Gamble.
-Proven track record in leading maintenance and automation teams, managing complex industrial systems,
-and delivering high-impact performance improvements across production environments.
-Focused on maximizing uptime, reducing downtime, and driving operational excellence through leadership and innovation.
+17+ years experience at Procter & Gamble leading maintenance and automation teams.
+Specialized in PLC, robotics, and industrial reliability.
+Focused on improving uptime, reducing downtime, and driving performance.
 </p>
 </section>
 
 <!-- LEADERSHIP -->
 <section class="fade">
-<h2>Leadership & Management</h2>
+<h2>Leadership</h2>
 
-<div class="card">Led multidisciplinary maintenance and automation teams across production lines</div>
-<div class="card">Coordinated cross-functional teams to ensure high equipment availability</div>
-<div class="card">Managed maintenance strategies, planning, and execution</div>
-<div class="card">Developed team capabilities and improved troubleshooting skills</div>
+<div class="card">Led maintenance and automation teams</div>
+<div class="card">Managed cross-functional operations</div>
+<div class="card">Improved team troubleshooting capabilities</div>
 
 </section>
 
 <!-- ACHIEVEMENTS -->
 <section class="fade">
-<h2>Key Achievements</h2>
+<h2>Achievements</h2>
 
-<div class="card">Reduced unplanned downtime by 20%</div>
-<div class="card">Improved machine uptime to 98%+</div>
-<div class="card">Reduced maintenance costs by 30%</div>
-<div class="card">Achieved 14% downtime reduction through reliability programs</div>
+<div class="card">Reduced downtime by 20%</div>
+<div class="card">Uptime 98%+</div>
+<div class="card">Cost reduction 30%</div>
 
 </section>
 
 <!-- PROJECTS -->
 <section id="projects" class="fade">
-<h2>Projects & Leadership Impact</h2>
+<h2>Projects</h2>
 
-<div class="card">
-<b>Maintenance Leadership Program</b><br>
-Led maintenance teams to improve equipment reliability and operational performance across production lines.
-</div>
-
-<div class="card">
-<b>Reliability Improvement Initiative</b><br>
-Implemented predictive maintenance strategies reducing downtime by 14%.
-</div>
-
-<div class="card">
-<b>Automation & PLC Optimization</b><br>
-Directed system improvements enhancing production efficiency and reducing faults.
-</div>
-
-<div class="card">
-<b>Digital Maintenance Transformation</b><br>
-Developed Power BI dashboards reducing maintenance costs by 30%.
-</div>
+<div class="card">Reliability Improvement – Reduced downtime 14%</div>
+<div class="card">PLC Optimization – Increased efficiency</div>
+<div class="card">Digital Dashboard – Reduced cost 30%</div>
 
 </section>
 
@@ -159,24 +168,17 @@ allowfullscreen>
 </section>
 
 <!-- SKILLS -->
-<section class="fade">
-<h2>Technical & Leadership Skills</h2>
+<section id="skills" class="fade">
+<h2>Skills</h2>
 <p>
-Maintenance Team Leadership<br>
-PLC (Allen Bradley, Siemens, Mitsubishi)<br>
-Reliability Engineering<br>
-SAP PM & Maintenance Strategy<br>
-SCADA / HMI Systems<br>
-Industrial Networks<br>
-Power BI & Digital Transformation
+PLC / SCADA / SAP / Robotics / Power BI
 </p>
 </section>
 
 <!-- CONTACT -->
-<section class="fade">
+<section id="contact" class="fade">
 <h2>Contact</h2>
 <p>Email: M.Aloukay@gmail.com</p>
-<p>Location: Jeddah, Saudi Arabia</p>
 </section>
 
 <script>
@@ -184,8 +186,7 @@ const elements = document.querySelectorAll('.fade');
 
 window.addEventListener('scroll', () => {
     elements.forEach(el => {
-        const position = el.getBoundingClientRect().top;
-        if(position < window.innerHeight - 100){
+        if(el.getBoundingClientRect().top < window.innerHeight - 100){
             el.classList.add('show');
         }
     });
