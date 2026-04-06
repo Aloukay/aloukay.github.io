@@ -11,7 +11,7 @@
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: #0b0f19;
+    background: linear-gradient(135deg, #0b0f19, #111827);
     color: white;
 }
 
@@ -19,10 +19,11 @@ body {
 nav {
     position: fixed;
     width: 100%;
-    background: rgba(0,0,0,0.7);
     padding: 15px 10%;
     display: flex;
     justify-content: space-between;
+    backdrop-filter: blur(10px);
+    background: rgba(0,0,0,0.4);
     z-index: 1000;
 }
 
@@ -30,6 +31,11 @@ nav a {
     color: white;
     text-decoration: none;
     margin-left: 20px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #00e0ff;
 }
 
 /* SECTIONS */
@@ -46,7 +52,10 @@ section {
 }
 
 h1 {
-    font-size: 50px;
+    font-size: 55px;
+    background: linear-gradient(90deg, #00e0ff, #00ffa3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 h2 {
@@ -57,24 +66,32 @@ h2 {
 .btn {
     margin-top: 15px;
     padding: 12px 25px;
-    background: #00e0ff;
+    background: linear-gradient(90deg, #00e0ff, #00ffa3);
     color: black;
     border-radius: 30px;
     text-decoration: none;
+    font-weight: bold;
     display: inline-block;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
 }
 
 /* CARD */
 .card {
-    background: #111827;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
     padding: 20px;
     margin: 15px 0;
-    border-radius: 10px;
+    border-radius: 15px;
     transition: 0.3s;
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
+    background: rgba(255,255,255,0.1);
 }
 
 /* ANIMATION */
@@ -96,7 +113,7 @@ h2 {
 
 <!-- NAVBAR -->
 <nav>
-<div>Aloukay</div>
+<div><b>Aloukay</b></div>
 <div>
 <a href="#about">About</a>
 <a href="#projects">Projects</a>
@@ -113,15 +130,16 @@ h2 {
 
 <a class="btn" href="#projects">View Projects</a>
 <a class="btn" href="Mohammed_Aloukay_CV.pdf" download>Download CV</a>
+<a class="btn" href="https://www.linkedin.com/in/mohammed-aloukay-733482168/" target="_blank">LinkedIn</a>
 </section>
 
 <!-- ABOUT -->
 <section id="about" class="fade">
 <h2>About Me</h2>
 <p>
-17+ years experience at Procter & Gamble leading maintenance and automation teams.
-Specialized in PLC, robotics, and industrial reliability.
-Focused on improving uptime, reducing downtime, and driving performance.
+17+ years experience at Procter & Gamble leading automation and maintenance teams.
+Specialized in PLC, robotics, and reliability engineering.
+Focused on maximizing uptime and driving industrial performance.
 </p>
 </section>
 
@@ -129,9 +147,9 @@ Focused on improving uptime, reducing downtime, and driving performance.
 <section class="fade">
 <h2>Leadership</h2>
 
-<div class="card">Led maintenance and automation teams</div>
+<div class="card">Led multidisciplinary maintenance teams</div>
 <div class="card">Managed cross-functional operations</div>
-<div class="card">Improved team troubleshooting capabilities</div>
+<div class="card">Developed team capabilities</div>
 
 </section>
 
@@ -140,8 +158,8 @@ Focused on improving uptime, reducing downtime, and driving performance.
 <h2>Achievements</h2>
 
 <div class="card">Reduced downtime by 20%</div>
-<div class="card">Uptime 98%+</div>
-<div class="card">Cost reduction 30%</div>
+<div class="card">Uptime above 98%</div>
+<div class="card">Reduced cost by 30%</div>
 
 </section>
 
