@@ -3,17 +3,115 @@
 <head>
 <meta charset="UTF-8">
 <title>Mohammed Aloukay</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-body {margin:0;font-family:Poppins;background:#0b0f19;color:white;}
-nav {position:fixed;width:100%;padding:15px 10%;background:#000;display:flex;justify-content:space-between;}
-nav a {color:white;margin-left:20px;text-decoration:none;}
-.hero {height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 10%;
-background:url('https://images.unsplash.com/photo-1581091215367-59ab6b63b9b3') center/cover;}
-h1 {font-size:50px;}
-.btn {padding:10px 20px;background:#00e0ff;color:black;border-radius:20px;text-decoration:none;margin-right:10px;}
-section {padding:80px 10%;}
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0b0f19, #111827);
+    color: white;
+}
+
+/* NAVBAR */
+nav {
+    position: fixed;
+    width: 100%;
+    padding: 15px 10%;
+    display: flex;
+    justify-content: space-between;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+/* HERO */
+.hero {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 10%;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85)),
+    url('https://images.unsplash.com/photo-1581091215367-59ab6b63b9b3') no-repeat center/cover;
+}
+
+h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #00e0ff, #00ffa3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+h2 { color: #00e0ff; }
+
+/* BUTTON */
+.btn {
+    margin-right: 10px;
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #00e0ff, #00ffa3);
+    color: black;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* SECTIONS */
+section { padding: 70px 10%; }
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* CARD */
+.card {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+.card:hover { transform: translateY(-5px); }
+
+/* TIMELINE */
+.timeline {
+    border-left: 2px solid #00e0ff;
+    padding-left: 20px;
+}
+.timeline-item { margin-bottom: 20px; }
+
+/* DASHBOARD */
+.dashboard {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+}
+.dash-card {
+    background:rgba(255,255,255,0.05);
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+}
+.dash-card h3 { color:#00e0ff; }
+
+/* ANIMATION */
+.fade { opacity:0; transform:translateY(40px); transition:1s; }
+.show { opacity:1; transform:translateY(0); }
+
 </style>
 </head>
 
@@ -22,24 +120,110 @@ section {padding:80px 10%;}
 <nav>
 <div><b>Aloukay</b></div>
 <div>
-<a href="index.html">Home</a>
-<a href="projects.html">Projects</a>
-<a href="dashboard.html">Dashboard</a>
+<a href="#about">About</a>
+<a href="#projects">Projects</a>
+<a href="#dashboard">Dashboard</a>
 </div>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
 <h1>Mohammed Aloukay</h1>
-<p>Automation & Maintenance Leader</p>
 
-<a class="btn" href="projects.html">View Projects</a>
-<a class="btn" href="Mohammed_Aloukay_CV.pdf" download>Download CV</a>
+<p>Electrical, Automation & Maintenance Leader</p>
+
+<p style="color:#00e0ff;">
+Driving 98%+ Uptime | -20% Downtime | 17+ Years at P&G
+</p>
+
+<div style="margin-top:20px;">
+<a class="btn" href="#projects">Projects</a>
+<a class="btn" href="Mohammed_Aloukay_CV.pdf" download>CV</a>
+<a class="btn" href="mailto:M.Aloukay@gmail.com">Contact</a>
+</div>
 </section>
 
-<section>
-<h2>About</h2>
-<p>17+ years at P&G leading automation and maintenance teams.</p>
+<!-- ABOUT -->
+<section id="about" class="fade">
+<h2>About Me</h2>
+<p>
+Global Electrical & Automation Leader with 17+ years at Procter & Gamble.
+Specialized in PLC, robotics, reliability engineering, and maintenance leadership.
+Proven ability to reduce downtime, optimize performance, and lead high-performing teams.
+</p>
 </section>
+
+<!-- TIMELINE -->
+<section class="fade">
+<h2>Career Journey</h2>
+<div class="timeline">
+<div class="timeline-item">PC&IS Leader – 2023–Present</div>
+<div class="timeline-item">Automation Coordinator – 2011–2023</div>
+<div class="timeline-item">Electrical Technician – 2009–2011</div>
+</div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="fade">
+<h2>Projects</h2>
+<div class="grid">
+<div class="card">Reduced downtime by 14% via predictive maintenance</div>
+<div class="card">Improved PLC systems and production efficiency</div>
+<div class="card">Developed dashboards reducing cost by 30%</div>
+</div>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="fade">
+<h2>Performance Dashboard</h2>
+
+<div class="dashboard">
+<div class="dash-card"><h3>98%</h3><p>Uptime</p></div>
+<div class="dash-card"><h3>30%</h3><p>Cost ↓</p></div>
+<div class="dash-card"><h3>20%</h3><p>Downtime ↓</p></div>
+</div>
+
+<canvas id="chart1"></canvas>
+
+</section>
+
+<!-- AWARDS -->
+<section class="fade">
+<h2>Awards & Certifications</h2>
+<div class="grid">
+<div class="card">P&G CEO Award (2017, 2022)</div>
+<div class="card">Leadership Award 2023</div>
+<div class="card">Lean Six Sigma</div>
+</div>
+</section>
+
+<script>
+
+/* ANIMATION */
+const elements = document.querySelectorAll('.fade');
+window.addEventListener('scroll', () => {
+elements.forEach(el => {
+if(el.getBoundingClientRect().top < window.innerHeight - 100){
+el.classList.add('show');
+}
+});
+});
+
+/* CHART */
+new Chart(document.getElementById('chart1'), {
+type: 'line',
+data: {
+labels: ['Start','Mid','Growth','Advanced','Leader'],
+datasets: [{
+label: 'Career Progress',
+data: [60,70,80,90,98],
+borderColor: '#00e0ff',
+tension: 0.3
+}]
+}
+});
+
+</script>
 
 </body>
 </html>
