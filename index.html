@@ -2,38 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Projects - Mohammed Aloukay</title>
-
+<title>Mohammed Aloukay</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
 body {margin:0;font-family:Poppins;background:#0b0f19;color:white;}
-nav {padding:15px 10%;background:#000;display:flex;justify-content:space-between;}
+nav {position:fixed;width:100%;padding:15px 10%;background:#000;display:flex;justify-content:space-between;}
 nav a {color:white;margin-left:20px;text-decoration:none;}
-section {padding:60px 10%;}
-
-.grid {
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:20px;
-}
-
-.card {
-background:#111827;
-padding:20px;
-border-radius:10px;
-transition:0.3s;
-}
-
-.card:hover {
-transform:translateY(-10px);
-}
-
-img {
-width:100%;
-border-radius:10px;
-margin-bottom:10px;
-}
+.hero {height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 10%;
+background:url('https://images.unsplash.com/photo-1581091215367-59ab6b63b9b3') center/cover;}
+h1 {font-size:50px;}
+.btn {padding:10px 20px;background:#00e0ff;color:black;border-radius:20px;text-decoration:none;margin-right:10px;}
+section {padding:80px 10%;}
 </style>
 </head>
 
@@ -43,34 +23,21 @@ margin-bottom:10px;
 <div><b>Aloukay</b></div>
 <div>
 <a href="index.html">Home</a>
+<a href="projects.html">Projects</a>
 </div>
 </nav>
 
+<section class="hero">
+<h1>Mohammed Aloukay</h1>
+<p>Automation & Maintenance Leader</p>
+
+<a class="btn" href="projects.html">View Projects</a>
+<a class="btn" href="Mohammed_Aloukay_CV.pdf" download>Download CV</a>
+</section>
+
 <section>
-<h1>Projects</h1>
-
-<div class="grid">
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc">
-<h3>Automation Optimization</h3>
-<p>Improved PLC systems and increased efficiency.</p>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1581091870627-3f6d5c7c2e2d">
-<h3>Reliability Improvement</h3>
-<p>Reduced downtime by 14%.</p>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1581092919537-0c0b9f92f0f1">
-<h3>Digital Dashboard</h3>
-<p>Reduced maintenance cost by 30%.</p>
-</div>
-
-</div>
-
+<h2>About</h2>
+<p>17+ years at P&G leading automation and maintenance teams.</p>
 </section>
 
 </body>
