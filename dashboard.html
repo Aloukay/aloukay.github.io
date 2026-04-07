@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard - Mohammed Aloukay</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #0b0f19;
+    color: white;
+}
+
+/* NAVBAR */
+nav {
+    padding: 15px 10%;
+    background: #000;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+/* SECTION */
+section {
+    padding: 50px 10%;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+/* CARD */
+.card {
+    background: #111827;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.card h2 {
+    color: #00e0ff;
+}
+
+/* CHART */
+canvas {
+    margin-top: 40px;
+    background: #111827;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+<div><b>Aloukay</b></div>
+<div>
+<a href="index.html">Home</a>
+<a href="projects.html">Projects</a>
+</div>
+</nav>
+
+<section>
+
+<h1>Performance Dashboard</h1>
+
+<!-- KPI -->
+<div class="grid">
+
+<div class="card">
+<h2>98%</h2>
+<p>Uptime</p>
+</div>
+
+<div class="card">
+<h2>30%</h2>
+<p>Cost Reduction</p>
+</div>
+
+<div class="card">
+<h2>20%</h2>
+<p>Downtime Reduction</p>
+</div>
+
+<div class="card">
+<h2>7%</h2>
+<p>Efficiency Increase</p>
+</div>
+
+</div>
+
+<!-- LINE CHART -->
+<canvas id="lineChart"></canvas>
+
+<!-- BAR CHART -->
+<canvas id="barChart"></canvas>
+
+</section>
+
+<script>
+
+/* LINE CHART */
+new Chart(document.getElementById('lineChart'), {
+type: 'line',
+data: {
+labels: ['Jan','Feb','Mar','Apr','May'],
+datasets: [{
+label: 'Performance',
+data: [70,80,85,90,98],
+borderColor: '#00e0ff',
+tension: 0.3
+}]
+}
+});
+
+/* BAR CHART */
+new Chart(document.getElementById('barChart'), {
+type: 'bar',
+data: {
+labels: ['Uptime','Cost','Downtime'],
+datasets: [{
+label: 'KPI',
+data: [98,30,20],
+backgroundColor: '#00e0ff'
+}]
+}
+});
+
+</script>
+
+</body>
+</html>
