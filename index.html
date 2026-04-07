@@ -14,26 +14,19 @@ html { scroll-behavior: smooth; }
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #0b0f19, #111827);
+    background: radial-gradient(circle at top, #111827, #000);
     color: white;
 }
 
-/* NAVBAR */
+/* NAV */
 nav {
     position: fixed;
     width: 100%;
     padding: 15px 10%;
     display: flex;
     justify-content: space-between;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.7);
     backdrop-filter: blur(10px);
-    z-index: 1000;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 20px;
 }
 
 /* HERO */
@@ -43,40 +36,36 @@ nav a {
     flex-direction: column;
     justify-content: center;
     padding: 0 10%;
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85)),
-    url('https://images.unsplash.com/photo-1581091215367-59ab6b63b9b3') no-repeat center/cover;
 }
 
+/* TEXT EFFECT */
 h1 {
-    font-size: 48px;
-    margin-bottom: 10px;
-    background: linear-gradient(90deg, #00e0ff, #00ffa3);
+    font-size: 50px;
+    background: linear-gradient(90deg,#00e0ff,#00ffa3);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-h2 { color: #00e0ff; }
+/* TYPING */
+#typing {
+    color: #00e0ff;
+    font-size: 18px;
+    margin-top: 10px;
+}
 
 /* BUTTON */
 .btn {
+    margin-top: 15px;
     margin-right: 10px;
     padding: 10px 20px;
-    background: linear-gradient(90deg, #00e0ff, #00ffa3);
+    background: linear-gradient(90deg,#00e0ff,#00ffa3);
     color: black;
     border-radius: 20px;
     text-decoration: none;
-    font-size: 14px;
 }
 
 /* SECTIONS */
 section { padding: 70px 10%; }
-
-/* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-}
 
 /* CARD */
 .card {
@@ -85,14 +74,16 @@ section { padding: 70px 10%; }
     border-radius: 12px;
     transition: 0.3s;
 }
-.card:hover { transform: translateY(-5px); }
-
-/* TIMELINE */
-.timeline {
-    border-left: 2px solid #00e0ff;
-    padding-left: 20px;
+.card:hover {
+    transform: scale(1.05);
 }
-.timeline-item { margin-bottom: 20px; }
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap: 20px;
+}
 
 /* DASHBOARD */
 .dashboard {
@@ -109,8 +100,15 @@ section { padding: 70px 10%; }
 .dash-card h3 { color:#00e0ff; }
 
 /* ANIMATION */
-.fade { opacity:0; transform:translateY(40px); transition:1s; }
-.show { opacity:1; transform:translateY(0); }
+.fade {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 1s;
+}
+.show {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 </style>
 </head>
@@ -119,63 +117,38 @@ section { padding: 70px 10%; }
 
 <nav>
 <div><b>Aloukay</b></div>
-<div>
-<a href="#about">About</a>
-<a href="#projects">Projects</a>
-<a href="#dashboard">Dashboard</a>
-</div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
+
 <h1>Mohammed Aloukay</h1>
 
-<p>Electrical, Automation & Maintenance Leader</p>
+<p id="typing"></p>
 
-<p style="color:#00e0ff;">
-Driving 98%+ Uptime | -20% Downtime | 17+ Years at P&G
-</p>
-
-<div style="margin-top:20px;">
+<div>
 <a class="btn" href="#projects">Projects</a>
 <a class="btn" href="Mohammed_Aloukay_CV.pdf" download>CV</a>
 <a class="btn" href="mailto:M.Aloukay@gmail.com">Contact</a>
 </div>
+
 </section>
 
-<!-- ABOUT -->
-<section id="about" class="fade">
-<h2>About Me</h2>
-<p>
-Global Electrical & Automation Leader with 17+ years at Procter & Gamble.
-Specialized in PLC, robotics, reliability engineering, and maintenance leadership.
-Proven ability to reduce downtime, optimize performance, and lead high-performing teams.
-</p>
-</section>
-
-<!-- TIMELINE -->
 <section class="fade">
-<h2>Career Journey</h2>
-<div class="timeline">
-<div class="timeline-item">PC&IS Leader – 2023–Present</div>
-<div class="timeline-item">Automation Coordinator – 2011–2023</div>
-<div class="timeline-item">Electrical Technician – 2009–2011</div>
-</div>
+<h2>About</h2>
+<p>17+ years at Procter & Gamble leading automation, PLC, robotics and maintenance teams.</p>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects" class="fade">
 <h2>Projects</h2>
 <div class="grid">
-<div class="card">Reduced downtime by 14% via predictive maintenance</div>
-<div class="card">Improved PLC systems and production efficiency</div>
-<div class="card">Developed dashboards reducing cost by 30%</div>
+<div class="card">Reduced downtime by 14%</div>
+<div class="card">Improved PLC performance</div>
+<div class="card">Reduced cost by 30%</div>
 </div>
 </section>
 
-<!-- DASHBOARD -->
-<section id="dashboard" class="fade">
-<h2>Performance Dashboard</h2>
+<section class="fade">
+<h2>Dashboard</h2>
 
 <div class="dashboard">
 <div class="dash-card"><h3>98%</h3><p>Uptime</p></div>
@@ -187,19 +160,21 @@ Proven ability to reduce downtime, optimize performance, and lead high-performin
 
 </section>
 
-<!-- AWARDS -->
-<section class="fade">
-<h2>Awards & Certifications</h2>
-<div class="grid">
-<div class="card">P&G CEO Award (2017, 2022)</div>
-<div class="card">Leadership Award 2023</div>
-<div class="card">Lean Six Sigma</div>
-</div>
-</section>
-
 <script>
 
-/* ANIMATION */
+/* TYPING EFFECT */
+const text = "Driving 98%+ Uptime | -20% Downtime | Automation Leader";
+let i = 0;
+function typing(){
+    if(i < text.length){
+        document.getElementById("typing").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typing, 40);
+    }
+}
+typing();
+
+/* SCROLL ANIMATION */
 const elements = document.querySelectorAll('.fade');
 window.addEventListener('scroll', () => {
 elements.forEach(el => {
@@ -213,12 +188,11 @@ el.classList.add('show');
 new Chart(document.getElementById('chart1'), {
 type: 'line',
 data: {
-labels: ['Start','Mid','Growth','Advanced','Leader'],
+labels: ['Start','Growth','Advanced','Leader'],
 datasets: [{
-label: 'Career Progress',
-data: [60,70,80,90,98],
-borderColor: '#00e0ff',
-tension: 0.3
+label: 'Career',
+data: [60,75,90,98],
+borderColor: '#00e0ff'
 }]
 }
 });
