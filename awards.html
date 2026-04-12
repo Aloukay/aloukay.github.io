@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Awards - Mohammed Aloukay</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+margin:0;
+font-family:Poppins;
+background:#0b0f19;
+color:white;
+}
+
+/* NAV */
+nav {
+padding:15px 10%;
+background:#000;
+display:flex;
+justify-content:space-between;
+}
+
+nav a {
+color:white;
+text-decoration:none;
+margin-left:20px;
+}
+
+/* HERO */
+.hero {
+padding:80px 10%;
+background:linear-gradient(90deg,#00e0ff22,#00ffa322);
+}
+
+/* GRID */
+.grid {
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
+padding:40px 10%;
+}
+
+/* CARD */
+.card {
+background:rgba(255,255,255,0.05);
+padding:25px;
+border-radius:15px;
+transition:0.3s;
+position:relative;
+overflow:hidden;
+}
+
+.card:hover {
+transform:translateY(-10px);
+background:rgba(255,255,255,0.08);
+}
+
+/* ICON */
+.icon {
+font-size:30px;
+margin-bottom:10px;
+color:#00e0ff;
+}
+
+/* YEAR */
+.year {
+position:absolute;
+top:15px;
+right:20px;
+color:#00e0ff;
+font-size:12px;
+}
+
+/* TEXT */
+h1 {margin:0;}
+h2 {color:#00e0ff;}
+p {color:#ccc;}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+<div><b>Aloukay</b></div>
+<div>
+<a href="index.html">Home</a>
+<a href="projects.html">Projects</a>
+<a href="dashboard.html">Dashboard</a>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<h1>Awards & Achievements</h1>
+<p>Recognition of excellence in automation, leadership, and performance.</p>
+</section>
+
+<!-- GRID -->
+<section class="grid">
+
+<div class="card">
+<div class="year">2023</div>
+<div class="icon">🏆</div>
+<h2>Leadership Award</h2>
+<p>Recognized for leading maintenance and automation teams to achieve high performance and reliability.</p>
+</div>
+
+<div class="card">
+<div class="year">2022</div>
+<div class="icon">⭐</div>
+<h2>P&G CEO Award</h2>
+<p>Awarded for outstanding contribution to performance improvement and operational excellence.</p>
+</div>
+
+<div class="card">
+<div class="year">2017</div>
+<div class="icon">🏅</div>
+<h2>P&G CEO Award</h2>
+<p>Recognized for delivering impactful automation and maintenance solutions.</p>
+</div>
+
+<div class="card">
+<div class="year">Certification</div>
+<div class="icon">📜</div>
+<h2>Lean Six Sigma</h2>
+<p>Certified in process improvement and operational efficiency methodologies.</p>
+</div>
+
+</section>
+
+</body>
+</html>
