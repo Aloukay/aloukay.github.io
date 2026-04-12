@@ -9,111 +9,127 @@
 
 <style>
 
-html { scroll-behavior: smooth; }
-
 body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle at top, #111827, #000);
-    color: white;
+margin:0;
+font-family:Poppins;
+background:#000;
+color:white;
+overflow-x:hidden;
+}
+
+/* LOADING */
+#loader {
+position:fixed;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:9999;
+font-size:30px;
+color:#00e0ff;
 }
 
 /* NAV */
 nav {
-    position: fixed;
-    width: 100%;
-    padding: 15px 10%;
-    display: flex;
-    justify-content: space-between;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(10px);
+position:fixed;
+width:100%;
+padding:15px 10%;
+display:flex;
+justify-content:space-between;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(10px);
+z-index:1000;
 }
 
 /* HERO */
 .hero {
-    height: 80vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 10%;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+padding:0 10%;
+position:relative;
 }
 
-/* TEXT EFFECT */
+/* BACKGROUND GLOW */
+.hero::before {
+content:"";
+position:absolute;
+width:600px;
+height:600px;
+background:radial-gradient(circle,#00e0ff33,transparent);
+top:20%;
+left:40%;
+animation:move 6s infinite alternate;
+}
+
+@keyframes move {
+0% {transform:translate(-50px,-50px);}
+100% {transform:translate(50px,50px);}
+}
+
 h1 {
-    font-size: 50px;
-    background: linear-gradient(90deg,#00e0ff,#00ffa3);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* TYPING */
-#typing {
-    color: #00e0ff;
-    font-size: 18px;
-    margin-top: 10px;
+font-size:55px;
+background:linear-gradient(90deg,#00e0ff,#00ffa3);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
 /* BUTTON */
 .btn {
-    margin-top: 15px;
-    margin-right: 10px;
-    padding: 10px 20px;
-    background: linear-gradient(90deg,#00e0ff,#00ffa3);
-    color: black;
-    border-radius: 20px;
-    text-decoration: none;
+padding:10px 20px;
+margin:10px 10px 0 0;
+background:linear-gradient(90deg,#00e0ff,#00ffa3);
+color:black;
+border-radius:20px;
+text-decoration:none;
+transition:0.3s;
 }
+.btn:hover {transform:scale(1.1);}
 
-/* SECTIONS */
-section { padding: 70px 10%; }
-
-/* CARD */
-.card {
-    background: rgba(255,255,255,0.05);
-    padding: 20px;
-    border-radius: 12px;
-    transition: 0.3s;
-}
-.card:hover {
-    transform: scale(1.05);
-}
+/* SECTION */
+section {padding:80px 10%;}
 
 /* GRID */
 .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-    gap: 20px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
 }
 
-/* DASHBOARD */
-.dashboard {
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:15px;
+/* CARD */
+.card {
+background:rgba(255,255,255,0.05);
+padding:20px;
+border-radius:15px;
+transition:0.3s;
 }
-.dash-card {
-    background:rgba(255,255,255,0.05);
-    padding:20px;
-    border-radius:12px;
-    text-align:center;
-}
-.dash-card h3 { color:#00e0ff; }
+.card:hover {transform:translateY(-10px);}
 
-/* ANIMATION */
-.fade {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: 1s;
+/* CURSOR */
+.cursor {
+width:20px;
+height:20px;
+border:2px solid #00e0ff;
+border-radius:50%;
+position:fixed;
+pointer-events:none;
+transform:translate(-50%,-50%);
 }
-.show {
-    opacity: 1;
-    transform: translateY(0);
-}
+
+/* FADE */
+.fade {opacity:0;transform:translateY(40px);transition:1s;}
+.show {opacity:1;transform:translateY(0);}
 
 </style>
 </head>
 
 <body>
+
+<div id="loader">Loading...</div>
+<div class="cursor" id="cursor"></div>
 
 <nav>
 <div><b>Aloukay</b></div>
@@ -135,7 +151,7 @@ section { padding: 70px 10%; }
 
 <section class="fade">
 <h2>About</h2>
-<p>17+ years at Procter & Gamble leading automation, PLC, robotics and maintenance teams.</p>
+<p>17+ years at P&G leading automation and maintenance.</p>
 </section>
 
 <section id="projects" class="fade">
@@ -149,50 +165,53 @@ section { padding: 70px 10%; }
 
 <section class="fade">
 <h2>Dashboard</h2>
-
-<div class="dashboard">
-<div class="dash-card"><h3>98%</h3><p>Uptime</p></div>
-<div class="dash-card"><h3>30%</h3><p>Cost ↓</p></div>
-<div class="dash-card"><h3>20%</h3><p>Downtime ↓</p></div>
-</div>
-
-<canvas id="chart1"></canvas>
-
+<canvas id="chart"></canvas>
 </section>
 
 <script>
 
-/* TYPING EFFECT */
-const text = "Driving 98%+ Uptime | -20% Downtime | Automation Leader";
-let i = 0;
-function typing(){
-    if(i < text.length){
-        document.getElementById("typing").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typing, 40);
-    }
+/* LOADER */
+window.onload = () => {
+document.getElementById("loader").style.display = "none";
 }
-typing();
 
-/* SCROLL ANIMATION */
-const elements = document.querySelectorAll('.fade');
-window.addEventListener('scroll', () => {
-elements.forEach(el => {
-if(el.getBoundingClientRect().top < window.innerHeight - 100){
+/* TYPING */
+const text="Driving Performance | Automation Leader | 98% Uptime";
+let i=0;
+function type(){
+if(i<text.length){
+document.getElementById("typing").innerHTML+=text.charAt(i);
+i++;
+setTimeout(type,40);
+}
+}
+type();
+
+/* SCROLL */
+const elements=document.querySelectorAll('.fade');
+window.addEventListener('scroll',()=>{
+elements.forEach(el=>{
+if(el.getBoundingClientRect().top<window.innerHeight-100){
 el.classList.add('show');
 }
 });
 });
 
+/* CURSOR */
+const cursor=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{
+cursor.style.left=e.clientX+'px';
+cursor.style.top=e.clientY+'px';
+});
+
 /* CHART */
-new Chart(document.getElementById('chart1'), {
-type: 'line',
-data: {
-labels: ['Start','Growth','Advanced','Leader'],
-datasets: [{
-label: 'Career',
-data: [60,75,90,98],
-borderColor: '#00e0ff'
+new Chart(document.getElementById('chart'),{
+type:'line',
+data:{
+labels:['Start','Growth','Advanced','Leader'],
+datasets:[{
+data:[60,75,90,98],
+borderColor:'#00e0ff'
 }]
 }
 });
