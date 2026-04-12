@@ -31,9 +31,13 @@ margin-left:20px;
 
 /* HERO */
 .hero {
-padding:80px 10%;
+padding:60px 10%;
 background:linear-gradient(90deg,#00e0ff22,#00ffa322);
 }
+
+h1 {margin:0;}
+h2 {color:#00e0ff;}
+p {color:#ccc;}
 
 /* GRID */
 .grid {
@@ -49,8 +53,7 @@ background:rgba(255,255,255,0.05);
 padding:25px;
 border-radius:15px;
 transition:0.3s;
-position:relative;
-overflow:hidden;
+text-align:center;
 }
 
 .card:hover {
@@ -58,26 +61,19 @@ transform:translateY(-10px);
 background:rgba(255,255,255,0.08);
 }
 
-/* ICON */
-.icon {
-font-size:30px;
-margin-bottom:10px;
-color:#00e0ff;
+/* IMAGE */
+.award-img {
+width:80px;
+margin-bottom:15px;
+border-radius:10px;
 }
 
 /* YEAR */
 .year {
-position:absolute;
-top:15px;
-right:20px;
 color:#00e0ff;
 font-size:12px;
+margin-bottom:10px;
 }
-
-/* TEXT */
-h1 {margin:0;}
-h2 {color:#00e0ff;}
-p {color:#ccc;}
 
 </style>
 </head>
@@ -103,32 +99,76 @@ p {color:#ccc;}
 <!-- GRID -->
 <section class="grid">
 
+<!-- Award 1 -->
 <div class="card">
+<img src="Award1.jpg" class="award-img">
 <div class="year">2023</div>
-<div class="icon">🏆</div>
 <h2>Leadership Award</h2>
-<p>Recognized for leading maintenance and automation teams to achieve high performance and reliability.</p>
+<p>Recognized for leading maintenance teams.</p>
 </div>
 
+<!-- Award 2 -->
 <div class="card">
+<img src="Award2.jpg" class="award-img">
 <div class="year">2022</div>
-<div class="icon">⭐</div>
 <h2>P&G CEO Award</h2>
-<p>Awarded for outstanding contribution to performance improvement and operational excellence.</p>
+<p>Outstanding performance and results.</p>
 </div>
 
+<!-- Award 3 -->
 <div class="card">
+<img src="Award3.jpg" class="award-img">
+<div class="year">2021</div>
+<h2>Excellence Award</h2>
+<p>Operational excellence and reliability.</p>
+</div>
+
+<!-- Award 4 -->
+<div class="card">
+<img src="Award4.jpg" class="award-img">
+<div class="year">2020</div>
+<h2>Performance Award</h2>
+<p>Achieved high production efficiency.</p>
+</div>
+
+<!-- Award 5 -->
+<div class="card">
+<img src="Award5.jpg" class="award-img">
+<div class="year">2019</div>
+<h2>Innovation Award</h2>
+<p>Implemented automation improvements.</p>
+</div>
+
+<!-- Award 6 -->
+<div class="card">
+<img src="Award6.jpg" class="award-img">
+<div class="year">2018</div>
+<h2>Team Leader Award</h2>
+<p>Led successful maintenance projects.</p>
+</div>
+
+<!-- Award 7 -->
+<div class="card">
+<img src="Award7.jpg" class="award-img">
 <div class="year">2017</div>
-<div class="icon">🏅</div>
-<h2>P&G CEO Award</h2>
-<p>Recognized for delivering impactful automation and maintenance solutions.</p>
+<h2>CEO Award</h2>
+<p>Recognized by top management.</p>
 </div>
 
+<!-- Award 8 -->
 <div class="card">
-<div class="year">Certification</div>
-<div class="icon">📜</div>
-<h2>Lean Six Sigma</h2>
-<p>Certified in process improvement and operational efficiency methodologies.</p>
+<img src="Award8.jpg" class="award-img">
+<div class="year">2016</div>
+<h2>Quality Award</h2>
+<p>Maintained high quality standards.</p>
+</div>
+
+<!-- Award 9 -->
+<div class="card">
+<img src="Award9.jpg" class="award-img">
+<div class="year">2015</div>
+<h2>Safety Award</h2>
+<p>Zero incidents and safe operations.</p>
 </div>
 
 </section>
