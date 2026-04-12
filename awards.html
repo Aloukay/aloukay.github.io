@@ -31,48 +31,61 @@ margin-left:20px;
 
 /* HERO */
 .hero {
-padding:60px 10%;
+padding:70px 10%;
 background:linear-gradient(90deg,#00e0ff22,#00ffa322);
 }
 
 h1 {margin:0;}
-h2 {color:#00e0ff;}
 p {color:#ccc;}
 
 /* GRID */
 .grid {
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:25px;
 padding:40px 10%;
 }
 
 /* CARD */
 .card {
 background:rgba(255,255,255,0.05);
-padding:25px;
+padding:30px;
 border-radius:15px;
-transition:0.3s;
 text-align:center;
+transition:0.3s;
 }
 
 .card:hover {
-transform:translateY(-10px);
+transform:translateY(-10px) scale(1.02);
 background:rgba(255,255,255,0.08);
 }
 
 /* IMAGE */
 .award-img {
-width:80px;
-margin-bottom:15px;
+width:120px;
+height:90px;
+object-fit:cover;
 border-radius:10px;
+margin-bottom:15px;
 }
 
 /* YEAR */
 .year {
 color:#00e0ff;
-font-size:12px;
+font-size:14px;
 margin-bottom:10px;
+}
+
+/* TITLE */
+h2 {
+color:#00e0ff;
+margin:10px 0;
+}
+
+/* TEXT */
+.desc {
+color:#ccc;
+font-size:14px;
 }
 
 </style>
@@ -99,76 +112,76 @@ margin-bottom:10px;
 <!-- GRID -->
 <section class="grid">
 
-<!-- Award 1 -->
+<!-- 1 -->
 <div class="card">
-<img src="Award1.jpg" class="award-img">
+<img src="award1.jpg" class="award-img">
 <div class="year">2023</div>
 <h2>Leadership Award</h2>
-<p>Recognized for leading maintenance teams.</p>
+<p class="desc">Recognized for leading maintenance teams.</p>
 </div>
 
-<!-- Award 2 -->
+<!-- 2 -->
 <div class="card">
-<img src="Award2.jpg" class="award-img">
+<img src="award2.jpg" class="award-img">
 <div class="year">2022</div>
 <h2>P&G CEO Award</h2>
-<p>Outstanding performance and results.</p>
+<p class="desc">Outstanding performance and results.</p>
 </div>
 
-<!-- Award 3 -->
+<!-- 3 -->
 <div class="card">
-<img src="Award3.jpg" class="award-img">
+<img src="award3.jpg" class="award-img">
 <div class="year">2021</div>
 <h2>Excellence Award</h2>
-<p>Operational excellence and reliability.</p>
+<p class="desc">Operational excellence and reliability.</p>
 </div>
 
-<!-- Award 4 -->
+<!-- 4 -->
 <div class="card">
-<img src="Award4.jpg" class="award-img">
+<img src="award4.jpg" class="award-img">
 <div class="year">2020</div>
 <h2>Performance Award</h2>
-<p>Achieved high production efficiency.</p>
+<p class="desc">Achieved high production efficiency.</p>
 </div>
 
-<!-- Award 5 -->
+<!-- 5 -->
 <div class="card">
-<img src="Award5.jpg" class="award-img">
+<img src="award5.jpg" class="award-img">
 <div class="year">2019</div>
 <h2>Innovation Award</h2>
-<p>Implemented automation improvements.</p>
+<p class="desc">Implemented automation improvements.</p>
 </div>
 
-<!-- Award 6 -->
+<!-- 6 -->
 <div class="card">
-<img src="Award6.jpg" class="award-img">
+<img src="award6.jpg" class="award-img">
 <div class="year">2018</div>
 <h2>Team Leader Award</h2>
-<p>Led successful maintenance projects.</p>
+<p class="desc">Led successful maintenance projects.</p>
 </div>
 
-<!-- Award 7 -->
+<!-- 7 -->
 <div class="card">
-<img src="Award7.jpg" class="award-img">
+<img src="award7.jpg" class="award-img">
 <div class="year">2017</div>
 <h2>CEO Award</h2>
-<p>Recognized by top management.</p>
+<p class="desc">Recognized by top management.</p>
 </div>
 
-<!-- Award 8 -->
+<!-- 8 -->
 <div class="card">
-<img src="Award8.jpg" class="award-img">
+<img src="award8.jpg" class="award-img">
 <div class="year">2016</div>
 <h2>Quality Award</h2>
-<p>Maintained high quality standards.</p>
+<p class="desc">Maintained high quality standards.</p>
 </div>
 
-<!-- Award 9 -->
+<!-- 9 -->
 <div class="card">
-<img src="Award9.jpg" class="award-img">
+<img src="award9.jpg" class="award-img">
 <div class="year">2015</div>
 <h2>Safety Award</h2>
-<p>Zero incidents and safe operations.</p>
+<p class="desc">Zero incidents and safe operations.</p>
 </div>
 
 </section>
