@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Recommendations — Mohammed ALOUKAY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+
+    /* ── LINKEDIN BANNER ── */
+    .li-banner {
+      position: relative; z-index: 1;
+      padding: 0 7% 50px;
+    }
+    .li-banner-inner {
+      background: linear-gradient(135deg, rgba(0,119,181,.12), rgba(0,224,255,.06));
+      border: 1px solid rgba(0,119,181,.35);
+      border-radius: 22px; padding: 28px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 18px;
+      position: relative; overflow: hidden;
+    }
+    .li-banner-inner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,119,181,.08), transparent);
+      pointer-events: none;
+    }
+    .li-left { display: flex; align-items: center; gap: 18px; }
+    .li-logo {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: #0077b5;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; font-weight: 900; color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 6px 20px rgba(0,119,181,.4);
+    }
+    .li-text h4 { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .li-text p  { font-size: .82rem; color: var(--muted); }
+    .li-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 24px;
+      background: #0077b5; color: #fff;
+      font-weight: 700; font-size: .84rem;
+      border-radius: 50px; text-decoration: none;
+      transition: all .25s; white-space: nowrap;
+    }
+    .li-btn:hover {
+      background: #005f8f;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px rgba(0,119,181,.4);
+    }
+
+    /* ── STATS ROW ── */
+    .rec-stats {
+      position: relative; z-index: 1;
+      padding: 0 7% 50px;
+    }
+    .rec-stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: 16px;
+    }
+    .rs-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 18px; padding: 24px 16px; text-align: center;
+      transition: all .3s; position: relative; overflow: hidden;
+    }
+    .rs-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; background: linear-gradient(90deg,var(--c1),var(--c2));
+    }
+    .rs-card:hover { transform: translateY(-6px); border-color: rgba(0,224,255,.3); box-shadow: 0 12px 30px rgba(0,224,255,.12); }
+    .rs-num {
+      font-size: 2.4rem; font-weight: 900;
+      background: linear-gradient(90deg,var(--c1),var(--c2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1;
+    }
+    .rs-label { font-size: .76rem; color: var(--muted); margin-top: 6px; }
+
+    /* ── RECOMMENDATION CARDS ── */
+    .recs-section {
+      position: relative; z-index: 1;
+      padding: 0 7% 80px;
+    }
+    .recs-grid {
+      display: flex; flex-direction: column; gap: 28px;
+    }
+
+    .rec-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px; padding: 36px 36px 28px;
+      position: relative; overflow: hidden;
+      transition: all .4s;
+    }
+    /* Animated shimmer border */
+    .rec-card::before {
+      content: ''; position: absolute; inset: -1px; border-radius: 24px;
+      background: linear-gradient(135deg,
+        rgba(0,224,255,.2), transparent 40%,
+        rgba(0,255,163,.15), transparent 70%,
+        rgba(0,224,255,.1));
+      background-size: 300%;
+      animation: recBorder 6s linear infinite;
+      z-index: -1; opacity: 0; transition: opacity .4s;
+    }
+    @keyframes recBorder { from{background-position:0%} to{background-position:300%} }
+    .rec-card:hover::before { opacity: 1; }
+
+    /* Top accent */
+    .rec-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg,var(--c1),var(--c2));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .5s ease;
+    }
+    .rec-card:hover::after { transform: scaleX(1); }
+
+    .rec-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(0,224,255,.3);
+      box-shadow: 0 20px 55px rgba(0,224,255,.13);
+    }
+
+    /* Quote mark */
+    .rec-quote-mark {
+      position: absolute; top: 20px; right: 28px;
+      font-size: 7rem; line-height: 1;
+      background: linear-gradient(135deg,rgba(0,224,255,.12),transparent);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      font-family: Georgia, serif; pointer-events: none;
+    }
+
+    /* Recommender header */
+    .rec-header {
+      display: flex; align-items: center; gap: 18px;
+      margin-bottom: 24px;
+    }
+    .rec-avatar {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: linear-gradient(135deg,var(--c1),var(--c2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; font-weight: 800; color: #000;
+      flex-shrink: 0;
+      box-shadow: 0 6px 20px rgba(0,224,255,.3);
+      position: relative;
+    }
+    .rec-avatar .li-badge {
+      position: absolute; bottom: -2px; right: -2px;
+      width: 20px; height: 20px; border-radius: 4px;
+      background: #0077b5;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .6rem; font-weight: 900; color: #fff;
+      border: 2px solid var(--dark);
+    }
+    .rec-info h3 { font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 3px; }
+    .rec-info .rec-title {
+      font-size: .82rem; color: var(--c1); font-weight: 600; margin-bottom: 4px;
+    }
+    .rec-info .rec-meta {
+      font-size: .75rem; color: var(--muted);
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .rec-info .rec-meta .dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--muted); display: inline-block;
+    }
+    .rec-relation {
+      display: inline-block;
+      font-size: .7rem; font-weight: 600;
+      background: rgba(0,255,163,.08);
+      border: 1px solid rgba(0,255,163,.2);
+      color: var(--c2); border-radius: 20px; padding: 2px 10px;
+    }
+
+    /* Quote body */
+    .rec-body {
+      font-size: .93rem; color: #b0cad8;
+      line-height: 1.9; position: relative; z-index: 1;
+      border-left: 3px solid rgba(0,224,255,.25);
+      padding-left: 20px; margin-bottom: 20px;
+    }
+    .rec-body strong { color: var(--c1); }
+
+    /* Stars */
+    .rec-stars {
+      display: flex; gap: 4px; margin-bottom: 16px;
+    }
+    .rec-stars span { font-size: 1rem; }
+
+    /* Tags */
+    .rec-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    /* ── HIGHLIGHT QUOTES ── */
+    .highlights-section {
+      position: relative; z-index: 1;
+      padding: 0 7% 80px;
+    }
+    .highlights-grid {
+      display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 16px;
+    }
+    .hl-card {
+      background: linear-gradient(135deg, rgba(0,224,255,.05), rgba(0,255,163,.03));
+      border: 1px solid rgba(0,224,255,.15);
+      border-radius: 18px; padding: 24px 20px;
+      text-align: center; transition: all .3s;
+    }
+    .hl-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0,224,255,.3);
+      box-shadow: 0 12px 30px rgba(0,224,255,.1);
+    }
+    .hl-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+    .hl-text { font-size: .88rem; color: var(--c1); font-weight: 600; font-style: italic; margin-bottom: 8px; }
+    .hl-source { font-size: .72rem; color: var(--muted); }
+
+    /* ── CTA ── */
+    .cta-section {
+      position: relative; z-index: 1;
+      padding: 0 7% 80px;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(0,224,255,.06), rgba(0,255,163,.04));
+      border: 1px solid rgba(0,224,255,.2);
+      border-radius: 24px; padding: 50px 40px;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-box::before {
+      content: ''; position: absolute; inset: -1px; border-radius: 24px;
+      background: linear-gradient(135deg, rgba(0,224,255,.2), transparent, rgba(0,255,163,.15), transparent);
+      background-size: 300%;
+      animation: recBorder 5s linear infinite;
+      z-index: -1;
+    }
+    .cta-box h3 { font-size: 1.6rem; font-weight: 800; color: #fff; margin-bottom: 10px; }
+    .cta-box p  { font-size: .9rem; color: var(--muted); margin-bottom: 26px; }
+    .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    @media(max-width:600px) {
+      .rec-card { padding: 24px 20px; }
+      .rec-header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="loader-name">RECOMMENDATIONS</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<canvas id="particles-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a class="nav-logo" href="index.html">M. ALOUKAY</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="experience.html">Experience</a></li>
+    <li><a href="competencies.html">Competencies</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="achievements.html">Achievements</a></li>
+    <li><a href="recommendations.html">Recommendations</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero reveal">
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+  <div class="ph-tag">// Peer & Leadership Endorsements</div>
+  <h1>LinkedIn <span>Recommendations</span></h1>
+  <p>Authentic testimonials from senior P&amp;G leaders and direct managers — reflecting 17+ years of technical excellence, leadership, and measurable impact.</p>
+</div>
+
+<!-- LINKEDIN BANNER -->
+<div class="li-banner">
+  <div class="li-banner-inner reveal">
+    <div class="li-left">
+      <div class="li-logo">in</div>
+      <div class="li-text">
+        <h4>Mohammed ALOUKAY — LinkedIn Profile</h4>
+        <p>Power Control &amp; Information System Leader at Procter &amp; Gamble · Jeddah, Saudi Arabia</p>
+      </div>
+    </div>
+    <a class="li-btn"
+       href="https://www.linkedin.com/in/mohammed-aloukay-733482168/details/recommendations/?detailScreenTabIndex=0"
+       target="_blank" rel="noopener">
+      <span>in</span> View on LinkedIn
+    </a>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="rec-stats">
+  <div class="rec-stats-grid">
+    <div class="rs-card reveal d1"><div class="rs-num">2</div><div class="rs-label">LinkedIn Recommendations</div></div>
+    <div class="rs-card reveal d2"><div class="rs-num">P&G</div><div class="rs-label">Company — Both Recommenders</div></div>
+    <div class="rs-card reveal d3"><div class="rs-num">3</div><div class="rs-label">Years Worked Together</div></div>
+    <div class="rs-card reveal d4"><div class="rs-num">2025</div><div class="rs-label">Most Recent Recommendation</div></div>
+  </div>
+</div>
+
+<!-- RECOMMENDATIONS -->
+<div class="recs-section">
+  <div class="section-header reveal">
+    <div class="section-tag">// Testimonials</div>
+    <h2>What Leaders <span>Say</span></h2>
+    <p>Recommendations from P&amp;G senior management — verified on LinkedIn.</p>
+  </div>
+
+  <div class="recs-grid">
+
+    <!-- REC 1 — Abdulaziz Alsulami -->
+    <div class="rec-card reveal d1">
+      <div class="rec-quote-mark">"</div>
+      <div class="rec-header">
+        <div class="rec-avatar">
+          AA
+          <div class="li-badge">in</div>
+        </div>
+        <div class="rec-info">
+          <h3>Abdulaziz Alsulami</h3>
+          <div class="rec-title">Senior Supply Chain Manager @ Procter &amp; Gamble</div>
+          <div class="rec-meta">
+            <span>October 28, 2025</span>
+            <span class="dot"></span>
+            <span class="rec-relation">Senior to Mohammed (indirect)</span>
+          </div>
+        </div>
+      </div>
+      <div class="rec-stars">
+        <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+      </div>
+      <div class="rec-body">
+        I had the privilege of working with <strong>Waki</strong> for three years, during which he consistently demonstrated <strong>exceptional leadership, technical mastery, and a strong organizational impact</strong>. Waki stands out for his ability to deliver superior results across all key performance indicators, while fostering a culture of excellence and continuous improvement.
+        <br/><br/>
+        Beyond his outstanding performance, <strong>Waki played a crucial role in building plant capability</strong> and extending his expertise to support other sites across the region, strengthening our overall operational network.
+      </div>
+      <div class="rec-tags">
+        <span class="tag">Leadership</span>
+        <span class="tag">Technical Mastery</span>
+        <span class="tag">KPI Excellence</span>
+        <span class="tag">Plant Capability</span>
+        <span class="tag tag-green">Continuous Improvement</span>
+        <span class="tag tag-green">Regional Impact</span>
+      </div>
+    </div>
+
+    <!-- REC 2 — Abdullah Alhazmi -->
+    <div class="rec-card reveal d2">
+      <div class="rec-quote-mark">"</div>
+      <div class="rec-header">
+        <div class="rec-avatar" style="background:linear-gradient(135deg,#00ffa3,#00e0ff);">
+          AA
+          <div class="li-badge">in</div>
+        </div>
+        <div class="rec-info">
+          <h3>Abdullah Alhazmi</h3>
+          <div class="rec-title">Production Line Manager at Procter &amp; Gamble</div>
+          <div class="rec-meta">
+            <span>October 27, 2025</span>
+            <span class="dot"></span>
+            <span class="rec-relation">Abdullah managed Mohammed directly</span>
+          </div>
+        </div>
+      </div>
+      <div class="rec-stars">
+        <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+      </div>
+      <div class="rec-body">
+        It has been a privilege to work with <strong>Mohammed</strong> for almost three years. He is an <strong>exceptional talent whose technical mastery and leadership consistently drive transformative improvements</strong> across every area he contributes to. His ability to innovate and lead continuous improvement has <strong>elevated operational performance and accelerated development</strong> throughout his roles.
+        <br/><br/>
+        He empowers those around him, fostering a <strong>culture of excellence and ownership</strong>. He is a <strong>true asset</strong> and will undoubtedly continue to create significant impact wherever he goes.
+      </div>
+      <div class="rec-tags">
+        <span class="tag">Exceptional Talent</span>
+        <span class="tag">Transformative Leadership</span>
+        <span class="tag">Innovation</span>
+        <span class="tag">Operational Performance</span>
+        <span class="tag tag-green">Culture of Excellence</span>
+        <span class="tag tag-green">True Asset</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- HIGHLIGHT QUOTES -->
+<div class="highlights-section">
+  <div class="section-header reveal">
+    <div class="section-tag">// Key Phrases</div>
+    <h2>Highlighted <span>Endorsements</span></h2>
+  </div>
+  <div class="highlights-grid">
+    <div class="hl-card reveal d1">
+      <span class="hl-icon">🏆</span>
+      <div class="hl-text">"Exceptional leadership, technical mastery, and a strong organizational impact"</div>
+      <div class="hl-source">— Abdulaziz Alsulami, Senior Supply Chain Manager, P&amp;G</div>
+    </div>
+    <div class="hl-card reveal d2">
+      <span class="hl-icon">📈</span>
+      <div class="hl-text">"Delivers superior results across all key performance indicators"</div>
+      <div class="hl-source">— Abdulaziz Alsulami, Senior Supply Chain Manager, P&amp;G</div>
+    </div>
+    <div class="hl-card reveal d3">
+      <span class="hl-icon">🌍</span>
+      <div class="hl-text">"Building plant capability and extending expertise to support other sites across the region"</div>
+      <div class="hl-source">— Abdulaziz Alsulami, Senior Supply Chain Manager, P&amp;G</div>
+    </div>
+    <div class="hl-card reveal d4">
+      <span class="hl-icon">⚡</span>
+      <div class="hl-text">"Technical mastery and leadership consistently drive transformative improvements"</div>
+      <div class="hl-source">— Abdullah Alhazmi, Production Line Manager, P&amp;G</div>
+    </div>
+    <div class="hl-card reveal d5">
+      <span class="hl-icon">🌟</span>
+      <div class="hl-text">"Elevated operational performance and accelerated development throughout his roles"</div>
+      <div class="hl-source">— Abdullah Alhazmi, Production Line Manager, P&amp;G</div>
+    </div>
+    <div class="hl-card reveal d1">
+      <span class="hl-icon">💎</span>
+      <div class="hl-text">"He is a true asset and will undoubtedly continue to create significant impact"</div>
+      <div class="hl-source">— Abdullah Alhazmi, Production Line Manager, P&amp;G</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-box reveal">
+    <h3>Connect on LinkedIn</h3>
+    <p>View the full profile, all recommendations, and endorsements directly on LinkedIn.</p>
+    <div class="cta-btns">
+      <a class="li-btn"
+         href="https://www.linkedin.com/in/mohammed-aloukay-733482168/details/recommendations/?detailScreenTabIndex=0"
+         target="_blank" rel="noopener">
+        <span>in</span> View All Recommendations
+      </a>
+      <a class="btn-ghost"
+         href="https://www.linkedin.com/in/mohammed-aloukay-733482168/"
+         target="_blank" rel="noopener">
+        🔗 Full LinkedIn Profile
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2025 Mohammed ALOUKAY</p>
+  <p><a href="index.html">← Back to Home</a></p>
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>
