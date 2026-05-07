@@ -1,0 +1,321 @@
+/* ============================================================
+   GLOBAL STYLES — Mohammed ALOUKAY Portfolio
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cyan:   #00e0ff;
+  --green:  #00ffa3;
+  --dark:   #050a0f;
+  --card:   rgba(255,255,255,0.05);
+  --border: rgba(0,224,255,0.18);
+  --text:   #d0e8f0;
+  --muted:  #7a9aaa;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.7;
+}
+
+/* ── LOADER ── */
+#loader {
+  position: fixed; inset: 0;
+  background: #000;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999;
+  font-size: 1.6rem;
+  color: var(--cyan);
+  letter-spacing: 3px;
+  transition: opacity .5s;
+}
+
+/* ── CURSOR ── */
+.cursor {
+  width: 18px; height: 18px;
+  border: 2px solid var(--cyan);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  transform: translate(-50%,-50%);
+  transition: transform .1s;
+  z-index: 9998;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; width: 100%;
+  padding: 14px 8%;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(5,10,15,0.75);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  z-index: 1000;
+}
+
+nav .logo {
+  font-size: 1.2rem; font-weight: 700;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+}
+
+nav ul {
+  list-style: none;
+  display: flex; gap: 28px;
+}
+
+nav ul a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: .88rem;
+  letter-spacing: .5px;
+  transition: color .25s;
+  position: relative;
+}
+
+nav ul a::after {
+  content: '';
+  position: absolute; bottom: -3px; left: 0;
+  width: 0; height: 1.5px;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+  transition: width .3s;
+}
+
+nav ul a:hover { color: var(--cyan); }
+nav ul a:hover::after { width: 100%; }
+nav ul a.active { color: var(--cyan); }
+nav ul a.active::after { width: 100%; }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+  color: #000;
+  font-weight: 600;
+  border-radius: 25px;
+  text-decoration: none;
+  font-size: .88rem;
+  transition: transform .25s, box-shadow .25s;
+  margin: 6px 8px 6px 0;
+}
+.btn:hover { transform: scale(1.07); box-shadow: 0 0 18px var(--cyan); }
+
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--cyan);
+  color: var(--cyan);
+}
+.btn-outline:hover { background: var(--cyan); color: #000; }
+
+/* ── SECTION ── */
+section { padding: 90px 8%; }
+
+.section-title {
+  font-size: 1.9rem; font-weight: 700;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+
+.section-line {
+  width: 60px; height: 3px;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+  border-radius: 2px;
+  margin-bottom: 40px;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  transition: transform .3s, box-shadow .3s;
+}
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 32px rgba(0,224,255,.15);
+}
+
+/* ── GRID ── */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px,1fr));
+  gap: 22px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px,1fr));
+  gap: 22px;
+}
+
+/* ── FADE ANIMATION ── */
+.fade { opacity: 0; transform: translateY(40px); transition: opacity .8s, transform .8s; }
+.show { opacity: 1; transform: translateY(0); }
+
+/* ── GLOW BLOB ── */
+.blob {
+  position: absolute;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(0,224,255,.12), transparent 70%);
+  border-radius: 50%;
+  animation: blob-move 8s infinite alternate ease-in-out;
+  pointer-events: none;
+}
+@keyframes blob-move {
+  from { transform: translate(-40px,-40px); }
+  to   { transform: translate(40px,40px); }
+}
+
+/* ── TAG BADGE ── */
+.tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: .75rem;
+  font-weight: 600;
+  background: rgba(0,224,255,.12);
+  color: var(--cyan);
+  border: 1px solid rgba(0,224,255,.3);
+  margin: 3px 3px 3px 0;
+}
+
+/* ── TIMELINE ── */
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--cyan), var(--green));
+  border-radius: 2px;
+}
+.timeline-item { position: relative; margin-bottom: 40px; }
+.timeline-item::before {
+  content: '';
+  position: absolute; left: -38px; top: 6px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan);
+}
+.timeline-item h3 {
+  font-size: 1.05rem; font-weight: 700;
+  color: #fff;
+}
+.timeline-item .meta {
+  font-size: .82rem; color: var(--cyan);
+  margin-bottom: 8px;
+}
+.timeline-item p, .timeline-item li {
+  font-size: .88rem; color: var(--muted);
+}
+.timeline-item ul { padding-left: 18px; }
+.timeline-item li { margin-bottom: 5px; }
+
+/* ── COMPETENCY PILL ── */
+.comp-pill {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: .88rem;
+  transition: border-color .3s, box-shadow .3s;
+}
+.comp-pill:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 0 14px rgba(0,224,255,.15);
+}
+.comp-pill .icon { font-size: 1.2rem; }
+
+/* ── STAT BOX ── */
+.stat-box {
+  text-align: center;
+  padding: 30px 20px;
+}
+.stat-box .number {
+  font-size: 2.8rem; font-weight: 700;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.stat-box .label { font-size: .82rem; color: var(--muted); margin-top: 4px; }
+
+/* ── AWARD CARD ── */
+.award-card {
+  display: flex; gap: 18px; align-items: flex-start;
+}
+.award-card .award-icon {
+  font-size: 2rem;
+  min-width: 48px;
+  text-align: center;
+}
+.award-card h4 { font-size: .95rem; font-weight: 700; color: #fff; }
+.award-card p  { font-size: .82rem; color: var(--muted); }
+
+/* ── GALLERY ── */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+  gap: 16px;
+}
+.gallery-item {
+  position: relative; overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  aspect-ratio: 4/3;
+  background: rgba(0,224,255,.04);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: transform .3s, box-shadow .3s;
+}
+.gallery-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 30px rgba(0,224,255,.2);
+}
+.gallery-item .gallery-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 12px 14px;
+  background: linear-gradient(0deg, rgba(0,0,0,.8), transparent);
+  font-size: .82rem; color: #fff;
+}
+.gallery-item .gallery-icon { font-size: 3rem; opacity: .35; }
+
+/* ── PROJECT CARD ── */
+.project-card h3 { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.project-card p  { font-size: .85rem; color: var(--muted); margin-bottom: 14px; }
+.project-card .kpi {
+  font-size: 1.6rem; font-weight: 700;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 30px 8%;
+  border-top: 1px solid var(--border);
+  font-size: .8rem;
+  color: var(--muted);
+}
+footer a { color: var(--cyan); text-decoration: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav ul { gap: 14px; }
+  nav ul a { font-size: .78rem; }
+  h1.hero-title { font-size: 2.2rem; }
+  section { padding: 70px 5%; }
+}
