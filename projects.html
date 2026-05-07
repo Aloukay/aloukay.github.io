@@ -1,77 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Projects - Mohammed Aloukay</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mohammed ALOUKAY — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 0 8%;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero .blob { top: 10%; left: 45%; }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    h1.hero-title {
+      font-size: 3.4rem; font-weight: 700; line-height: 1.15;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    .hero-sub {
+      font-size: 1.05rem; color: var(--muted);
+      margin-bottom: 6px;
+    }
+    #typing {
+      font-size: 1rem; color: var(--cyan);
+      min-height: 1.5rem;
+      margin-bottom: 28px;
+    }
 
-<style>
-body {margin:0;font-family:Poppins;background:#0b0f19;color:white;}
-nav {padding:15px 10%;background:#000;display:flex;justify-content:space-between;}
-nav a {color:white;margin-left:20px;text-decoration:none;}
-section {padding:60px 10%;}
+    /* ── SUMMARY ── */
+    .summary-text {
+      font-size: .95rem; color: var(--text);
+      max-width: 820px;
+      line-height: 1.9;
+    }
 
-.grid {
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:20px;
-}
+    /* ── STATS ROW ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+      gap: 16px;
+      margin-top: 10px;
+    }
 
-.card {
-background:#111827;
-padding:20px;
-border-radius:10px;
-transition:0.3s;
-}
-
-.card:hover {
-transform:translateY(-10px);
-}
-
-img {
-width:100%;
-border-radius:10px;
-margin-bottom:10px;
-}
-</style>
+    /* ── CONTACT STRIP ── */
+    .contact-strip {
+      display: flex; flex-wrap: wrap; gap: 20px;
+      align-items: center;
+      padding: 28px 8%;
+      background: rgba(0,224,255,.04);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-strip .item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .88rem; color: var(--muted);
+    }
+    .contact-strip .item span { color: var(--cyan); font-size: 1.1rem; }
+    .contact-strip .item a { color: var(--muted); text-decoration: none; }
+    .contact-strip .item a:hover { color: var(--cyan); }
+  </style>
 </head>
-
 <body>
 
+<div id="loader">Loading…</div>
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
 <nav>
-<div><b>Aloukay</b></div>
-<div>
-<a href="index.html">Home</a>
-</div>
+  <a class="logo" href="index.html">Aloukay</a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="experience.html">Experience</a></li>
+    <li><a href="competencies.html">Competencies</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="achievements.html">Achievements</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+  </ul>
 </nav>
 
-<section>
-<h1>Projects</h1>
-
-<div class="grid">
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc">
-<h3>Automation Optimization</h3>
-<p>Improved PLC systems and increased efficiency.</p>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1581091870627-3f6d5c7c2e2d">
-<h3>Reliability Improvement</h3>
-<p>Reduced downtime by 14%.</p>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1581092919537-0c0b9f92f0f1">
-<h3>Digital Dashboard</h3>
-<p>Reduced maintenance cost by 30%.</p>
-</div>
-
-</div>
-
+<!-- HERO -->
+<section class="hero">
+  <div class="blob"></div>
+  <p class="hero-sub">Jeddah, Saudi Arabia &nbsp;|&nbsp; Electrical &amp; Automation Leader</p>
+  <h1 class="hero-title">Mohammed<br>ALOUKAY</h1>
+  <p id="typing"></p>
+  <div>
+    <a class="btn" href="experience.html">View Experience</a>
+    <a class="btn btn-outline" href="Mohammed_ALOUKAY_CV.pdf" download>Download CV</a>
+    <a class="btn btn-outline" href="mailto:M.Aloukay@gmail.com">Contact Me</a>
+  </div>
 </section>
 
+<!-- CONTACT STRIP -->
+<div class="contact-strip">
+  <div class="item"><span>📍</span> Jeddah, Saudi Arabia</div>
+  <div class="item"><span>📞</span> <a href="tel:+966533912463">+966 53 391 2463</a></div>
+  <div class="item"><span>✉️</span> <a href="mailto:M.Aloukay@gmail.com">M.Aloukay@gmail.com</a></div>
+  <div class="item"><span>🌐</span> English · French · Arabic</div>
+  <div class="item"><span>🏳️</span> Moroccan Nationality</div>
+</div>
+
+<!-- PROFESSIONAL SUMMARY -->
+<section class="fade">
+  <div class="section-title">Professional Summary</div>
+  <div class="section-line"></div>
+  <p class="summary-text">
+    Global Electrical, Instrumentation, Automation, and Robotics Leader with over <strong>17 years of international experience</strong> at Procter &amp; Gamble. Proven expertise in electrical systems, instrumentation, PLC programming (Allen-Bradley, Mitsubishi), SCADA, automation, robotics integration, and process control across large-scale manufacturing environments. Skilled in installation, maintenance, troubleshooting, and optimization of industrial control and power systems. Demonstrated leadership and team management abilities with hands-on experience in project planning, preventive and corrective maintenance, and safety compliance. Experienced in digital transformation, system reliability enhancement, and cross-functional collaboration. Recognized for technical excellence, innovation, and consistent operational performance.
+  </p>
+</section>
+
+<!-- KEY STATS -->
+<section class="fade" style="padding-top:0;">
+  <div class="section-title">Key Achievements at a Glance</div>
+  <div class="section-line"></div>
+  <div class="stats-row">
+    <div class="card stat-box">
+      <div class="number">17+</div>
+      <div class="label">Years at P&amp;G</div>
+    </div>
+    <div class="card stat-box">
+      <div class="number">98%</div>
+      <div class="label">System Uptime</div>
+    </div>
+    <div class="card stat-box">
+      <div class="number">30%</div>
+      <div class="label">Maintenance Cost Reduction</div>
+    </div>
+    <div class="card stat-box">
+      <div class="number">20%</div>
+      <div class="label">Unplanned Downtime Reduction</div>
+    </div>
+    <div class="card stat-box">
+      <div class="number">100%</div>
+      <div class="label">OT Cybersecurity Risk Eliminated</div>
+    </div>
+    <div class="card stat-box">
+      <div class="number">7%</div>
+      <div class="label">Production Efficiency Gain</div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK LINKS -->
+<section class="fade" style="padding-top:0; padding-bottom:60px;">
+  <div class="section-title">Explore the Portfolio</div>
+  <div class="section-line"></div>
+  <div class="grid-3">
+    <a href="experience.html" class="card" style="text-decoration:none;">
+      <div style="font-size:2rem; margin-bottom:10px;">💼</div>
+      <h3 style="color:#fff; margin-bottom:6px;">Professional Experience</h3>
+      <p style="font-size:.85rem; color:var(--muted);">17+ years across P&amp;G, Matis Aerospace, and OCP Group.</p>
+    </a>
+    <a href="competencies.html" class="card" style="text-decoration:none;">
+      <div style="font-size:2rem; margin-bottom:10px;">⚙️</div>
+      <h3 style="color:#fff; margin-bottom:6px;">Core Competencies</h3>
+      <p style="font-size:.85rem; color:var(--muted);">PLC, SCADA, Robotics, Power BI, Cybersecurity &amp; more.</p>
+    </a>
+    <a href="projects.html" class="card" style="text-decoration:none;">
+      <div style="font-size:2rem; margin-bottom:10px;">🚀</div>
+      <h3 style="color:#fff; margin-bottom:6px;">Projects</h3>
+      <p style="font-size:.85rem; color:var(--muted);">Automation upgrades, digital transformation &amp; reliability initiatives.</p>
+    </a>
+    <a href="achievements.html" class="card" style="text-decoration:none;">
+      <div style="font-size:2rem; margin-bottom:10px;">🏆</div>
+      <h3 style="color:#fff; margin-bottom:6px;">Achievements &amp; Awards</h3>
+      <p style="font-size:.85rem; color:var(--muted);">CEO Awards, certifications &amp; professional accreditations.</p>
+    </a>
+    <a href="gallery.html" class="card" style="text-decoration:none;">
+      <div style="font-size:2rem; margin-bottom:10px;">🖼️</div>
+      <h3 style="color:#fff; margin-bottom:6px;">Gallery</h3>
+      <p style="font-size:.85rem; color:var(--muted);">Visual showcase of projects, systems, and milestones.</p>
+    </a>
+    <a href="mailto:M.Aloukay@gmail.com" class="card" style="text-decoration:none;">
+      <div style="font-size:2rem; margin-bottom:10px;">📬</div>
+      <h3 style="color:#fff; margin-bottom:6px;">Get in Touch</h3>
+      <p style="font-size:.85rem; color:var(--muted);">Open to global opportunities in automation &amp; engineering leadership.</p>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 Mohammed ALOUKAY &nbsp;|&nbsp; <a href="mailto:M.Aloukay@gmail.com">M.Aloukay@gmail.com</a></p>
+</footer>
+
+<script src="nav.js"></script>
+<script>
+  // Typing effect
+  const phrases = [
+    'Power Control & Information System Leader',
+    'Automation & Robotics Expert',
+    'Digital Transformation Driver',
+    '17+ Years at Procter & Gamble'
+  ];
+  let pi = 0, ci = 0, deleting = false;
+  const el = document.getElementById('typing');
+  function type() {
+    const phrase = phrases[pi];
+    if (!deleting) {
+      el.textContent = phrase.slice(0, ++ci);
+      if (ci === phrase.length) { deleting = true; setTimeout(type, 1800); return; }
+    } else {
+      el.textContent = phrase.slice(0, --ci);
+      if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
+    }
+    setTimeout(type, deleting ? 40 : 60);
+  }
+  type();
+</script>
 </body>
 </html>
