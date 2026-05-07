@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery — Mohammed ALOUKAY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-hero {
+      padding: 140px 8% 60px;
+      position: relative; overflow: hidden;
+    }
+    .page-hero .blob { top: 0; right: 5%; }
+    .page-hero h1 {
+      font-size: 2.8rem; font-weight: 700;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .page-hero p { color: var(--muted); margin-top: 8px; }
+
+    /* GALLERY GRID */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+      gap: 16px;
+    }
+
+    .gallery-item {
+      position: relative; overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(0,224,255,.04);
+      cursor: pointer;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .gallery-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 32px rgba(0,224,255,.22);
+    }
+
+    /* Visual placeholder cards */
+    .gallery-visual {
+      width: 100%; aspect-ratio: 4/3;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px;
+      padding: 20px;
+      background: var(--card);
+    }
+    .gallery-visual .big-icon { font-size: 3.5rem; opacity: .7; }
+    .gallery-visual .vis-title {
+      font-size: .88rem; font-weight: 600; color: #fff;
+      text-align: center;
+    }
+    .gallery-visual .vis-sub {
+      font-size: .75rem; color: var(--muted);
+      text-align: center;
+    }
+
+    /* Colored accent bars on top */
+    .gallery-item::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+    }
+
+    .gallery-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 12px 14px;
+      background: linear-gradient(0deg, rgba(5,10,15,.9) 60%, transparent);
+      font-size: .8rem; color: #fff;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .gallery-label .gl-tag {
+      font-size: .7rem;
+      background: rgba(0,224,255,.2);
+      color: var(--cyan);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.92);
+      z-index: 9000;
+      align-items: center; justify-content: center;
+      flex-direction: column;
+      padding: 40px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-content {
+      max-width: 700px; width: 100%;
+      background: rgba(5,10,15,.95);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      position: relative;
+    }
+    .lightbox-content .lb-icon { font-size: 5rem; margin-bottom: 16px; }
+    .lightbox-content h2 { color: #fff; margin-bottom: 8px; }
+    .lightbox-content p { color: var(--muted); font-size: .9rem; line-height: 1.8; }
+    .lightbox-close {
+      position: absolute; top: 16px; right: 20px;
+      font-size: 1.4rem; cursor: pointer; color: var(--muted);
+      background: none; border: none;
+      transition: color .2s;
+    }
+    .lightbox-close:hover { color: var(--cyan); }
+
+    /* FILTER */
+    .filter-bar {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-bottom: 28px;
+    }
+    .filter-btn {
+      padding: 6px 18px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-size: .82rem;
+      transition: all .25s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      color: #000; border-color: transparent;
+    }
+  </style>
+</head>
+<body>
+
+<div id="loader">Loading…</div>
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="index.html">Aloukay</a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="experience.html">Experience</a></li>
+    <li><a href="competencies.html">Competencies</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="achievements.html">Achievements</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero fade">
+  <div class="blob"></div>
+  <h1>Gallery</h1>
+  <p>A visual showcase of key projects, systems, certifications, and career milestones.</p>
+</div>
+
+<!-- FILTER -->
+<section style="padding-top:0; padding-bottom:0;" class="fade">
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterGallery('all', this)">All</button>
+    <button class="filter-btn" onclick="filterGallery('automation', this)">Automation</button>
+    <button class="filter-btn" onclick="filterGallery('digital', this)">Digital</button>
+    <button class="filter-btn" onclick="filterGallery('award', this)">Awards</button>
+    <button class="filter-btn" onclick="filterGallery('cert', this)">Certifications</button>
+    <button class="filter-btn" onclick="filterGallery('safety', this)">Safety</button>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section style="padding-top:20px;" class="fade">
+  <div class="gallery-grid" id="galleryGrid">
+
+    <!-- Automation -->
+    <div class="gallery-item" data-cat="automation"
+         onclick="openLightbox('🤖','PLC & Robotics Control Systems','Allen-Bradley Studio 5000 and Mitsubishi GX Works2/3 PLC programming for high-speed production lines at P&G Jeddah. Integrated robotic cells, motion controls, and servo systems for automated packaging and processing.')">
+      <div class="gallery-visual">
+        <div class="big-icon">🤖</div>
+        <div class="vis-title">PLC &amp; Robotics Systems</div>
+        <div class="vis-sub">Allen-Bradley · Mitsubishi · Motion Control</div>
+      </div>
+      <div class="gallery-label">PLC &amp; Robotics Control <span class="gl-tag">Automation</span></div>
+    </div>
+
+    <div class="gallery-item" data-cat="automation"
+         onclick="openLightbox('🖥️','SCADA & HMI Dashboard','SCADA systems and HMI interfaces deployed across production lines for real-time process monitoring, alarm management, and operator control. Integrated with ControlNet and DeviceNet networks.')">
+      <div class="gallery-visual">
+        <div class="big-icon">🖥️</div>
+        <div class="vis-title">SCADA &amp; HMI Interface</div>
+        <div class="vis-sub">Real-time Monitoring · Alarm Management</div>
+      </div>
+      <div class="gallery-label">SCADA Control System <span class="gl-tag">Automation</span></div>
+    </div>
+
+    <div class="gallery-item" data-cat="automation"
+         onclick="openLightbox('⚡','Power Control & Distribution','Power control and distribution systems managed across P&G Jeddah plant. Includes electrical panels, motor control centers, and power distribution networks supporting 24/7 manufacturing operations.')">
+      <div class="gallery-visual">
+        <div class="big-icon">⚡</div>
+        <div class="vis-title">Power Control &amp; Distribution</div>
+        <div class="vis-sub">MCC · Electrical Panels · 24/7 Operations</div>
+      </div>
+      <div class="gallery-label">Power Systems <span class="gl-tag">Automation</span></div>
+    </div>
+
+    <!-- Digital -->
+    <div class="gallery-item" data-cat="digital"
+         onclick="openLightbox('📊','Power BI Maintenance Dashboard','Smart manufacturing dashboard built with Power BI and PDP platforms. Tracks KPIs including OEE, MTBF, MTTR, and maintenance costs in real time. Resulted in 30% reduction in maintenance costs and 14% downtime decrease.')">
+      <div class="gallery-visual">
+        <div class="big-icon">📊</div>
+        <div class="vis-title">Power BI Dashboard</div>
+        <div class="vis-sub">OEE · MTBF · MTTR · Cost Tracking</div>
+      </div>
+      <div class="gallery-label">Digital Maintenance Dashboard <span class="gl-tag">Digital</span></div>
+    </div>
+
+    <div class="gallery-item" data-cat="digital"
+         onclick="openLightbox('🌐','Digital Twin & Remote Diagnostics','Remote monitoring and digital twin simulation infrastructure enabling global multi-site technical support. VPN-based remote access for real-time diagnostics and virtual commissioning.')">
+      <div class="gallery-visual">
+        <div class="big-icon">🌐</div>
+        <div class="vis-title">Digital Twin Simulation</div>
+        <div class="vis-sub">VPN · Remote Diagnostics · Global Support</div>
+      </div>
+      <div class="gallery-label">Remote Support Infrastructure <span class="gl-tag">Digital</span></div>
+    </div>
+
+    <div class="gallery-item" data-cat="digital"
+         onclick="openLightbox('📱','Power Apps Mobile Workflow','Mobile-first maintenance workflow application built with Microsoft Power Apps. Enables technicians to log work orders, access equipment history, and receive real-time alerts from the shop floor.')">
+      <div class="gallery-visual">
+        <div class="big-icon">📱</div>
+        <div class="vis-title">Power Apps Mobile</div>
+        <div class="vis-sub">Work Orders · Equipment History · Alerts</div>
+      </div>
+      <div class="gallery-label">Smart Mobile Workflow <span class="gl-tag">Digital</span></div>
+    </div>
+
+    <!-- Awards -->
+    <div class="gallery-item" data-cat="award"
+         onclick="openLightbox('🏆','P&G CEO Award 2022','Awarded by the Chief Executive Officer of Procter & Gamble in 2022 for outstanding contribution to operational excellence, automation innovation, and driving measurable improvements in system reliability across global P&G sites.')">
+      <div class="gallery-visual">
+        <div class="big-icon">🏆</div>
+        <div class="vis-title">P&amp;G CEO Award 2022</div>
+        <div class="vis-sub">Operational Excellence · Innovation</div>
+      </div>
+      <div class="gallery-label">CEO Award — 2022 <span class="gl-tag">Award</span></div>
+    </div>
+
+    <div class="gallery-item" data-cat="award"
+         onclick="openLightbox('🏆','P&G CEO Award 2017','First CEO Award received in 2017 for exceptional technical performance and leadership in automation and control systems at Procter & Gamble.')">
+      <div class="gallery-visual">
+        <div class="big-icon">🏆</div>
+        <div class="vis-title">P&amp;G CEO Award 2017</div>
+        <div class="vis-sub">Technical Excellence · Leadership</div>
+      </div>
+      <div class="gallery-label">CEO Award — 2017 <span class="gl-tag">Award</span></div>
+    </div>
+
+    <div class="gallery-item" data-cat="award"
+         onclick="openLightbox('🌟','P&G Great Leadership Award 2023','Recognized in 2023 for exemplary cross-functional team leadership, digital transformation initiatives, and delivering measurable operational improvements across P&G Jeddah manufacturing plant.')">
+      <div class="gallery-visual">
+        <div class="big-icon">🌟</div>
+        <div class="vis-title">Great Leadership Award 2023</div>
+        <div class="vis-sub">Team Leadership · Digital Transformation</div>
+      </div>
+      <div class="gallery-label">Leadership Award — 2023 <span class="gl-tag">Award</span></div>
+    </div>
+
+    <!-- Certifications -->
+    <div class="gallery-item" data-cat="cert"
+         onclick="openLightbox('🤖','Mitsubishi PLC & Robotics Certification — Italy','International certification in Mitsubishi PLC programming (GX Works2/3) and robotics programming obtained in Italy. Covers advanced motion control, robot integration, and industrial automation programming.')">
+      <div class="gallery-visual">
+        <div class="big-icon">🇮🇹</div>
+        <div class="vis-title">Mitsubishi Certification</div>
+        <div class="vis-sub">GX Works2/3 · Robotics · Italy</div>
+      </div>
+      <div class="gallery-label">Mitsubishi PLC — Italy <span class="gl-tag">Cert</span></div>
+    </div>
+
+    <div class="gallery-item" data-cat="cert"
+         onclick="openLightbox('⚙️','Allen-Bradley PLC Certification — Egypt','Certification in Allen-Bradley Studio 5000 and FactoryTalk automation programming obtained in Egypt. Covers Logix controllers, motion control, and industrial network configuration.')">
+      <div class="gallery-visual">
+        <div class="big-icon">🇪🇬</div>
+        <div class="vis-title">Allen-Bradley Certification</div>
+        <div class="vis-sub">Studio 5000 · FactoryTalk · Egypt</div>
+      </div>
+      <div class="gallery-label">Allen-Bradley PLC — Egypt <span class="gl-tag">Cert</span></div>
+    </div>
+
+    <div class="gallery-item" data-cat="cert"
+         onclick="openLightbox('🏛️','Saudi Council of Engineers Accreditation','Professional Accreditation Certificate from the Saudi Council of Engineers — official recognition as a licensed professional engineer in the Kingdom of Saudi Arabia.')">
+      <div class="gallery-visual">
+        <div class="big-icon">🏛️</div>
+        <div class="vis-title">Saudi Council of Engineers</div>
+        <div class="vis-sub">Professional Accreditation · KSA</div>
+      </div>
+      <div class="gallery-label">Professional Accreditation <span class="gl-tag">Cert</span></div>
+    </div>
+
+    <div class="gallery-item" data-cat="cert"
+         onclick="openLightbox('📐','Lean Six Sigma Certification','Lean Six Sigma certification per British Certification Requirements. Covers DMAIC methodology, process improvement, waste elimination, and statistical analysis for manufacturing environments.')">
+      <div class="gallery-visual">
+        <div class="big-icon">📐</div>
+        <div class="vis-title">Lean Six Sigma</div>
+        <div class="vis-sub">DMAIC · Process Improvement · British Cert</div>
+      </div>
+      <div class="gallery-label">Lean Six Sigma <span class="gl-tag">Cert</span></div>
+    </div>
+
+    <div class="gallery-item" data-cat="cert"
+         onclick="openLightbox('🛡️','GRCP — Governance, Risk & Compliance','Professional certification in Governance, Risk Management, and Compliance (GRCP). Covers enterprise risk frameworks, regulatory compliance, and corporate governance best practices.')">
+      <div class="gallery-visual">
+        <div class="big-icon">🛡️</div>
+        <div class="vis-title">GRCP Certification</div>
+        <div class="vis-sub">Governance · Risk · Compliance</div>
+      </div>
+      <div class="gallery-label">GRCP Professional <span class="gl-tag">Cert</span></div>
+    </div>
+
+    <!-- Safety -->
+    <div class="gallery-item" data-cat="safety"
+         onclick="openLightbox('🦺','OSHA Safety Certification','U.S. OSHA certification in Occupational Safety and Health for industrial environments. Covers hazard identification, lockout/tagout procedures, electrical safety, and emergency response protocols.')">
+      <div class="gallery-visual">
+        <div class="big-icon">🦺</div>
+        <div class="vis-title">OSHA Certification</div>
+        <div class="vis-sub">Occupational Safety · U.S. Standard</div>
+      </div>
+      <div class="gallery-label">OSHA Safety — U.S. Cert <span class="gl-tag">Safety</span></div>
+    </div>
+
+    <div class="gallery-item" data-cat="safety"
+         onclick="openLightbox('🛡️','OT Cybersecurity Initiative','Operational Technology cybersecurity program implemented across P&G manufacturing sites. Achieved 100% reduction in OT risk exposure through network segmentation, access controls, and continuous monitoring.')">
+      <div class="gallery-visual">
+        <div class="big-icon">🔐</div>
+        <div class="vis-title">OT Cybersecurity</div>
+        <div class="vis-sub">100% Risk Reduction · Network Protection</div>
+      </div>
+      <div class="gallery-label">OT Security Program <span class="gl-tag">Safety</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-content">
+    <button class="lightbox-close" onclick="closeLightboxBtn()">✕</button>
+    <div class="lb-icon" id="lb-icon"></div>
+    <h2 id="lb-title"></h2>
+    <p id="lb-desc"></p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 Mohammed ALOUKAY &nbsp;|&nbsp; <a href="index.html">← Back to Home</a></p>
+</footer>
+
+<script src="nav.js"></script>
+<script>
+  function filterGallery(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('#galleryGrid .gallery-item').forEach(item => {
+      item.style.display = (cat === 'all' || item.dataset.cat === cat) ? '' : 'none';
+    });
+  }
+
+  function openLightbox(icon, title, desc) {
+    document.getElementById('lb-icon').textContent  = icon;
+    document.getElementById('lb-title').textContent = title;
+    document.getElementById('lb-desc').textContent  = desc;
+    document.getElementById('lightbox').classList.add('open');
+  }
+
+  function closeLightbox(e) {
+    if (e.target === document.getElementById('lightbox')) {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+  }
+
+  function closeLightboxBtn() {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+</script>
+</body>
+</html>
