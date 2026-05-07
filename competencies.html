@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Core Competencies — Mohammed ALOUKAY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .page-hero {
+      padding: 140px 8% 60px;
+      position: relative; overflow: hidden;
+    }
+    .page-hero .blob { top: 0; right: 5%; }
+    .page-hero h1 {
+      font-size: 2.8rem; font-weight: 700;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .page-hero p { color: var(--muted); margin-top: 8px; }
+
+    .comp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+      gap: 14px;
+    }
+
+    .category-title {
+      font-size: 1rem; font-weight: 700;
+      color: var(--cyan);
+      margin: 36px 0 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .category-title::after {
+      content: '';
+      flex: 1; height: 1px;
+      background: var(--border);
+    }
+
+    .chart-wrap {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .lang-row {
+      display: flex; flex-wrap: wrap; gap: 16px;
+    }
+    .lang-card {
+      flex: 1; min-width: 160px;
+      text-align: center;
+      padding: 24px 16px;
+    }
+    .lang-card .lang-name {
+      font-size: 1.1rem; font-weight: 700; color: #fff;
+      margin-bottom: 6px;
+    }
+    .lang-card .lang-level {
+      font-size: .8rem; color: var(--muted);
+    }
+    .lang-bar {
+      height: 4px; border-radius: 2px;
+      background: rgba(255,255,255,.1);
+      margin-top: 10px; overflow: hidden;
+    }
+    .lang-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="loader">Loading…</div>
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="index.html">Aloukay</a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="experience.html">Experience</a></li>
+    <li><a href="competencies.html">Competencies</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="achievements.html">Achievements</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero fade">
+  <div class="blob"></div>
+  <h1>Core Competencies</h1>
+  <p>A comprehensive skill set built over 17+ years of hands-on engineering and leadership.</p>
+</div>
+
+<!-- RADAR CHART -->
+<section style="padding-top:0;" class="fade">
+  <div class="section-title">Skill Overview</div>
+  <div class="section-line"></div>
+  <div class="chart-wrap card" style="padding:30px;">
+    <canvas id="radarChart"></canvas>
+  </div>
+</section>
+
+<!-- LEADERSHIP & MANAGEMENT -->
+<section style="padding-top:30px;" class="fade">
+  <div class="category-title">🧑‍💼 Leadership &amp; Management</div>
+  <div class="comp-grid">
+    <div class="comp-pill"><span class="icon">👥</span> Leadership &amp; Cross-Functional Team Management</div>
+    <div class="comp-pill"><span class="icon">🌍</span> Global Projects &amp; Multi-Site Technical Support</div>
+    <div class="comp-pill"><span class="icon">📋</span> IWS, Lean &amp; Continuous Improvement Systems</div>
+    <div class="comp-pill"><span class="icon">✅</span> Safety, Quality, and Compliance Management</div>
+    <div class="comp-pill"><span class="icon">🔍</span> Root Cause &amp; Loss Elimination (RCA, 5 Why, 6W2H)</div>
+  </div>
+
+  <!-- ELECTRICAL & INSTRUMENTATION -->
+  <div class="category-title">⚡ Electrical &amp; Instrumentation</div>
+  <div class="comp-grid">
+    <div class="comp-pill"><span class="icon">🔌</span> Electrical &amp; Instrumentation Systems</div>
+    <div class="comp-pill"><span class="icon">🤖</span> Industrial Robotics &amp; Automation</div>
+    <div class="comp-pill"><span class="icon">🔧</span> Predictive &amp; Preventive Maintenance</div>
+  </div>
+
+  <!-- PLC & AUTOMATION -->
+  <div class="category-title">⚙️ PLC, SCADA &amp; Automation</div>
+  <div class="comp-grid">
+    <div class="comp-pill"><span class="icon">💻</span> PLC Programming — Siemens, Mitsubishi, Allen-Bradley</div>
+    <div class="comp-pill"><span class="icon">🖥️</span> SCADA Systems &amp; HMI Integration</div>
+    <div class="comp-pill"><span class="icon">🎛️</span> PLC &amp; Robotics: Mitsubishi GX Works2/3, Allen-Bradley Studio 5000, FactoryTalk</div>
+    <div class="comp-pill"><span class="icon">📡</span> Automation Systems: SCADA, HMI, Motion Control, Servo Systems</div>
+    <div class="comp-pill"><span class="icon">🌐</span> Networking: Ethernet, ControlNet, DeviceNet</div>
+  </div>
+
+  <!-- DIGITAL & DATA -->
+  <div class="category-title">📊 Digital Transformation &amp; Data</div>
+  <div class="comp-grid">
+    <div class="comp-pill"><span class="icon">📈</span> Digital Maintenance Transformation (Power BI, SAP, PDP)</div>
+    <div class="comp-pill"><span class="icon">🗄️</span> Data &amp; IT Tools: Power BI, Power Apps, SAP, Excel, Predictive Maintenance Platforms</div>
+    <div class="comp-pill"><span class="icon">🛡️</span> Cybersecurity: OT Protection and Control Network Integrity</div>
+    <div class="comp-pill"><span class="icon">🖥️</span> Remote Global Support Tools: VPN, Digital Twin Simulation, Remote Diagnostics</div>
+  </div>
+</section>
+
+<!-- LANGUAGES -->
+<section class="fade" style="padding-top:20px;">
+  <div class="section-title">Languages</div>
+  <div class="section-line"></div>
+  <div class="lang-row">
+    <div class="card lang-card">
+      <div class="lang-name">Arabic</div>
+      <div class="lang-level">Native</div>
+      <div class="lang-bar"><div class="lang-bar-fill" style="width:100%"></div></div>
+    </div>
+    <div class="card lang-card">
+      <div class="lang-name">French</div>
+      <div class="lang-level">Fluent</div>
+      <div class="lang-bar"><div class="lang-bar-fill" style="width:90%"></div></div>
+    </div>
+    <div class="card lang-card">
+      <div class="lang-name">English</div>
+      <div class="lang-level">Professional</div>
+      <div class="lang-bar"><div class="lang-bar-fill" style="width:85%"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 Mohammed ALOUKAY &nbsp;|&nbsp; <a href="index.html">← Back to Home</a></p>
+</footer>
+
+<script src="nav.js"></script>
+<script>
+  new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+      labels: ['PLC / SCADA', 'Robotics', 'Leadership', 'Digital / Data', 'Cybersecurity', 'Maintenance', 'Networking'],
+      datasets: [{
+        label: 'Proficiency',
+        data: [95, 90, 92, 85, 88, 95, 80],
+        backgroundColor: 'rgba(0,224,255,0.15)',
+        borderColor: '#00e0ff',
+        pointBackgroundColor: '#00ffa3',
+        pointBorderColor: '#00ffa3',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        r: {
+          min: 0, max: 100,
+          ticks: { stepSize: 20, color: '#7a9aaa', backdropColor: 'transparent' },
+          grid: { color: 'rgba(255,255,255,0.07)' },
+          angleLines: { color: 'rgba(255,255,255,0.07)' },
+          pointLabels: { color: '#d0e8f0', font: { size: 12 } }
+        }
+      }
+    }
+  });
+</script>
+</body>
+</html>
