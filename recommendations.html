@@ -1,460 +1,744 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Recommendations — Mohammed ALOUKAY</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --c1: #00e0ff; --c2: #00ffa3; --c3: #7b5ea7;
+      --dark: #030810; --dark2: #060d18;
+      --card-bg: rgba(255,255,255,0.04);
+      --border: rgba(0,224,255,0.15);
+      --text: #cde0ec; --muted: #6a8fa0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; background: var(--dark); color: var(--text); overflow-x: hidden; }
 
-    /* ── LINKEDIN BANNER ── */
-    .li-banner {
-      position: relative; z-index: 1;
-      padding: 0 7% 50px;
-    }
-    .li-banner-inner {
-      background: linear-gradient(135deg, rgba(0,119,181,.12), rgba(0,224,255,.06));
-      border: 1px solid rgba(0,119,181,.35);
-      border-radius: 22px; padding: 28px 32px;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 18px;
-      position: relative; overflow: hidden;
-    }
-    .li-banner-inner::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(0,119,181,.08), transparent);
-      pointer-events: none;
-    }
-    .li-left { display: flex; align-items: center; gap: 18px; }
-    .li-logo {
-      width: 52px; height: 52px; border-radius: 12px;
-      background: #0077b5;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.6rem; font-weight: 900; color: #fff;
-      flex-shrink: 0;
-      box-shadow: 0 6px 20px rgba(0,119,181,.4);
-    }
-    .li-text h4 { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
-    .li-text p  { font-size: .82rem; color: var(--muted); }
-    .li-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 11px 24px;
-      background: #0077b5; color: #fff;
-      font-weight: 700; font-size: .84rem;
-      border-radius: 50px; text-decoration: none;
-      transition: all .25s; white-space: nowrap;
-    }
-    .li-btn:hover {
-      background: #005f8f;
-      transform: translateY(-3px);
-      box-shadow: 0 10px 28px rgba(0,119,181,.4);
-    }
+    /* LOADER */
+    #loader { position:fixed;inset:0;z-index:9999;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .6s; }
+    #loader .loader-name { font-size:1.8rem;font-weight:800;letter-spacing:6px;background:linear-gradient(90deg,var(--c1),var(--c2));-webkit-background-clip:text;-webkit-text-fill-color:transparent; }
+    #loader .loader-bar { width:200px;height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden; }
+    #loader .loader-fill { height:100%;background:linear-gradient(90deg,var(--c1),var(--c2));animation:loadFill 1.6s ease forwards; }
+    @keyframes loadFill { from{width:0}to{width:100%} }
 
-    /* ── STATS ROW ── */
-    .rec-stats {
-      position: relative; z-index: 1;
-      padding: 0 7% 50px;
-    }
-    .rec-stats-grid {
-      display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: 16px;
-    }
-    .rs-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 18px; padding: 24px 16px; text-align: center;
-      transition: all .3s; position: relative; overflow: hidden;
-    }
-    .rs-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0;
-      height: 2px; background: linear-gradient(90deg,var(--c1),var(--c2));
-    }
-    .rs-card:hover { transform: translateY(-6px); border-color: rgba(0,224,255,.3); box-shadow: 0 12px 30px rgba(0,224,255,.12); }
-    .rs-num {
-      font-size: 2.4rem; font-weight: 900;
-      background: linear-gradient(90deg,var(--c1),var(--c2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      line-height: 1;
-    }
-    .rs-label { font-size: .76rem; color: var(--muted); margin-top: 6px; }
+    /* CURSOR */
+    .cursor-dot { width:8px;height:8px;background:var(--c1);border-radius:50%;position:fixed;pointer-events:none;transform:translate(-50%,-50%);z-index:9998; }
+    .cursor-ring { width:36px;height:36px;border:1.5px solid rgba(0,224,255,.5);border-radius:50%;position:fixed;pointer-events:none;transform:translate(-50%,-50%);z-index:9997;transition:left .12s ease,top .12s ease; }
+    #particles-canvas { position:fixed;inset:0;z-index:0;pointer-events:none; }
 
-    /* ── RECOMMENDATION CARDS ── */
-    .recs-section {
-      position: relative; z-index: 1;
-      padding: 0 7% 80px;
-    }
-    .recs-grid {
-      display: flex; flex-direction: column; gap: 28px;
-    }
+    /* NAV */
+    nav { position:fixed;top:0;width:100%;padding:16px 7%;display:flex;align-items:center;justify-content:space-between;background:rgba(3,8,16,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:1000;transition:padding .3s; }
+    nav.scrolled { padding:10px 7%; }
+    .nav-logo { font-size:1.2rem;font-weight:800;letter-spacing:1px;background:linear-gradient(90deg,var(--c1),var(--c2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none; }
+    .nav-links { display:flex;gap:24px;list-style:none; }
+    .nav-links a { color:var(--muted);text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:.5px;transition:color .25s;position:relative; }
+    .nav-links a::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:linear-gradient(90deg,var(--c1),var(--c2));transition:width .3s; }
+    .nav-links a:hover { color:#fff; }
+    .nav-links a:hover::after,.nav-links a.active::after { width:100%; }
+    .nav-links a.active { color:var(--c1); }
+
+    /* PAGE HERO */
+    .page-hero { min-height:38vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 7% 60px;position:relative;overflow:hidden;z-index:1;text-align:center; }
+    .page-hero::before { content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,224,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,224,255,.04) 1px,transparent 1px);background-size:60px 60px;animation:gridMove 20s linear infinite; }
+    @keyframes gridMove { from{background-position:0 0}to{background-position:60px 60px} }
+    .orb { position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:orbFloat 10s ease-in-out infinite alternate; }
+    .orb-1 { width:400px;height:400px;background:radial-gradient(circle,rgba(0,224,255,.12),transparent 70%);top:-80px;right:0; }
+    .orb-2 { width:300px;height:300px;background:radial-gradient(circle,rgba(0,255,163,.08),transparent 70%);bottom:0;left:20%;animation-delay:-5s; }
+    @keyframes orbFloat { from{transform:translate(-20px,-20px) scale(1)}to{transform:translate(20px,20px) scale(1.1)} }
+    .page-hero .hero-tag { display:inline-flex;align-items:center;gap:8px;background:rgba(0,224,255,.08);border:1px solid rgba(0,224,255,.2);border-radius:30px;padding:6px 18px;font-size:.72rem;font-weight:700;color:var(--c1);letter-spacing:2px;text-transform:uppercase;margin-bottom:20px; }
+    .page-hero .hero-tag .dot { width:6px;height:6px;border-radius:50%;background:var(--c2);animation:pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)} }
+    .page-hero h1 { font-size:clamp(2.2rem,4vw,3.5rem);font-weight:900;color:#fff;margin-bottom:12px; }
+    .page-hero h1 span { background:linear-gradient(90deg,var(--c1),var(--c2));-webkit-background-clip:text;-webkit-text-fill-color:transparent; }
+    .page-hero p { font-size:.95rem;color:var(--muted);max-width:580px;line-height:1.8; }
+
+    /* LINKEDIN BANNER */
+    .li-banner { position:relative;z-index:1;margin:0 7% 50px;background:linear-gradient(135deg,rgba(10,102,194,.15),rgba(10,102,194,.05));border:1px solid rgba(10,102,194,.35);border-radius:20px;padding:24px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px; }
+    .li-banner::before { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#0a66c2,#00e0ff);border-radius:20px 20px 0 0; }
+    .li-banner-left { display:flex;align-items:center;gap:14px; }
+    .li-icon { width:48px;height:48px;background:#0a66c2;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900;color:#fff;flex-shrink:0; }
+    .li-banner-left h3 { font-size:1rem;font-weight:700;color:#fff;margin-bottom:3px; }
+    .li-banner-left p { font-size:.8rem;color:var(--muted); }
+    .li-banner-right { display:flex;gap:10px;flex-wrap:wrap; }
+    .li-btn { display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:50px;font-size:.82rem;font-weight:600;text-decoration:none;transition:all .25s; }
+    .li-btn-primary { background:#0a66c2;color:#fff; }
+    .li-btn-primary:hover { background:#0856a8;transform:translateY(-2px);box-shadow:0 8px 24px rgba(10,102,194,.4); }
+    .li-btn-ghost { border:1.5px solid rgba(10,102,194,.5);color:#5ba4e5; }
+    .li-btn-ghost:hover { background:rgba(10,102,194,.1);border-color:#0a66c2;transform:translateY(-2px); }
+
+    /* STATS ROW */
+    .stats-row { position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:0 7% 60px; }
+    .stat-card { background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:24px 20px;text-align:center;transition:all .3s; }
+    .stat-card:hover { border-color:rgba(0,224,255,.35);transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,224,255,.1); }
+    .stat-card .sc-num { font-size:2rem;font-weight:800;background:linear-gradient(90deg,var(--c1),var(--c2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1; }
+    .stat-card .sc-label { font-size:.78rem;color:var(--muted);margin-top:6px; }
+
+    /* RECOMMENDATIONS GRID */
+    .recs-section { position:relative;z-index:1;padding:0 7% 80px; }
+    .recs-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(500px,1fr));gap:24px; }
 
     .rec-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px; padding: 36px 36px 28px;
-      position: relative; overflow: hidden;
-      transition: all .4s;
+      background:var(--card-bg);
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:32px;
+      position:relative;overflow:hidden;
+      transition:all .35s;
     }
-    /* Animated shimmer border */
     .rec-card::before {
-      content: ''; position: absolute; inset: -1px; border-radius: 24px;
-      background: linear-gradient(135deg,
-        rgba(0,224,255,.2), transparent 40%,
-        rgba(0,255,163,.15), transparent 70%,
-        rgba(0,224,255,.1));
-      background-size: 300%;
-      animation: recBorder 6s linear infinite;
-      z-index: -1; opacity: 0; transition: opacity .4s;
+      content:'';position:absolute;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,var(--c1),var(--c2));
+      transform:scaleX(0);transform-origin:left;
+      transition:transform .4s ease;
     }
-    @keyframes recBorder { from{background-position:0%} to{background-position:300%} }
-    .rec-card:hover::before { opacity: 1; }
+    .rec-card:hover { border-color:rgba(0,224,255,.3);transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,224,255,.1); }
+    .rec-card:hover::before { transform:scaleX(1); }
 
-    /* Top accent */
-    .rec-card::after {
-      content: ''; position: absolute; top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg,var(--c1),var(--c2));
-      transform: scaleX(0); transform-origin: left;
-      transition: transform .5s ease;
-    }
-    .rec-card:hover::after { transform: scaleX(1); }
-
-    .rec-card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(0,224,255,.3);
-      box-shadow: 0 20px 55px rgba(0,224,255,.13);
+    /* Big quote mark */
+    .rec-card .quote-bg {
+      position:absolute;top:16px;right:20px;
+      font-size:7rem;font-weight:900;line-height:1;
+      color:rgba(0,224,255,.04);
+      pointer-events:none;
+      font-family:Georgia,serif;
     }
 
-    /* Quote mark */
-    .rec-quote-mark {
-      position: absolute; top: 20px; right: 28px;
-      font-size: 7rem; line-height: 1;
-      background: linear-gradient(135deg,rgba(0,224,255,.12),transparent);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      font-family: Georgia, serif; pointer-events: none;
-    }
-
-    /* Recommender header */
-    .rec-header {
-      display: flex; align-items: center; gap: 18px;
-      margin-bottom: 24px;
-    }
+    /* Avatar + header */
+    .rec-header { display:flex;align-items:center;gap:16px;margin-bottom:20px; }
+    .rec-avatar-wrap { position:relative;flex-shrink:0; }
     .rec-avatar {
-      width: 60px; height: 60px; border-radius: 50%;
-      background: linear-gradient(135deg,var(--c1),var(--c2));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; font-weight: 800; color: #000;
-      flex-shrink: 0;
-      box-shadow: 0 6px 20px rgba(0,224,255,.3);
-      position: relative;
+      width:64px;height:64px;border-radius:50%;
+      object-fit:cover;
+      border:2px solid rgba(0,224,255,.3);
+      display:block;
     }
-    .rec-avatar .li-badge {
-      position: absolute; bottom: -2px; right: -2px;
-      width: 20px; height: 20px; border-radius: 4px;
-      background: #0077b5;
-      display: flex; align-items: center; justify-content: center;
-      font-size: .6rem; font-weight: 900; color: #fff;
-      border: 2px solid var(--dark);
+    .rec-avatar-initials {
+      width:64px;height:64px;border-radius:50%;
+      background:linear-gradient(135deg,var(--c1),var(--c3));
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.3rem;font-weight:800;color:#000;
+      border:2px solid rgba(0,224,255,.3);
+      flex-shrink:0;
     }
-    .rec-info h3 { font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 3px; }
-    .rec-info .rec-title {
-      font-size: .82rem; color: var(--c1); font-weight: 600; margin-bottom: 4px;
+    .li-badge {
+      position:absolute;bottom:-2px;right:-2px;
+      width:20px;height:20px;background:#0a66c2;
+      border-radius:4px;display:flex;align-items:center;justify-content:center;
+      font-size:.6rem;font-weight:900;color:#fff;
+      border:2px solid var(--dark);
     }
-    .rec-info .rec-meta {
-      font-size: .75rem; color: var(--muted);
-      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-    }
-    .rec-info .rec-meta .dot {
-      width: 4px; height: 4px; border-radius: 50%;
-      background: var(--muted); display: inline-block;
-    }
+    .rec-info { flex:1;min-width:0; }
+    .rec-info h3 { font-size:1rem;font-weight:700;color:#fff;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+    .rec-info .rec-role { font-size:.78rem;color:var(--c2);margin-bottom:4px;line-height:1.4; }
+    .rec-info .rec-meta { font-size:.72rem;color:var(--muted); }
+    .rec-stars { font-size:.85rem;color:#ffd700;margin-left:auto;flex-shrink:0; }
+
+    /* Relation badge */
     .rec-relation {
-      display: inline-block;
-      font-size: .7rem; font-weight: 600;
-      background: rgba(0,255,163,.08);
-      border: 1px solid rgba(0,255,163,.2);
-      color: var(--c2); border-radius: 20px; padding: 2px 10px;
+      display:inline-block;
+      background:rgba(0,224,255,.07);
+      border:1px solid rgba(0,224,255,.15);
+      border-radius:20px;padding:3px 10px;
+      font-size:.68rem;color:var(--c1);font-weight:600;
+      margin-bottom:14px;
     }
 
-    /* Quote body */
-    .rec-body {
-      font-size: .93rem; color: #b0cad8;
-      line-height: 1.9; position: relative; z-index: 1;
-      border-left: 3px solid rgba(0,224,255,.25);
-      padding-left: 20px; margin-bottom: 20px;
-    }
-    .rec-body strong { color: var(--c1); }
-
-    /* Stars */
-    .rec-stars {
-      display: flex; gap: 4px; margin-bottom: 16px;
-    }
-    .rec-stars span { font-size: 1rem; }
+    /* Body text */
+    .rec-body { font-size:.85rem;color:var(--muted);line-height:1.85;position:relative;z-index:1; }
+    .rec-body em { color:var(--c1);font-style:normal;font-weight:600; }
 
     /* Tags */
-    .rec-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .rec-tags { display:flex;flex-wrap:wrap;gap:7px;margin-top:18px; }
+    .rec-tag { background:rgba(0,224,255,.07);border:1px solid rgba(0,224,255,.15);border-radius:20px;padding:4px 12px;font-size:.7rem;color:var(--c1);font-weight:600; }
 
-    /* ── HIGHLIGHT QUOTES ── */
-    .highlights-section {
-      position: relative; z-index: 1;
-      padding: 0 7% 80px;
-    }
-    .highlights-grid {
-      display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 16px;
-    }
-    .hl-card {
-      background: linear-gradient(135deg, rgba(0,224,255,.05), rgba(0,255,163,.03));
-      border: 1px solid rgba(0,224,255,.15);
-      border-radius: 18px; padding: 24px 20px;
-      text-align: center; transition: all .3s;
-    }
-    .hl-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(0,224,255,.3);
-      box-shadow: 0 12px 30px rgba(0,224,255,.1);
-    }
-    .hl-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
-    .hl-text { font-size: .88rem; color: var(--c1); font-weight: 600; font-style: italic; margin-bottom: 8px; }
-    .hl-source { font-size: .72rem; color: var(--muted); }
+    /* HIGHLIGHTS */
+    .highlights-section { position:relative;z-index:1;padding:0 7% 80px; }
+    .section-header { text-align:center;margin-bottom:50px; }
+    .section-header .section-tag { display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--c1);margin-bottom:12px; }
+    .section-header h2 { font-size:2rem;font-weight:800;color:#fff; }
+    .section-header h2 span { background:linear-gradient(90deg,var(--c1),var(--c2));-webkit-background-clip:text;-webkit-text-fill-color:transparent; }
+    .section-header p { font-size:.88rem;color:var(--muted);margin-top:10px; }
 
-    /* ── CTA ── */
-    .cta-section {
-      position: relative; z-index: 1;
-      padding: 0 7% 80px;
-    }
-    .cta-box {
-      background: linear-gradient(135deg, rgba(0,224,255,.06), rgba(0,255,163,.04));
-      border: 1px solid rgba(0,224,255,.2);
-      border-radius: 24px; padding: 50px 40px;
-      text-align: center; position: relative; overflow: hidden;
-    }
-    .cta-box::before {
-      content: ''; position: absolute; inset: -1px; border-radius: 24px;
-      background: linear-gradient(135deg, rgba(0,224,255,.2), transparent, rgba(0,255,163,.15), transparent);
-      background-size: 300%;
-      animation: recBorder 5s linear infinite;
-      z-index: -1;
-    }
-    .cta-box h3 { font-size: 1.6rem; font-weight: 800; color: #fff; margin-bottom: 10px; }
-    .cta-box p  { font-size: .9rem; color: var(--muted); margin-bottom: 26px; }
-    .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .highlights-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px; }
+    .hl-card { background:var(--card-bg);border:1px solid var(--border);border-radius:18px;padding:26px;transition:all .3s;position:relative;overflow:hidden; }
+    .hl-card::after { content:'"';position:absolute;bottom:-10px;right:16px;font-size:5rem;color:rgba(0,224,255,.05);font-family:Georgia,serif;line-height:1; }
+    .hl-card:hover { border-color:rgba(0,224,255,.3);transform:translateY(-5px);box-shadow:0 12px 30px rgba(0,224,255,.1); }
+    .hl-card p { font-size:.85rem;color:var(--text);line-height:1.8;font-style:italic;margin-bottom:14px; }
+    .hl-card .hl-author { font-size:.75rem;color:var(--c1);font-weight:600; }
 
-    @media(max-width:600px) {
-      .rec-card { padding: 24px 20px; }
-      .rec-header { flex-direction: column; align-items: flex-start; }
+    /* CTA */
+    .cta-section { position:relative;z-index:1;padding:0 7% 80px;text-align:center; }
+    .cta-box { max-width:700px;margin:0 auto;background:linear-gradient(135deg,rgba(0,224,255,.06),rgba(0,255,163,.04));border:1px solid rgba(0,224,255,.2);border-radius:28px;padding:56px 48px;position:relative;overflow:hidden; }
+    .cta-box::before { content:'';position:absolute;inset:-1px;border-radius:28px;background:linear-gradient(135deg,rgba(0,224,255,.2),transparent,rgba(0,255,163,.2),transparent);z-index:-1; }
+    .cta-box h2 { font-size:1.8rem;font-weight:800;color:#fff;margin-bottom:10px; }
+    .cta-box p { font-size:.88rem;color:var(--muted);margin-bottom:28px;line-height:1.8; }
+    .cta-btns { display:flex;gap:14px;justify-content:center;flex-wrap:wrap; }
+
+    .btn-primary { display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:linear-gradient(90deg,var(--c1),var(--c2));color:#000;font-weight:700;font-size:.88rem;border-radius:50px;text-decoration:none;transition:transform .25s,box-shadow .25s; }
+    .btn-primary:hover { transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,224,255,.35); }
+    .btn-ghost { display:inline-flex;align-items:center;gap:8px;padding:12px 26px;background:transparent;border:1.5px solid rgba(0,224,255,.35);color:var(--c1);font-weight:600;font-size:.88rem;border-radius:50px;text-decoration:none;transition:all .25s; }
+    .btn-ghost:hover { background:rgba(0,224,255,.08);border-color:var(--c1);transform:translateY(-3px); }
+
+    /* FOOTER */
+    footer { position:relative;z-index:1;padding:28px 7%;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px; }
+    footer p { font-size:.8rem;color:var(--muted); }
+    footer a { color:var(--c1);text-decoration:none; }
+
+    /* REVEAL */
+    .reveal { opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease; }
+    .reveal.visible { opacity:1;transform:translateY(0); }
+    .reveal-left { opacity:0;transform:translateX(-40px);transition:opacity .8s ease,transform .8s ease; }
+    .reveal-left.visible { opacity:1;transform:translateX(0); }
+    .reveal-right { opacity:0;transform:translateX(40px);transition:opacity .8s ease,transform .8s ease; }
+    .reveal-right.visible { opacity:1;transform:translateX(0); }
+    .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+    @media(max-width:768px){
+      .recs-grid{grid-template-columns:1fr;}
+      .stats-row{grid-template-columns:repeat(2,1fr);}
+      .li-banner{flex-direction:column;}
     }
   </style>
 </head>
 <body>
 
+<!-- LOADER -->
 <div id="loader">
   <div class="loader-name">RECOMMENDATIONS</div>
   <div class="loader-bar"><div class="loader-fill"></div></div>
 </div>
+
+<!-- CURSOR -->
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
+
+<!-- PARTICLES -->
 <canvas id="particles-canvas"></canvas>
 
 <!-- NAV -->
 <nav id="mainNav">
-  <a class="nav-logo" href="index.html">M. ALOUKAY</a>
+  <a href="index.html" class="nav-logo">M.ALOUKAY</a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="experience.html">Experience</a></li>
     <li><a href="competencies.html">Competencies</a></li>
     <li><a href="projects.html">Projects</a></li>
     <li><a href="achievements.html">Achievements</a></li>
-    <li><a href="recommendations.html">Recommendations</a></li>
-    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="recommendations.html" class="active">Recommendations</a></li>
+    <li><a href="gallery.html">Media</a></li>
   </ul>
 </nav>
 
 <!-- PAGE HERO -->
-<div class="page-hero reveal">
-  <div class="orb orb-a"></div>
-  <div class="orb orb-b"></div>
-  <div class="ph-tag">// Peer & Leadership Endorsements</div>
-  <h1>LinkedIn <span>Recommendations</span></h1>
-  <p>Authentic testimonials from senior P&amp;G leaders and direct managers — reflecting 17+ years of technical excellence, leadership, and measurable impact.</p>
-</div>
+<section class="page-hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="hero-tag"><span class="dot"></span> LinkedIn Verified</div>
+  <h1>What Leaders <span>Say About Me</span></h1>
+  <p>Testimonials from senior managers, directors, and colleagues at Procter &amp; Gamble and beyond — all verified on LinkedIn.</p>
+</section>
 
 <!-- LINKEDIN BANNER -->
-<div class="li-banner">
-  <div class="li-banner-inner reveal">
-    <div class="li-left">
-      <div class="li-logo">in</div>
-      <div class="li-text">
-        <h4>Mohammed ALOUKAY — LinkedIn Profile</h4>
-        <p>Power Control &amp; Information System Leader at Procter &amp; Gamble · Jeddah, Saudi Arabia</p>
-      </div>
+<div class="li-banner reveal">
+  <div class="li-banner-left">
+    <div class="li-icon">in</div>
+    <div>
+      <h3>LinkedIn Recommendations</h3>
+      <p>9 verified recommendations from P&amp;G directors, managers, and colleagues</p>
     </div>
-    <a class="li-btn"
-       href="https://www.linkedin.com/in/mohammed-aloukay-733482168/details/recommendations/?detailScreenTabIndex=0"
-       target="_blank" rel="noopener">
-      <span>in</span> View on LinkedIn
-    </a>
+  </div>
+  <div class="li-banner-right">
+    <a href="https://www.linkedin.com/in/mohammed-aloukay-733482168/details/recommendations/" target="_blank" class="li-btn li-btn-primary">View on LinkedIn ↗</a>
+    <a href="https://www.linkedin.com/in/mohammed-aloukay-733482168/" target="_blank" class="li-btn li-btn-ghost">Full Profile</a>
   </div>
 </div>
 
 <!-- STATS -->
-<div class="rec-stats">
-  <div class="rec-stats-grid">
-    <div class="rs-card reveal d1"><div class="rs-num">2</div><div class="rs-label">LinkedIn Recommendations</div></div>
-    <div class="rs-card reveal d2"><div class="rs-num">P&G</div><div class="rs-label">Company — Both Recommenders</div></div>
-    <div class="rs-card reveal d3"><div class="rs-num">3</div><div class="rs-label">Years Worked Together</div></div>
-    <div class="rs-card reveal d4"><div class="rs-num">2025</div><div class="rs-label">Most Recent Recommendation</div></div>
+<div class="stats-row">
+  <div class="stat-card reveal d1">
+    <div class="sc-num">9</div>
+    <div class="sc-label">Total Recommendations</div>
+  </div>
+  <div class="stat-card reveal d2">
+    <div class="sc-num">7</div>
+    <div class="sc-label">Director / Manager Level</div>
+  </div>
+  <div class="stat-card reveal d3">
+    <div class="sc-num">P&amp;G</div>
+    <div class="sc-label">Primary Organization</div>
+  </div>
+  <div class="stat-card reveal d4">
+    <div class="sc-num">2025</div>
+    <div class="sc-label">Most Recent</div>
   </div>
 </div>
 
-<!-- RECOMMENDATIONS -->
-<div class="recs-section">
-  <div class="section-header reveal">
-    <div class="section-tag">// Testimonials</div>
-    <h2>What Leaders <span>Say</span></h2>
-    <p>Recommendations from P&amp;G senior management — verified on LinkedIn.</p>
-  </div>
-
+<!-- RECOMMENDATIONS GRID -->
+<section class="recs-section">
   <div class="recs-grid">
 
-    <!-- REC 1 — Abdulaziz Alsulami -->
+    <!-- 1. Omar AlKaaky -->
     <div class="rec-card reveal d1">
-      <div class="rec-quote-mark">"</div>
+      <div class="quote-bg">"</div>
       <div class="rec-header">
-        <div class="rec-avatar">
-          AA
+        <div class="rec-avatar-wrap">
+          <img src="avatars/omar_alkaaky.png" alt="Omar AlKaaky" class="rec-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="rec-avatar-initials" style="display:none">OA</div>
+          <div class="li-badge">in</div>
+        </div>
+        <div class="rec-info">
+          <h3>Omar AlKaaky</h3>
+          <div class="rec-role">Supply Chain Manufacturing Director — Procter &amp; Gamble</div>
+          <div class="rec-meta">November 12, 2025 · Managed Mohammed directly</div>
+        </div>
+        <div class="rec-stars">★★★★★</div>
+      </div>
+      <div class="rec-relation">Direct Manager</div>
+      <p class="rec-body">
+        Mohammed is a <em>very experienced electrical expert</em> with very strong capability on paper lines, PLCs, control logics and general manufacturing electrical skills. He is <em>highly recommended</em> in industrial field.
+      </p>
+      <div class="rec-tags">
+        <span class="rec-tag">PLC Expert</span>
+        <span class="rec-tag">Control Logics</span>
+        <span class="rec-tag">Manufacturing</span>
+        <span class="rec-tag">Electrical</span>
+      </div>
+    </div>
+
+    <!-- 2. Abdulaziz Alsulami -->
+    <div class="rec-card reveal d2">
+      <div class="quote-bg">"</div>
+      <div class="rec-header">
+        <div class="rec-avatar-wrap">
+          <img src="avatars/abdulaziz_alsulami.png" alt="Abdulaziz Alsulami" class="rec-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="rec-avatar-initials" style="display:none">AA</div>
           <div class="li-badge">in</div>
         </div>
         <div class="rec-info">
           <h3>Abdulaziz Alsulami</h3>
-          <div class="rec-title">Senior Supply Chain Manager @ Procter &amp; Gamble</div>
-          <div class="rec-meta">
-            <span>October 28, 2025</span>
-            <span class="dot"></span>
-            <span class="rec-relation">Senior to Mohammed (indirect)</span>
-          </div>
+          <div class="rec-role">Senior Supply Chain Manager — Procter &amp; Gamble</div>
+          <div class="rec-meta">October 28, 2025 · Senior to Mohammed</div>
         </div>
+        <div class="rec-stars">★★★★★</div>
       </div>
-      <div class="rec-stars">
-        <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
-      </div>
-      <div class="rec-body">
-        I had the privilege of working with <strong>Waki</strong> for three years, during which he consistently demonstrated <strong>exceptional leadership, technical mastery, and a strong organizational impact</strong>. Waki stands out for his ability to deliver superior results across all key performance indicators, while fostering a culture of excellence and continuous improvement.
-        <br/><br/>
-        Beyond his outstanding performance, <strong>Waki played a crucial role in building plant capability</strong> and extending his expertise to support other sites across the region, strengthening our overall operational network.
-      </div>
+      <div class="rec-relation">Senior Colleague</div>
+      <p class="rec-body">
+        I had the privilege of working with Waki for three years, during which he consistently demonstrated <em>exceptional leadership, technical mastery, and a strong organizational impact</em>. Waki stands out for his ability to deliver superior results across all key performance indicators, while fostering a culture of excellence and continuous improvement.<br><br>
+        Beyond his outstanding performance, Waki played a crucial role in <em>building plant capability</em> and extending his expertise to support other sites across the region, strengthening our overall operational network.
+      </p>
       <div class="rec-tags">
-        <span class="tag">Leadership</span>
-        <span class="tag">Technical Mastery</span>
-        <span class="tag">KPI Excellence</span>
-        <span class="tag">Plant Capability</span>
-        <span class="tag tag-green">Continuous Improvement</span>
-        <span class="tag tag-green">Regional Impact</span>
+        <span class="rec-tag">Leadership</span>
+        <span class="rec-tag">Technical Mastery</span>
+        <span class="rec-tag">KPI Excellence</span>
+        <span class="rec-tag">Plant Capability</span>
       </div>
     </div>
 
-    <!-- REC 2 — Abdullah Alhazmi -->
-    <div class="rec-card reveal d2">
-      <div class="rec-quote-mark">"</div>
+    <!-- 3. Abdullah Alhazmi -->
+    <div class="rec-card reveal d1">
+      <div class="quote-bg">"</div>
       <div class="rec-header">
-        <div class="rec-avatar" style="background:linear-gradient(135deg,#00ffa3,#00e0ff);">
-          AA
+        <div class="rec-avatar-wrap">
+          <img src="avatars/abdullah_alhazmi.png" alt="Abdullah Alhazmi" class="rec-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="rec-avatar-initials" style="display:none">AH</div>
           <div class="li-badge">in</div>
         </div>
         <div class="rec-info">
           <h3>Abdullah Alhazmi</h3>
-          <div class="rec-title">Production Line Manager at Procter &amp; Gamble</div>
-          <div class="rec-meta">
-            <span>October 27, 2025</span>
-            <span class="dot"></span>
-            <span class="rec-relation">Abdullah managed Mohammed directly</span>
-          </div>
+          <div class="rec-role">Production Line Manager — Procter &amp; Gamble</div>
+          <div class="rec-meta">October 27, 2025 · Managed Mohammed directly</div>
         </div>
+        <div class="rec-stars">★★★★★</div>
       </div>
-      <div class="rec-stars">
-        <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
-      </div>
-      <div class="rec-body">
-        It has been a privilege to work with <strong>Mohammed</strong> for almost three years. He is an <strong>exceptional talent whose technical mastery and leadership consistently drive transformative improvements</strong> across every area he contributes to. His ability to innovate and lead continuous improvement has <strong>elevated operational performance and accelerated development</strong> throughout his roles.
-        <br/><br/>
-        He empowers those around him, fostering a <strong>culture of excellence and ownership</strong>. He is a <strong>true asset</strong> and will undoubtedly continue to create significant impact wherever he goes.
-      </div>
+      <div class="rec-relation">Direct Manager</div>
+      <p class="rec-body">
+        It has been a privilege to work with Mohammed for almost three years. He is an <em>exceptional talent</em> whose technical mastery and leadership consistently drive transformative improvements across every area he contributes to. His ability to <em>innovate and lead continuous improvement</em> has elevated operational performance and accelerated development throughout his roles. He empowers those around him, fostering a culture of excellence and ownership. He is a <em>true asset</em> and will undoubtedly continue to create significant impact wherever he goes.
+      </p>
       <div class="rec-tags">
-        <span class="tag">Exceptional Talent</span>
-        <span class="tag">Transformative Leadership</span>
-        <span class="tag">Innovation</span>
-        <span class="tag">Operational Performance</span>
-        <span class="tag tag-green">Culture of Excellence</span>
-        <span class="tag tag-green">True Asset</span>
+        <span class="rec-tag">Innovation</span>
+        <span class="rec-tag">Continuous Improvement</span>
+        <span class="rec-tag">Team Empowerment</span>
+        <span class="rec-tag">Operational Excellence</span>
+      </div>
+    </div>
+
+    <!-- 4. Alyah Alfageh -->
+    <div class="rec-card reveal d2">
+      <div class="quote-bg">"</div>
+      <div class="rec-header">
+        <div class="rec-avatar-wrap">
+          <img src="avatars/alyah_alfageh.png" alt="Alyah Alfageh" class="rec-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="rec-avatar-initials" style="display:none">AF</div>
+          <div class="li-badge">in</div>
+        </div>
+        <div class="rec-info">
+          <h3>Alyah Alfageh</h3>
+          <div class="rec-role">Quality Manager — Procter &amp; Gamble</div>
+          <div class="rec-meta">November 18, 2025 · Senior to Mohammed</div>
+        </div>
+        <div class="rec-stars">★★★★★</div>
+      </div>
+      <div class="rec-relation">Senior Colleague</div>
+      <p class="rec-body">
+        I had the pleasure of working with Mohammed during my time as Quality Manager at P&amp;G. Mohammed is a <em>rare technical leader</em> who truly understands the critical link between maintenance reliability and product quality. He was an invaluable partner during our quality audits, always proactive in closing quality actions and ensuring his systems met the highest standards. His technical expertise in <em>Power Control and PLCs</em> directly contributed to improved quality metrics on the production line. I highly recommend Mohammed to any organization looking for a leader who delivers <em>technical excellence with a quality-first mindset</em>.
+      </p>
+      <div class="rec-tags">
+        <span class="rec-tag">Quality Mindset</span>
+        <span class="rec-tag">Power Control</span>
+        <span class="rec-tag">PLCs</span>
+        <span class="rec-tag">Reliability</span>
+      </div>
+    </div>
+
+    <!-- 5. Wahbi Albeeshi -->
+    <div class="rec-card reveal d1">
+      <div class="quote-bg">"</div>
+      <div class="rec-header">
+        <div class="rec-avatar-wrap">
+          <img src="avatars/wahbi_albeeshi.png" alt="Wahbi Albeeshi" class="rec-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="rec-avatar-initials" style="display:none">WB</div>
+          <div class="li-badge">in</div>
+        </div>
+        <div class="rec-info">
+          <h3>Wahbi Albeeshi</h3>
+          <div class="rec-role">Manufacturing Excellence &amp; Digital Transformation Leader | Lean/TPM (IWS)</div>
+          <div class="rec-meta">November 9, 2025 · Senior to Mohammed</div>
+        </div>
+        <div class="rec-stars">★★★★★</div>
+      </div>
+      <div class="rec-relation">Senior Colleague</div>
+      <p class="rec-body">
+        I only had the chance to work directly with Mohammed towards the end of my time at the site, but I had long witnessed his <em>outstanding leadership</em> up close.<br><br>
+        He's a <em>true role model</em> — respected, admired, and genuinely loved by his team. His attention to detail and drive for excellence consistently deliver remarkable results.<br><br>
+        A leader who <em>inspires through both his actions and his character</em>.
+      </p>
+      <div class="rec-tags">
+        <span class="rec-tag">Role Model</span>
+        <span class="rec-tag">Team Leadership</span>
+        <span class="rec-tag">Excellence</span>
+        <span class="rec-tag">Character</span>
+      </div>
+    </div>
+
+    <!-- 6. Mustapha Kamaz -->
+    <div class="rec-card reveal d2">
+      <div class="quote-bg">"</div>
+      <div class="rec-header">
+        <div class="rec-avatar-wrap">
+          <img src="avatars/mustapha_kamaz.png" alt="Mustapha Kamaz" class="rec-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="rec-avatar-initials" style="display:none">MK</div>
+          <div class="li-badge">in</div>
+        </div>
+        <div class="rec-info">
+          <h3>Mustapha Kamaz</h3>
+          <div class="rec-role">Director of Manufacturing, Operations &amp; Quality | Large-Scale Plant Leadership</div>
+          <div class="rec-meta">October 27, 2025 · Managed Mohammed directly</div>
+        </div>
+        <div class="rec-stars">★★★★★</div>
+      </div>
+      <div class="rec-relation">Direct Manager</div>
+      <p class="rec-body">
+        I have had the chance to work directly with Mohammed for almost 2 years during my Fem-Care Ops role in P&amp;G Jeddah plant. Mohammed was a <em>key enabler to his Line success</em> which was the leading line on site back then — not only due his outstanding technical mastery as Electrical Coordinator but also due to his <em>exceptional organizational skills</em>. Mohammed was also capable of supporting all lines during normal production as well as initiatives and several teams leveraged his great flexibility, ownership and willingness to invest in building their capabilities. Mohammed was <em>constantly adding value</em> in all the various roles he played within P&amp;G Jeddah plant and I wish Mohammed great success in his future endeavors.
+      </p>
+      <div class="rec-tags">
+        <span class="rec-tag">Organizational Skills</span>
+        <span class="rec-tag">Flexibility</span>
+        <span class="rec-tag">Ownership</span>
+        <span class="rec-tag">Capability Building</span>
+      </div>
+    </div>
+
+    <!-- 7. Omar Nounou -->
+    <div class="rec-card reveal d1">
+      <div class="quote-bg">"</div>
+      <div class="rec-header">
+        <div class="rec-avatar-wrap">
+          <img src="avatars/omar_nounou.png" alt="Omar Nounou" class="rec-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="rec-avatar-initials" style="display:none">ON</div>
+          <div class="li-badge">in</div>
+        </div>
+        <div class="rec-info">
+          <h3>Omar Nounou</h3>
+          <div class="rec-role">Feminine Care Engineering Director</div>
+          <div class="rec-meta">October 25, 2025 · Mohammed was senior</div>
+        </div>
+        <div class="rec-stars">★★★★★</div>
+      </div>
+      <div class="rec-relation">Colleague</div>
+      <p class="rec-body">
+        I strongly recommend Mohammed as an <em>electrical leader</em>. We worked together on multiple projects I led at the Jeddah plant, and his involvement consistently meant <em>safe, on-time execution</em>. He anticipates risks, communicates clearly, and collaborates well across teams. <em>Dependable, proactive, and works well under pressure</em>, Mohammed takes ownership and delivers.
+      </p>
+      <div class="rec-tags">
+        <span class="rec-tag">Safe Execution</span>
+        <span class="rec-tag">Risk Anticipation</span>
+        <span class="rec-tag">Dependable</span>
+        <span class="rec-tag">Proactive</span>
+      </div>
+    </div>
+
+    <!-- 8. Ameen Kateb -->
+    <div class="rec-card reveal d2">
+      <div class="quote-bg">"</div>
+      <div class="rec-header">
+        <div class="rec-avatar-wrap">
+          <img src="avatars/ameen_kateb.png" alt="Ameen Kateb" class="rec-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="rec-avatar-initials" style="display:none">AK</div>
+          <div class="li-badge">in</div>
+        </div>
+        <div class="rec-info">
+          <h3>Ameen Kateb</h3>
+          <div class="rec-role">Supply Chain &amp; Product Supply Leader | FMCG | SAP | Operations</div>
+          <div class="rec-meta">October 22, 2025 · Managed Mohammed directly</div>
+        </div>
+        <div class="rec-stars">★★★★★</div>
+      </div>
+      <div class="rec-relation">Direct Manager</div>
+      <p class="rec-body">
+        It is my pleasure to recommend Mohammad Aloukay, who worked part of my organization as an <em>Electrical Technician leader from 2014 to 2016</em>. During this period, he played a vital role in leading the department's electrical maintenance and improvement initiatives.<br><br>
+        Aloukay consistently demonstrated <em>high ownership, strong leadership, and an impressive level of technical mastery</em>. One of his most notable achievements was his contribution to the <em>installation and commissioning of two additional production lines</em>, which turned out to be a major success for the plant. Beyond his technical accomplishments, he was instrumental in building the department's electrical capability, mentoring team members, and ensuring that knowledge was shared effectively across the organization.<br><br>
+        Aloukay is a <em>dedicated, knowledgeable, and reliable professional</em> who consistently delivers excellent results.
+      </p>
+      <div class="rec-tags">
+        <span class="rec-tag">High Ownership</span>
+        <span class="rec-tag">Line Commissioning</span>
+        <span class="rec-tag">Mentoring</span>
+        <span class="rec-tag">Knowledge Sharing</span>
+      </div>
+    </div>
+
+    <!-- 9. AbdelRahman Gamal -->
+    <div class="rec-card reveal d1">
+      <div class="quote-bg">"</div>
+      <div class="rec-header">
+        <div class="rec-avatar-wrap">
+          <img src="avatars/abdelrahman_gamal.png" alt="AbdelRahman Gamal" class="rec-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="rec-avatar-initials" style="display:none">AG</div>
+          <div class="li-badge">in</div>
+        </div>
+        <div class="rec-info">
+          <h3>AbdelRahman Gamal</h3>
+          <div class="rec-role">Manufacturing Excellence Director</div>
+          <div class="rec-meta">October 21, 2025 · Senior to Mohammed</div>
+        </div>
+        <div class="rec-stars">★★★★★</div>
+      </div>
+      <div class="rec-relation">Senior Colleague</div>
+      <p class="rec-body">
+        It's a privilege to recommend Waky, one of the <em>most capable and inspiring leaders</em> I've worked with in the Process Control &amp; Information Systems (PC&amp;IS) domain. Over the past seven years, I've seen him combine deep technical expertise with strategic leadership to deliver <em>real business transformation</em>.<br><br>
+        His mastery in <em>PLC systems, industrial cybersecurity, and Proficy MES architecture</em> is exceptional. He consistently bridges the gap between complex automation challenges and business outcomes, designing secure and reliable control systems that drive both efficiency and resilience. His leadership in <em>transforming the Jeddah plant into an IWS 5.0 Integrated site</em> stands as a true case study in digital excellence.<br><br>
+        Beyond his technical edge, Waky's ability to lead with clarity, empower teams, and foster innovation truly sets him apart. He's a <em>trusted leader, a visionary technologist, and an absolute benchmark of excellence</em> in the PC&amp;IS field.
+      </p>
+      <div class="rec-tags">
+        <span class="rec-tag">PLC Systems</span>
+        <span class="rec-tag">OT Cybersecurity</span>
+        <span class="rec-tag">IWS 5.0</span>
+        <span class="rec-tag">Digital Transformation</span>
+        <span class="rec-tag">Visionary Leader</span>
+      </div>
+    </div>
+
+    <!-- 10. Marwan AlAbbady -->
+    <div class="rec-card reveal d2">
+      <div class="quote-bg">"</div>
+      <div class="rec-header">
+        <div class="rec-avatar-wrap">
+          <img src="avatars/marwan_alabbady.png" alt="Marwan AlAbbady" class="rec-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="rec-avatar-initials" style="display:none">MA</div>
+          <div class="li-badge">in</div>
+        </div>
+        <div class="rec-info">
+          <h3>Marwan AlAbbady</h3>
+          <div class="rec-role">Business Planning &amp; IMEA Inventory Director @ Procter &amp; Gamble</div>
+          <div class="rec-meta">October 20, 2025 · Managed Mohammed directly</div>
+        </div>
+        <div class="rec-stars">★★★★★</div>
+      </div>
+      <div class="rec-relation">Direct Manager</div>
+      <p class="rec-body">
+        Mohamed is one of the <em>best electrical technicians I have worked with</em> in my career. He is a real technical expert, hard working &amp; very organized with a high sense of ownership. In my time in Femcare in Jeddah he came at a critical timing to lead the electrical team &amp; was able to <em>establish all the right systems and train the teams</em> to ensure we had robust electrical capability across the department. Mohamed would be a <em>true asset to any company</em> that would be lucky to have him.
+      </p>
+      <div class="rec-tags">
+        <span class="rec-tag">Technical Expert</span>
+        <span class="rec-tag">Team Training</span>
+        <span class="rec-tag">High Ownership</span>
+        <span class="rec-tag">Organized</span>
+      </div>
+    </div>
+
+    <!-- 11. Kayan Elmas -->
+    <div class="rec-card reveal d1">
+      <div class="quote-bg">"</div>
+      <div class="rec-header">
+        <div class="rec-avatar-wrap">
+          <img src="avatars/kayan_elmas.png" alt="Kayan Elmas" class="rec-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="rec-avatar-initials" style="display:none">KE</div>
+          <div class="li-badge">in</div>
+        </div>
+        <div class="rec-info">
+          <h3>Kayan Elmas</h3>
+          <div class="rec-role">Industrial Engineer | Supply Chain &amp; Logistics | Cost &amp; Process Optimization</div>
+          <div class="rec-meta">October 21, 2025 · Senior to Mohammed</div>
+        </div>
+        <div class="rec-stars">★★★★★</div>
+      </div>
+      <div class="rec-relation">Senior Colleague</div>
+      <p class="rec-body">
+        Mohammed is an <em>exceptional professional</em> with outstanding technical mastery and strong leadership. His <em>results-driven mindset</em> consistently turns complex challenges into successful outcomes. A true asset to any team.
+      </p>
+      <div class="rec-tags">
+        <span class="rec-tag">Results-Driven</span>
+        <span class="rec-tag">Technical Mastery</span>
+        <span class="rec-tag">Problem Solver</span>
+      </div>
+    </div>
+
+    <!-- 12. Wejdan Shawli -->
+    <div class="rec-card reveal d2">
+      <div class="quote-bg">"</div>
+      <div class="rec-header">
+        <div class="rec-avatar-wrap">
+          <img src="avatars/wejdan_shawli.png" alt="Wejdan Shawli" class="rec-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="rec-avatar-initials" style="display:none">WS</div>
+          <div class="li-badge">in</div>
+        </div>
+        <div class="rec-info">
+          <h3>Wejdan Shawli</h3>
+          <div class="rec-role">Director — Procurement, HR &amp; Operations | Ex-P&amp;G</div>
+          <div class="rec-meta">October 21, 2025 · Senior to Mohammed</div>
+        </div>
+        <div class="rec-stars">★★★★★</div>
+      </div>
+      <div class="rec-relation">Senior Colleague</div>
+      <p class="rec-body">
+        He is one of the <em>best talents I've come across</em> — passionate, hardworking, and highly resilient. Mohammed consistently demonstrates a strong sense of ownership and determination, always going the extra mile to deliver excellence.<br><br>
+        What stands out most about him is his ability to <em>make the impossible possible</em>. His positive attitude, technical expertise, and problem-solving mindset make him an incredible asset to any team. I'm confident Mohammed will continue to <em>excel and drive impact</em> wherever he goes.
+      </p>
+      <div class="rec-tags">
+        <span class="rec-tag">Resilient</span>
+        <span class="rec-tag">Passionate</span>
+        <span class="rec-tag">Problem Solving</span>
+        <span class="rec-tag">Impact Driver</span>
       </div>
     </div>
 
   </div>
-</div>
+</section>
 
-<!-- HIGHLIGHT QUOTES -->
-<div class="highlights-section">
+<!-- HIGHLIGHTS -->
+<section class="highlights-section">
   <div class="section-header reveal">
-    <div class="section-tag">// Key Phrases</div>
-    <h2>Highlighted <span>Endorsements</span></h2>
+    <div class="section-tag">// Key Quotes</div>
+    <h2>Standout <span>Moments</span></h2>
+    <p>The most powerful phrases from Mohammed's recommendations.</p>
   </div>
   <div class="highlights-grid">
     <div class="hl-card reveal d1">
-      <span class="hl-icon">🏆</span>
-      <div class="hl-text">"Exceptional leadership, technical mastery, and a strong organizational impact"</div>
-      <div class="hl-source">— Abdulaziz Alsulami, Senior Supply Chain Manager, P&amp;G</div>
+      <p>"A trusted leader, a visionary technologist, and an absolute benchmark of excellence in the PC&amp;IS field."</p>
+      <div class="hl-author">— AbdelRahman Gamal, Manufacturing Excellence Director</div>
     </div>
     <div class="hl-card reveal d2">
-      <span class="hl-icon">📈</span>
-      <div class="hl-text">"Delivers superior results across all key performance indicators"</div>
-      <div class="hl-source">— Abdulaziz Alsulami, Senior Supply Chain Manager, P&amp;G</div>
+      <p>"He is a true asset and will undoubtedly continue to create significant impact wherever he goes."</p>
+      <div class="hl-author">— Abdullah Alhazmi, Production Line Manager, P&amp;G</div>
     </div>
     <div class="hl-card reveal d3">
-      <span class="hl-icon">🌍</span>
-      <div class="hl-text">"Building plant capability and extending expertise to support other sites across the region"</div>
-      <div class="hl-source">— Abdulaziz Alsulami, Senior Supply Chain Manager, P&amp;G</div>
-    </div>
-    <div class="hl-card reveal d4">
-      <span class="hl-icon">⚡</span>
-      <div class="hl-text">"Technical mastery and leadership consistently drive transformative improvements"</div>
-      <div class="hl-source">— Abdullah Alhazmi, Production Line Manager, P&amp;G</div>
-    </div>
-    <div class="hl-card reveal d5">
-      <span class="hl-icon">🌟</span>
-      <div class="hl-text">"Elevated operational performance and accelerated development throughout his roles"</div>
-      <div class="hl-source">— Abdullah Alhazmi, Production Line Manager, P&amp;G</div>
+      <p>"His ability to make the impossible possible — positive attitude, technical expertise, and problem-solving mindset."</p>
+      <div class="hl-author">— Wejdan Shawli, Director — Procurement, HR &amp; Operations</div>
     </div>
     <div class="hl-card reveal d1">
-      <span class="hl-icon">💎</span>
-      <div class="hl-text">"He is a true asset and will undoubtedly continue to create significant impact"</div>
-      <div class="hl-source">— Abdullah Alhazmi, Production Line Manager, P&amp;G</div>
+      <p>"A true role model — respected, admired, and genuinely loved by his team."</p>
+      <div class="hl-author">— Wahbi Albeeshi, Manufacturing Excellence &amp; Digital Transformation Leader</div>
+    </div>
+    <div class="hl-card reveal d2">
+      <p>"A rare technical leader who truly understands the critical link between maintenance reliability and product quality."</p>
+      <div class="hl-author">— Alyah Alfageh, Quality Manager, P&amp;G</div>
+    </div>
+    <div class="hl-card reveal d3">
+      <p>"Mohamed would be a true asset to any company that would be lucky to have him."</p>
+      <div class="hl-author">— Marwan AlAbbady, IMEA Inventory Director, P&amp;G</div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- CTA -->
-<div class="cta-section">
+<section class="cta-section">
   <div class="cta-box reveal">
-    <h3>Connect on LinkedIn</h3>
-    <p>View the full profile, all recommendations, and endorsements directly on LinkedIn.</p>
+    <h2>Read All on LinkedIn</h2>
+    <p>All recommendations are publicly visible on Mohammed's LinkedIn profile.<br>Connect to see the full context and endorse his skills.</p>
     <div class="cta-btns">
-      <a class="li-btn"
-         href="https://www.linkedin.com/in/mohammed-aloukay-733482168/details/recommendations/?detailScreenTabIndex=0"
-         target="_blank" rel="noopener">
-        <span>in</span> View All Recommendations
-      </a>
-      <a class="btn-ghost"
-         href="https://www.linkedin.com/in/mohammed-aloukay-733482168/"
-         target="_blank" rel="noopener">
-        🔗 Full LinkedIn Profile
-      </a>
+      <a href="https://www.linkedin.com/in/mohammed-aloukay-733482168/details/recommendations/" target="_blank" class="btn-primary">View on LinkedIn ↗</a>
+      <a href="mailto:M.Aloukay@gmail.com" class="btn-ghost">✉️ Get in Touch</a>
     </div>
   </div>
-</div>
+</section>
 
+<!-- FOOTER -->
 <footer>
-  <p>&copy; 2025 Mohammed ALOUKAY</p>
-  <p><a href="index.html">← Back to Home</a></p>
+  <p>&copy; 2025 Mohammed ALOUKAY — Power Control &amp; Automation Leader</p>
+  <p><a href="mailto:M.Aloukay@gmail.com">M.Aloukay@gmail.com</a></p>
 </footer>
 
-<script src="shared.js"></script>
+<script>
+/* LOADER */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const l = document.getElementById('loader');
+    l.style.opacity = '0';
+    setTimeout(() => l.style.display = 'none', 600);
+  }, 1700);
+});
+
+/* CURSOR */
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+(function animCursor(){
+  rx += (mx-rx)*.12; ry += (my-ry)*.12;
+  dot.style.left=mx+'px'; dot.style.top=my+'px';
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animCursor);
+})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ ring.style.transform='translate(-50%,-50%) scale(1.6)'; ring.style.borderColor='rgba(0,255,163,.6)'; });
+  el.addEventListener('mouseleave',()=>{ ring.style.transform='translate(-50%,-50%) scale(1)'; ring.style.borderColor='rgba(0,224,255,.5)'; });
+});
+
+/* PARTICLES */
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles=[];
+function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+class Particle {
+  constructor(){ this.reset(); }
+  reset(){ this.x=Math.random()*W; this.y=Math.random()*H; this.r=Math.random()*1.5+.3; this.vx=(Math.random()-.5)*.4; this.vy=(Math.random()-.5)*.4; this.alpha=Math.random()*.5+.1; this.color=Math.random()>.5?'0,224,255':'0,255,163'; }
+  update(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>W||this.y<0||this.y>H) this.reset(); }
+  draw(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle=`rgba(${this.color},${this.alpha})`; ctx.fill(); }
+}
+for(let i=0;i<100;i++) particles.push(new Particle());
+function drawLines(){
+  for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++){
+    const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, d=Math.sqrt(dx*dx+dy*dy);
+    if(d<120){ ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.strokeStyle=`rgba(0,224,255,${.08*(1-d/120)})`; ctx.lineWidth=.5; ctx.stroke(); }
+  }
+}
+(function anim(){ ctx.clearRect(0,0,W,H); particles.forEach(p=>{p.update();p.draw();}); drawLines(); requestAnimationFrame(anim); })();
+
+/* NAV SCROLL */
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* SCROLL REVEAL */
+const revEls = document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+revEls.forEach(el => obs.observe(el));
+</script>
 </body>
 </html>
