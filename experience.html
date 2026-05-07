@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experience — Mohammed ALOUKAY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .page-hero {
+      padding: 140px 8% 60px;
+      position: relative; overflow: hidden;
+    }
+    .page-hero .blob { top: 0; right: 5%; }
+    .page-hero h1 {
+      font-size: 2.8rem; font-weight: 700;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .page-hero p { color: var(--muted); margin-top: 8px; }
+
+    .company-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,224,255,.08);
+      border: 1px solid rgba(0,224,255,.2);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: .8rem; color: var(--cyan);
+      margin-bottom: 12px;
+    }
+
+    .chart-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+<div id="loader">Loading…</div>
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="index.html">Aloukay</a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="experience.html">Experience</a></li>
+    <li><a href="competencies.html">Competencies</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="achievements.html">Achievements</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero fade">
+  <div class="blob"></div>
+  <h1>Professional Experience</h1>
+  <p>17+ years of progressive leadership in electrical, automation &amp; robotics engineering at global scale.</p>
+</div>
+
+<!-- TIMELINE -->
+<section style="padding-top:0;">
+  <div class="timeline fade">
+
+    <!-- JOB 1 -->
+    <div class="timeline-item">
+      <div class="company-badge">🏭 Procter &amp; Gamble — Jeddah, Saudi Arabia</div>
+      <h3>Power Control &amp; Information System Leader</h3>
+      <div class="meta">January 2023 — Present</div>
+      <ul>
+        <li>Lead automation, robotics, and control system reliability initiatives across production lines locally and globally, improving overall system uptime by <strong>7%</strong>.</li>
+        <li>Manage multidisciplinary teams ensuring high equipment availability and system performance, achieving <strong>20% reduction</strong> in unplanned downtime.</li>
+        <li>Oversee PLC, control systems, and digital networks for power and process control, supporting <strong>7% increase</strong> in production efficiency.</li>
+        <li>Implement smart manufacturing and digital maintenance dashboards using Power BI and PDP platforms, resulting in <strong>30% decrease</strong> in maintenance costs.</li>
+        <li>Drive cybersecurity and operational technology (OT) protection initiatives, reducing operational risks by <strong>100%</strong>.</li>
+        <li>Optimize production efficiency, achieving measurable reductions in downtime (14%) and maintenance costs (30%).</li>
+      </ul>
+      <div style="margin-top:12px;">
+        <span class="tag">PLC</span><span class="tag">SCADA</span><span class="tag">Power BI</span>
+        <span class="tag">Robotics</span><span class="tag">OT Cybersecurity</span><span class="tag">Team Leadership</span>
+      </div>
+    </div>
+
+    <!-- JOB 2 -->
+    <div class="timeline-item">
+      <div class="company-badge">🏭 Procter &amp; Gamble</div>
+      <h3>E&amp;I and Automation Coordinator</h3>
+      <div class="meta">January 2011 — January 2023 &nbsp;(12 years)</div>
+      <ul>
+        <li>Supervised automation and robotics systems for high-speed production lines.</li>
+        <li>Programmed and maintained Mitsubishi and Allen-Bradley PLCs; integrated robotic cells and motion controls.</li>
+        <li>Supported automation projects, new machine startups, and digital transformation initiatives.</li>
+        <li>Improved reliability through predictive maintenance, troubleshooting, and system optimization.</li>
+        <li>Collaborated on global automation upgrades and continuous improvement projects.</li>
+      </ul>
+      <div style="margin-top:12px;">
+        <span class="tag">Allen-Bradley</span><span class="tag">Mitsubishi PLC</span>
+        <span class="tag">Robotics Integration</span><span class="tag">Predictive Maintenance</span>
+      </div>
+    </div>
+
+    <!-- JOB 3 -->
+    <div class="timeline-item">
+      <div class="company-badge">🏭 Procter &amp; Gamble</div>
+      <h3>Electrical Technician</h3>
+      <div class="meta">January 2009 — January 2011</div>
+      <ul>
+        <li>Installed and maintained electrical and instrumentation systems for automated machinery.</li>
+        <li>Conducted troubleshooting and implemented process improvements to minimize downtime.</li>
+      </ul>
+      <div style="margin-top:12px;">
+        <span class="tag">Electrical Systems</span><span class="tag">Instrumentation</span>
+        <span class="tag">Troubleshooting</span>
+      </div>
+    </div>
+
+    <!-- JOB 4 -->
+    <div class="timeline-item">
+      <div class="company-badge">✈️ Matis Aerospace (Safran Group) — Morocco</div>
+      <h3>Aeronautical Technician</h3>
+      <div class="meta">January 2008 — December 2008</div>
+      <ul>
+        <li>Performed maintenance and technical operations on aeronautical systems within the Safran Group framework.</li>
+      </ul>
+      <div style="margin-top:12px;">
+        <span class="tag">Aerospace</span><span class="tag">Technical Maintenance</span>
+      </div>
+    </div>
+
+    <!-- JOB 5 -->
+    <div class="timeline-item">
+      <div class="company-badge">⚡ OCP Group — Morocco</div>
+      <h3>Electrical Technician Intern</h3>
+      <div class="meta">January 2007 — December 2007</div>
+      <ul>
+        <li>Gained foundational experience in industrial electrical systems and process control in a large-scale mining and chemical environment.</li>
+      </ul>
+      <div style="margin-top:12px;">
+        <span class="tag">Industrial Electrical</span><span class="tag">Process Control</span>
+      </div>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="timeline-item">
+      <div class="company-badge">🎓 Higher Institute of Applied Technology — Casablanca, Morocco</div>
+      <h3>Diploma in Industrial Electricity — Industrial Electrical Technician</h3>
+      <div class="meta">January 2006 — January 2008</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CAREER CHART -->
+<section class="fade" style="padding-top:20px;">
+  <div class="section-title">Career Progression</div>
+  <div class="section-line"></div>
+  <div class="chart-wrap card" style="padding:30px;">
+    <canvas id="careerChart"></canvas>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 Mohammed ALOUKAY &nbsp;|&nbsp; <a href="index.html">← Back to Home</a></p>
+</footer>
+
+<script src="nav.js"></script>
+<script>
+  new Chart(document.getElementById('careerChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Intern (OCP)', 'Aero Tech\n(Safran)', 'Elec. Tech\n(P&G)', 'E&I Coord.\n(P&G)', 'PCIS Leader\n(P&G)'],
+      datasets: [{
+        label: 'Seniority Level',
+        data: [1, 2, 3, 4, 5],
+        backgroundColor: [
+          'rgba(0,224,255,0.2)', 'rgba(0,224,255,0.35)',
+          'rgba(0,224,255,0.5)', 'rgba(0,224,255,0.7)',
+          'rgba(0,255,163,0.85)'
+        ],
+        borderColor: ['#00e0ff','#00e0ff','#00e0ff','#00e0ff','#00ffa3'],
+        borderWidth: 1.5,
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ['Intern', 'Junior Tech', 'Technician', 'Coordinator', 'Leader'][ctx.dataIndex]
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#7a9aaa' }, grid: { color: 'rgba(255,255,255,0.04)' } },
+        y: {
+          ticks: { color: '#7a9aaa', callback: v => ['','Intern','Junior','Tech','Coord.','Leader'][v] },
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          min: 0, max: 5
+        }
+      }
+    }
+  });
+</script>
+</body>
+</html>
