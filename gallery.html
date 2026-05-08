@@ -1,390 +1,628 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gallery — Mohammed ALOUKAY</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    .page-hero {
-      padding: 140px 8% 60px;
-      position: relative; overflow: hidden;
-    }
-    .page-hero .blob { top: 0; right: 5%; }
-    .page-hero h1 {
-      font-size: 2.8rem; font-weight: 700;
-      background: linear-gradient(90deg, var(--cyan), var(--green));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .page-hero p { color: var(--muted); margin-top: 8px; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Media Gallery — Mohammed ALOUKAY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050a0f;--bg2:#0a1520;--bg3:#0d1f30;
+  --cyan:#00e0ff;--green:#00ffa3;--purple:#a855f7;--gold:#f59e0b;
+  --text:#e2e8f0;--muted:#64748b;
+  --border:rgba(0,224,255,.15);--glass:rgba(10,21,32,.7);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;cursor:none}
 
-    /* GALLERY GRID */
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
-      gap: 16px;
-    }
+/* CURSOR */
+#cursor{position:fixed;width:8px;height:8px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cursorRing{position:fixed;width:32px;height:32px;border:1px solid rgba(0,224,255,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s}
 
-    .gallery-item {
-      position: relative; overflow: hidden;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: rgba(0,224,255,.04);
-      cursor: pointer;
-      transition: transform .3s, box-shadow .3s;
-    }
-    .gallery-item:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 32px rgba(0,224,255,.22);
-    }
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;transition:opacity .6s}
+#loader.hide{opacity:0;pointer-events:none}
+.loader-text{font-family:'Orbitron',monospace;font-size:1.2rem;color:var(--cyan);letter-spacing:.3em}
+.loader-bar{width:200px;height:2px;background:rgba(0,224,255,.2);border-radius:1px;overflow:hidden}
+.loader-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));animation:loadFill 1.5s ease forwards}
+@keyframes loadFill{from{width:0}to{width:100%}}
 
-    /* Visual placeholder cards */
-    .gallery-visual {
-      width: 100%; aspect-ratio: 4/3;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 10px;
-      padding: 20px;
-      background: var(--card);
-    }
-    .gallery-visual .big-icon { font-size: 3.5rem; opacity: .7; }
-    .gallery-visual .vis-title {
-      font-size: .88rem; font-weight: 600; color: #fff;
-      text-align: center;
-    }
-    .gallery-visual .vis-sub {
-      font-size: .75rem; color: var(--muted);
-      text-align: center;
-    }
+/* CANVAS */
+#particleCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 
-    /* Colored accent bars on top */
-    .gallery-item::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--cyan), var(--green));
-    }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:.8rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(5,10,15,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:padding .3s}
+nav.shrink{padding:.5rem 2rem}
+.nav-logo{font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.75rem;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.35rem .65rem;border-radius:4px;transition:all .3s;border:1px solid transparent}
+.nav-links a:hover,.nav-links a.active{color:var(--cyan);border-color:var(--border);background:rgba(0,224,255,.05)}
+.nav-links a.rec-link{color:var(--green);border-color:rgba(0,255,163,.3)}
 
-    .gallery-label {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 12px 14px;
-      background: linear-gradient(0deg, rgba(5,10,15,.9) 60%, transparent);
-      font-size: .8rem; color: #fff;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .gallery-label .gl-tag {
-      font-size: .7rem;
-      background: rgba(0,224,255,.2);
-      color: var(--cyan);
-      padding: 2px 8px;
-      border-radius: 10px;
-    }
+/* PAGE HERO */
+.page-hero{position:relative;padding:8rem 2rem 4rem;text-align:center;overflow:hidden;z-index:1}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,224,255,.08),transparent);pointer-events:none}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,224,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,224,255,.03) 1px,transparent 1px);background-size:40px 40px;animation:gridMove 20s linear infinite;pointer-events:none}
+@keyframes gridMove{from{transform:translateY(0)}to{transform:translateY(40px)}}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,224,255,.08);border:1px solid rgba(0,224,255,.25);border-radius:50px;padding:.4rem 1.2rem;font-size:.75rem;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--cyan);margin-bottom:1.5rem}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+.page-title{font-family:'Orbitron',monospace;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;line-height:1.1;margin-bottom:1rem}
+.page-title span{background:linear-gradient(135deg,var(--cyan),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.page-subtitle{font-size:1rem;color:var(--muted);max-width:600px;margin:0 auto 2rem;line-height:1.7}
+.hero-stats{display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap}
+.hero-stat .num{font-family:'Orbitron',monospace;font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-stat .lbl{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-family:'Rajdhani',sans-serif;margin-top:.2rem}
 
-    /* LIGHTBOX */
-    .lightbox {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,.92);
-      z-index: 9000;
-      align-items: center; justify-content: center;
-      flex-direction: column;
-      padding: 40px;
-    }
-    .lightbox.open { display: flex; }
-    .lightbox-content {
-      max-width: 700px; width: 100%;
-      background: rgba(5,10,15,.95);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 40px;
-      text-align: center;
-      position: relative;
-    }
-    .lightbox-content .lb-icon { font-size: 5rem; margin-bottom: 16px; }
-    .lightbox-content h2 { color: #fff; margin-bottom: 8px; }
-    .lightbox-content p { color: var(--muted); font-size: .9rem; line-height: 1.8; }
-    .lightbox-close {
-      position: absolute; top: 16px; right: 20px;
-      font-size: 1.4rem; cursor: pointer; color: var(--muted);
-      background: none; border: none;
-      transition: color .2s;
-    }
-    .lightbox-close:hover { color: var(--cyan); }
+/* FILTER BAR */
+.filter-section{position:relative;z-index:1;padding:1.5rem 2rem 2rem;display:flex;justify-content:center}
+.filter-bar{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;background:rgba(10,21,32,.6);border:1px solid var(--border);border-radius:50px;padding:.5rem;backdrop-filter:blur(10px)}
+.filter-btn{background:transparent;border:none;color:var(--muted);font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;padding:.5rem 1.2rem;border-radius:50px;cursor:none;transition:all .3s}
+.filter-btn:hover{color:var(--text)}
+.filter-btn.active{background:linear-gradient(135deg,rgba(0,224,255,.2),rgba(0,255,163,.1));color:var(--cyan);border:1px solid rgba(0,224,255,.4)}
 
-    /* FILTER */
-    .filter-bar {
-      display: flex; flex-wrap: wrap; gap: 10px;
-      margin-bottom: 28px;
-    }
-    .filter-btn {
-      padding: 6px 18px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--muted);
-      cursor: pointer;
-      font-family: 'Poppins', sans-serif;
-      font-size: .82rem;
-      transition: all .25s;
-    }
-    .filter-btn:hover, .filter-btn.active {
-      background: linear-gradient(90deg, var(--cyan), var(--green));
-      color: #000; border-color: transparent;
-    }
-  </style>
+/* MASONRY GRID */
+.gallery-section{position:relative;z-index:1;padding:0 1.5rem 5rem;max-width:1400px;margin:0 auto}
+.masonry-grid{columns:4;column-gap:1rem}
+@media(max-width:1200px){.masonry-grid{columns:3}}
+@media(max-width:768px){.masonry-grid{columns:2}}
+@media(max-width:480px){.masonry-grid{columns:1}}
+
+.gallery-item{break-inside:avoid;margin-bottom:1rem;position:relative;border-radius:12px;overflow:hidden;cursor:none;border:1px solid var(--border);transition:transform .4s,box-shadow .4s}
+.gallery-item:hover{transform:translateY(-5px) scale(1.01);box-shadow:0 20px 60px rgba(0,224,255,.2),0 0 0 1px rgba(0,224,255,.35)}
+.gallery-item img{width:100%;height:auto;display:block;transition:transform .5s}
+.gallery-item:hover img{transform:scale(1.06)}
+
+.gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,10,15,.95) 0%,rgba(5,10,15,.3) 55%,transparent 100%);opacity:0;transition:opacity .4s;display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem}
+.gallery-item:hover .gallery-overlay{opacity:1}
+.overlay-cat{font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.3rem}
+.overlay-title{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:600;color:var(--text);line-height:1.3}
+
+.overlay-zoom{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);width:46px;height:46px;background:rgba(0,224,255,.12);border:1px solid rgba(0,224,255,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .3s;backdrop-filter:blur(4px)}
+.gallery-item:hover .overlay-zoom{transform:translate(-50%,-50%) scale(1)}
+.overlay-zoom svg{width:18px;height:18px;stroke:var(--cyan);fill:none;stroke-width:1.5}
+
+/* category accent colors */
+.cat-leadership .overlay-cat{color:var(--cyan)}
+.cat-automation .overlay-cat{color:var(--green)}
+.cat-awards .overlay-cat{color:var(--gold)}
+.cat-training .overlay-cat{color:var(--purple)}
+.cat-safety .overlay-cat{color:#f87171}
+.cat-team .overlay-cat{color:#60a5fa}
+
+/* LIGHTBOX */
+#lightbox{position:fixed;inset:0;z-index:9000;background:rgba(5,10,15,.97);backdrop-filter:blur(24px);display:none;align-items:center;justify-content:center;padding:2rem}
+#lightbox.open{display:flex}
+.lb-inner{position:relative;max-width:90vw;max-height:90vh;display:flex;flex-direction:column;align-items:center;gap:1rem}
+.lb-img-wrap{border-radius:12px;overflow:hidden;border:1px solid rgba(0,224,255,.3);box-shadow:0 0 80px rgba(0,224,255,.12)}
+#lbImg{max-width:85vw;max-height:72vh;object-fit:contain;display:block}
+.lb-info{text-align:center}
+.lb-cat-tag{font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:.3rem}
+.lb-title-tag{font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:var(--text)}
+.lb-counter{font-family:'Orbitron',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.1em}
+.lb-close{position:fixed;top:1.5rem;right:1.5rem;width:44px;height:44px;background:rgba(0,224,255,.08);border:1px solid rgba(0,224,255,.3);border-radius:50%;cursor:none;display:flex;align-items:center;justify-content:center;transition:all .3s;z-index:9001}
+.lb-close:hover{background:rgba(0,224,255,.2);transform:rotate(90deg)}
+.lb-close svg{width:18px;height:18px;stroke:var(--cyan);fill:none;stroke-width:1.5}
+.lb-nav{position:fixed;top:50%;transform:translateY(-50%);width:44px;height:44px;background:rgba(0,224,255,.08);border:1px solid rgba(0,224,255,.3);border-radius:50%;cursor:none;display:flex;align-items:center;justify-content:center;transition:all .3s;z-index:9001}
+.lb-nav:hover{background:rgba(0,224,255,.2)}
+.lb-nav svg{width:20px;height:20px;stroke:var(--cyan);fill:none;stroke-width:1.5}
+#lbPrev{left:1.5rem}
+#lbNext{right:1.5rem}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:none}
+
+/* FOOTER */
+footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px solid var(--border);color:var(--muted);font-size:.8rem;font-family:'Rajdhani',sans-serif;letter-spacing:.05em}
+footer a{color:var(--cyan);text-decoration:none}
+</style>
 </head>
 <body>
 
-<div id="loader">Loading…</div>
-<div class="cursor" id="cursor"></div>
+<div id="cursor"></div>
+<div id="cursorRing"></div>
 
-<!-- NAV -->
-<nav>
-  <a class="logo" href="index.html">Aloukay</a>
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="experience.html">Experience</a></li>
-    <li><a href="competencies.html">Competencies</a></li>
-    <li><a href="projects.html">Projects</a></li>
-    <li><a href="achievements.html">Achievements</a></li>
-    <li><a href="gallery.html">Gallery</a></li>
-  </ul>
-</nav>
-
-<!-- PAGE HERO -->
-<div class="page-hero fade">
-  <div class="blob"></div>
-  <h1>Gallery</h1>
-  <p>A visual showcase of key projects, systems, certifications, and career milestones.</p>
+<div id="loader">
+  <div class="loader-text">MEDIA GALLERY</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
 </div>
 
-<!-- FILTER -->
-<section style="padding-top:0; padding-bottom:0;" class="fade">
-  <div class="filter-bar">
-    <button class="filter-btn active" onclick="filterGallery('all', this)">All</button>
-    <button class="filter-btn" onclick="filterGallery('automation', this)">Automation</button>
-    <button class="filter-btn" onclick="filterGallery('digital', this)">Digital</button>
-    <button class="filter-btn" onclick="filterGallery('award', this)">Awards</button>
-    <button class="filter-btn" onclick="filterGallery('cert', this)">Certifications</button>
-    <button class="filter-btn" onclick="filterGallery('safety', this)">Safety</button>
+<canvas id="particleCanvas"></canvas>
+
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo">ALOUKAY</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="experience.html">Experience</a>
+    <a href="competencies.html">Skills</a>
+    <a href="projects.html">Projects</a>
+    <a href="achievements.html">Awards</a>
+    <a href="gallery.html" class="active">Media</a>
+    <a href="recommendations.html" class="rec-link">Recommendations</a>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="hero-badge">Visual Portfolio</div>
+  <h1 class="page-title">Media <span>Gallery</span></h1>
+  <p class="page-subtitle">A visual journey through engineering excellence, leadership milestones, industrial projects, and professional achievements across 17+ years.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">37</div><div class="lbl">Photos</div></div>
+    <div class="hero-stat"><div class="num">17+</div><div class="lbl">Years Experience</div></div>
+    <div class="hero-stat"><div class="num">3</div><div class="lbl">CEO Awards</div></div>
+    <div class="hero-stat"><div class="num">6</div><div class="lbl">Categories</div></div>
   </div>
 </section>
 
-<!-- GALLERY -->
-<section style="padding-top:20px;" class="fade">
-  <div class="gallery-grid" id="galleryGrid">
+<div class="filter-section">
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="leadership">Leadership</button>
+    <button class="filter-btn" data-filter="automation">Automation</button>
+    <button class="filter-btn" data-filter="awards">Awards</button>
+    <button class="filter-btn" data-filter="training">Training</button>
+    <button class="filter-btn" data-filter="safety">Safety</button>
+    <button class="filter-btn" data-filter="team">Team</button>
+  </div>
+</div>
 
-    <!-- Automation -->
-    <div class="gallery-item" data-cat="automation"
-         onclick="openLightbox('🤖','PLC & Robotics Control Systems','Allen-Bradley Studio 5000 and Mitsubishi GX Works2/3 PLC programming for high-speed production lines at P&G Jeddah. Integrated robotic cells, motion controls, and servo systems for automated packaging and processing.')">
-      <div class="gallery-visual">
-        <div class="big-icon">🤖</div>
-        <div class="vis-title">PLC &amp; Robotics Systems</div>
-        <div class="vis-sub">Allen-Bradley · Mitsubishi · Motion Control</div>
+<section class="gallery-section">
+  <div class="masonry-grid" id="galleryGrid">
+
+    <div class="gallery-item cat-leadership reveal" data-cat="leadership" data-title="Executive Leadership" data-idx="0">
+      <img src="media/img01.jpg" alt="Executive Leadership" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Leadership</div>
+        <div class="overlay-title">Executive Leadership</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">PLC &amp; Robotics Control <span class="gl-tag">Automation</span></div>
     </div>
 
-    <div class="gallery-item" data-cat="automation"
-         onclick="openLightbox('🖥️','SCADA & HMI Dashboard','SCADA systems and HMI interfaces deployed across production lines for real-time process monitoring, alarm management, and operator control. Integrated with ControlNet and DeviceNet networks.')">
-      <div class="gallery-visual">
-        <div class="big-icon">🖥️</div>
-        <div class="vis-title">SCADA &amp; HMI Interface</div>
-        <div class="vis-sub">Real-time Monitoring · Alarm Management</div>
+    <div class="gallery-item cat-automation reveal" data-cat="automation" data-title="Control Systems Engineering" data-idx="1">
+      <img src="media/img02.jpg" alt="Control Systems" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Automation</div>
+        <div class="overlay-title">Control Systems Engineering</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">SCADA Control System <span class="gl-tag">Automation</span></div>
     </div>
 
-    <div class="gallery-item" data-cat="automation"
-         onclick="openLightbox('⚡','Power Control & Distribution','Power control and distribution systems managed across P&G Jeddah plant. Includes electrical panels, motor control centers, and power distribution networks supporting 24/7 manufacturing operations.')">
-      <div class="gallery-visual">
-        <div class="big-icon">⚡</div>
-        <div class="vis-title">Power Control &amp; Distribution</div>
-        <div class="vis-sub">MCC · Electrical Panels · 24/7 Operations</div>
+    <div class="gallery-item cat-team reveal" data-cat="team" data-title="Team Collaboration" data-idx="2">
+      <img src="media/img03.jpg" alt="Team Collaboration" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Team</div>
+        <div class="overlay-title">Team Collaboration</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">Power Systems <span class="gl-tag">Automation</span></div>
     </div>
 
-    <!-- Digital -->
-    <div class="gallery-item" data-cat="digital"
-         onclick="openLightbox('📊','Power BI Maintenance Dashboard','Smart manufacturing dashboard built with Power BI and PDP platforms. Tracks KPIs including OEE, MTBF, MTTR, and maintenance costs in real time. Resulted in 30% reduction in maintenance costs and 14% downtime decrease.')">
-      <div class="gallery-visual">
-        <div class="big-icon">📊</div>
-        <div class="vis-title">Power BI Dashboard</div>
-        <div class="vis-sub">OEE · MTBF · MTTR · Cost Tracking</div>
+    <div class="gallery-item cat-automation reveal" data-cat="automation" data-title="PLC Programming & Maintenance" data-idx="3">
+      <img src="media/img04.jpg" alt="PLC Programming" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Automation</div>
+        <div class="overlay-title">PLC Programming & Maintenance</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">Digital Maintenance Dashboard <span class="gl-tag">Digital</span></div>
     </div>
 
-    <div class="gallery-item" data-cat="digital"
-         onclick="openLightbox('🌐','Digital Twin & Remote Diagnostics','Remote monitoring and digital twin simulation infrastructure enabling global multi-site technical support. VPN-based remote access for real-time diagnostics and virtual commissioning.')">
-      <div class="gallery-visual">
-        <div class="big-icon">🌐</div>
-        <div class="vis-title">Digital Twin Simulation</div>
-        <div class="vis-sub">VPN · Remote Diagnostics · Global Support</div>
+    <div class="gallery-item cat-leadership reveal" data-cat="leadership" data-title="Strategic Planning Session" data-idx="4">
+      <img src="media/img05.jpg" alt="Strategic Planning" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Leadership</div>
+        <div class="overlay-title">Strategic Planning Session</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">Remote Support Infrastructure <span class="gl-tag">Digital</span></div>
     </div>
 
-    <div class="gallery-item" data-cat="digital"
-         onclick="openLightbox('📱','Power Apps Mobile Workflow','Mobile-first maintenance workflow application built with Microsoft Power Apps. Enables technicians to log work orders, access equipment history, and receive real-time alerts from the shop floor.')">
-      <div class="gallery-visual">
-        <div class="big-icon">📱</div>
-        <div class="vis-title">Power Apps Mobile</div>
-        <div class="vis-sub">Work Orders · Equipment History · Alerts</div>
+    <div class="gallery-item cat-awards reveal" data-cat="awards" data-title="P&G CEO Award Ceremony" data-idx="5">
+      <img src="media/img06.jpg" alt="CEO Award" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Awards</div>
+        <div class="overlay-title">P&G CEO Award Ceremony</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">Smart Mobile Workflow <span class="gl-tag">Digital</span></div>
     </div>
 
-    <!-- Awards -->
-    <div class="gallery-item" data-cat="award"
-         onclick="openLightbox('🏆','P&G CEO Award 2022','Awarded by the Chief Executive Officer of Procter & Gamble in 2022 for outstanding contribution to operational excellence, automation innovation, and driving measurable improvements in system reliability across global P&G sites.')">
-      <div class="gallery-visual">
-        <div class="big-icon">🏆</div>
-        <div class="vis-title">P&amp;G CEO Award 2022</div>
-        <div class="vis-sub">Operational Excellence · Innovation</div>
+    <div class="gallery-item cat-automation reveal" data-cat="automation" data-title="Production Line Operations" data-idx="6">
+      <img src="media/img07.jpg" alt="Production Line" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Automation</div>
+        <div class="overlay-title">Production Line Operations</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">CEO Award — 2022 <span class="gl-tag">Award</span></div>
     </div>
 
-    <div class="gallery-item" data-cat="award"
-         onclick="openLightbox('🏆','P&G CEO Award 2017','First CEO Award received in 2017 for exceptional technical performance and leadership in automation and control systems at Procter & Gamble.')">
-      <div class="gallery-visual">
-        <div class="big-icon">🏆</div>
-        <div class="vis-title">P&amp;G CEO Award 2017</div>
-        <div class="vis-sub">Technical Excellence · Leadership</div>
+    <div class="gallery-item cat-training reveal" data-cat="training" data-title="Technical Training Workshop" data-idx="7">
+      <img src="media/img08.jpg" alt="Training Workshop" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Training</div>
+        <div class="overlay-title">Technical Training Workshop</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">CEO Award — 2017 <span class="gl-tag">Award</span></div>
     </div>
 
-    <div class="gallery-item" data-cat="award"
-         onclick="openLightbox('🌟','P&G Great Leadership Award 2023','Recognized in 2023 for exemplary cross-functional team leadership, digital transformation initiatives, and delivering measurable operational improvements across P&G Jeddah manufacturing plant.')">
-      <div class="gallery-visual">
-        <div class="big-icon">🌟</div>
-        <div class="vis-title">Great Leadership Award 2023</div>
-        <div class="vis-sub">Team Leadership · Digital Transformation</div>
+    <div class="gallery-item cat-team reveal" data-cat="team" data-title="Cross-functional Team Meeting" data-idx="8">
+      <img src="media/img09.jpg" alt="Team Meeting" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Team</div>
+        <div class="overlay-title">Cross-functional Team Meeting</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">Leadership Award — 2023 <span class="gl-tag">Award</span></div>
     </div>
 
-    <!-- Certifications -->
-    <div class="gallery-item" data-cat="cert"
-         onclick="openLightbox('🤖','Mitsubishi PLC & Robotics Certification — Italy','International certification in Mitsubishi PLC programming (GX Works2/3) and robotics programming obtained in Italy. Covers advanced motion control, robot integration, and industrial automation programming.')">
-      <div class="gallery-visual">
-        <div class="big-icon">🇮🇹</div>
-        <div class="vis-title">Mitsubishi Certification</div>
-        <div class="vis-sub">GX Works2/3 · Robotics · Italy</div>
+    <div class="gallery-item cat-safety reveal" data-cat="safety" data-title="OSHA Safety Compliance" data-idx="9">
+      <img src="media/img10.jpg" alt="Safety Compliance" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Safety</div>
+        <div class="overlay-title">OSHA Safety Compliance</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">Mitsubishi PLC — Italy <span class="gl-tag">Cert</span></div>
     </div>
 
-    <div class="gallery-item" data-cat="cert"
-         onclick="openLightbox('⚙️','Allen-Bradley PLC Certification — Egypt','Certification in Allen-Bradley Studio 5000 and FactoryTalk automation programming obtained in Egypt. Covers Logix controllers, motion control, and industrial network configuration.')">
-      <div class="gallery-visual">
-        <div class="big-icon">🇪🇬</div>
-        <div class="vis-title">Allen-Bradley Certification</div>
-        <div class="vis-sub">Studio 5000 · FactoryTalk · Egypt</div>
+    <div class="gallery-item cat-automation reveal" data-cat="automation" data-title="SCADA System Monitoring" data-idx="10">
+      <img src="media/img11.jpg" alt="SCADA Monitoring" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Automation</div>
+        <div class="overlay-title">SCADA System Monitoring</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">Allen-Bradley PLC — Egypt <span class="gl-tag">Cert</span></div>
     </div>
 
-    <div class="gallery-item" data-cat="cert"
-         onclick="openLightbox('🏛️','Saudi Council of Engineers Accreditation','Professional Accreditation Certificate from the Saudi Council of Engineers — official recognition as a licensed professional engineer in the Kingdom of Saudi Arabia.')">
-      <div class="gallery-visual">
-        <div class="big-icon">🏛️</div>
-        <div class="vis-title">Saudi Council of Engineers</div>
-        <div class="vis-sub">Professional Accreditation · KSA</div>
+    <div class="gallery-item cat-awards reveal" data-cat="awards" data-title="Leadership Excellence Award" data-idx="11">
+      <img src="media/img12.jpg" alt="Leadership Award" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Awards</div>
+        <div class="overlay-title">Leadership Excellence Award</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">Professional Accreditation <span class="gl-tag">Cert</span></div>
     </div>
 
-    <div class="gallery-item" data-cat="cert"
-         onclick="openLightbox('📐','Lean Six Sigma Certification','Lean Six Sigma certification per British Certification Requirements. Covers DMAIC methodology, process improvement, waste elimination, and statistical analysis for manufacturing environments.')">
-      <div class="gallery-visual">
-        <div class="big-icon">📐</div>
-        <div class="vis-title">Lean Six Sigma</div>
-        <div class="vis-sub">DMAIC · Process Improvement · British Cert</div>
+    <div class="gallery-item cat-leadership reveal" data-cat="leadership" data-title="Executive Presentation" data-idx="12">
+      <img src="media/img13.jpg" alt="Executive Presentation" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Leadership</div>
+        <div class="overlay-title">Executive Presentation</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">Lean Six Sigma <span class="gl-tag">Cert</span></div>
     </div>
 
-    <div class="gallery-item" data-cat="cert"
-         onclick="openLightbox('🛡️','GRCP — Governance, Risk & Compliance','Professional certification in Governance, Risk Management, and Compliance (GRCP). Covers enterprise risk frameworks, regulatory compliance, and corporate governance best practices.')">
-      <div class="gallery-visual">
-        <div class="big-icon">🛡️</div>
-        <div class="vis-title">GRCP Certification</div>
-        <div class="vis-sub">Governance · Risk · Compliance</div>
+    <div class="gallery-item cat-automation reveal" data-cat="automation" data-title="Electrical Panel Commissioning" data-idx="13">
+      <img src="media/img14.jpg" alt="Electrical Commissioning" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Automation</div>
+        <div class="overlay-title">Electrical Panel Commissioning</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">GRCP Professional <span class="gl-tag">Cert</span></div>
     </div>
 
-    <!-- Safety -->
-    <div class="gallery-item" data-cat="safety"
-         onclick="openLightbox('🦺','OSHA Safety Certification','U.S. OSHA certification in Occupational Safety and Health for industrial environments. Covers hazard identification, lockout/tagout procedures, electrical safety, and emergency response protocols.')">
-      <div class="gallery-visual">
-        <div class="big-icon">🦺</div>
-        <div class="vis-title">OSHA Certification</div>
-        <div class="vis-sub">Occupational Safety · U.S. Standard</div>
+    <div class="gallery-item cat-team reveal" data-cat="team" data-title="Coaching & Development" data-idx="14">
+      <img src="media/img15.jpg" alt="Coaching" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Team</div>
+        <div class="overlay-title">Coaching & Development</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">OSHA Safety — U.S. Cert <span class="gl-tag">Safety</span></div>
     </div>
 
-    <div class="gallery-item" data-cat="safety"
-         onclick="openLightbox('🛡️','OT Cybersecurity Initiative','Operational Technology cybersecurity program implemented across P&G manufacturing sites. Achieved 100% reduction in OT risk exposure through network segmentation, access controls, and continuous monitoring.')">
-      <div class="gallery-visual">
-        <div class="big-icon">🔐</div>
-        <div class="vis-title">OT Cybersecurity</div>
-        <div class="vis-sub">100% Risk Reduction · Network Protection</div>
+    <div class="gallery-item cat-training reveal" data-cat="training" data-title="IWS 5.0 Digital Training" data-idx="15">
+      <img src="media/img16.jpg" alt="IWS Training" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Training</div>
+        <div class="overlay-title">IWS 5.0 Digital Training</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
       </div>
-      <div class="gallery-label">OT Security Program <span class="gl-tag">Safety</span></div>
+    </div>
+
+    <div class="gallery-item cat-safety reveal" data-cat="safety" data-title="Safety Inspection Round" data-idx="16">
+      <img src="media/img17.jpg" alt="Safety Inspection" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Safety</div>
+        <div class="overlay-title">Safety Inspection Round</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-leadership reveal" data-cat="leadership" data-title="Operations Review Meeting" data-idx="17">
+      <img src="media/img18.jpg" alt="Operations Review" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Leadership</div>
+        <div class="overlay-title">Operations Review Meeting</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-automation reveal" data-cat="automation" data-title="Allen-Bradley PLC System" data-idx="18">
+      <img src="media/img19.jpg" alt="Allen-Bradley PLC" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Automation</div>
+        <div class="overlay-title">Allen-Bradley PLC System</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-team reveal" data-cat="team" data-title="Team Recognition Ceremony" data-idx="19">
+      <img src="media/img20.jpg" alt="Team Recognition" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Team</div>
+        <div class="overlay-title">Team Recognition Ceremony</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-training reveal" data-cat="training" data-title="Continuous Improvement Workshop" data-idx="20">
+      <img src="media/img21.jpg" alt="CI Workshop" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Training</div>
+        <div class="overlay-title">Continuous Improvement Workshop</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-awards reveal" data-cat="awards" data-title="Site Excellence Recognition" data-idx="21">
+      <img src="media/img22.jpg" alt="Site Excellence" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Awards</div>
+        <div class="overlay-title">Site Excellence Recognition</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-automation reveal" data-cat="automation" data-title="Digital Transformation Initiative" data-idx="22">
+      <img src="media/img23.jpg" alt="Digital Transformation" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Automation</div>
+        <div class="overlay-title">Digital Transformation Initiative</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-leadership reveal" data-cat="leadership" data-title="P&G Jeddah Plant Leadership" data-idx="23">
+      <img src="media/img24.jpg" alt="Plant Leadership" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Leadership</div>
+        <div class="overlay-title">P&G Jeddah Plant Leadership</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-safety reveal" data-cat="safety" data-title="Industrial Safety Training" data-idx="24">
+      <img src="media/img25.jpg" alt="Safety Training" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Safety</div>
+        <div class="overlay-title">Industrial Safety Training</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-team reveal" data-cat="team" data-title="Engineering Team Briefing" data-idx="25">
+      <img src="media/img26.jpg" alt="Team Briefing" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Team</div>
+        <div class="overlay-title">Engineering Team Briefing</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-automation reveal" data-cat="automation" data-title="Predictive Maintenance Program" data-idx="26">
+      <img src="media/img27.jpg" alt="Predictive Maintenance" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Automation</div>
+        <div class="overlay-title">Predictive Maintenance Program</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-training reveal" data-cat="training" data-title="Capability Building Session" data-idx="27">
+      <img src="media/img28.jpg" alt="Capability Building" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Training</div>
+        <div class="overlay-title">Capability Building Session</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-leadership reveal" data-cat="leadership" data-title="IMEA Regional Support" data-idx="28">
+      <img src="media/img29.jpg" alt="IMEA Regional Support" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Leadership</div>
+        <div class="overlay-title">IMEA Regional Support</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-awards reveal" data-cat="awards" data-title="Certification Achievement" data-idx="29">
+      <img src="media/img30.jpg" alt="Certification" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Awards</div>
+        <div class="overlay-title">Certification Achievement</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-automation reveal" data-cat="automation" data-title="Industrial Cybersecurity" data-idx="30">
+      <img src="media/img31.jpg" alt="Cybersecurity" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Automation</div>
+        <div class="overlay-title">Industrial Cybersecurity</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-team reveal" data-cat="team" data-title="Technician Development Program" data-idx="31">
+      <img src="media/img32.jpg" alt="Technician Development" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Team</div>
+        <div class="overlay-title">Technician Development Program</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-safety reveal" data-cat="safety" data-title="Lockout Tagout Procedure" data-idx="32">
+      <img src="media/img33.jpg" alt="LOTO Procedure" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Safety</div>
+        <div class="overlay-title">Lockout Tagout Procedure</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-leadership reveal" data-cat="leadership" data-title="KPI Performance Review" data-idx="33">
+      <img src="media/img34.jpg" alt="KPI Review" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Leadership</div>
+        <div class="overlay-title">KPI Performance Review</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-training reveal" data-cat="training" data-title="SAP ERP System Training" data-idx="34">
+      <img src="media/img35.jpg" alt="SAP Training" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Training</div>
+        <div class="overlay-title">SAP ERP System Training</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-automation reveal" data-cat="automation" data-title="MES Architecture Implementation" data-idx="35">
+      <img src="media/img36.jpg" alt="MES Architecture" loading="lazy"/>
+      <div class="gallery-overlay">
+        <div class="overlay-cat">Automation</div>
+        <div class="overlay-title">MES Architecture Implementation</div>
+        <div class="overlay-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
     </div>
 
   </div>
 </section>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-  <div class="lightbox-content">
-    <button class="lightbox-close" onclick="closeLightboxBtn()">✕</button>
-    <div class="lb-icon" id="lb-icon"></div>
-    <h2 id="lb-title"></h2>
-    <p id="lb-desc"></p>
+<div id="lightbox">
+  <button class="lb-close" id="lbClose">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+  </button>
+  <button class="lb-nav" id="lbPrev">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+  </button>
+  <button class="lb-nav" id="lbNext">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+  </button>
+  <div class="lb-inner">
+    <div class="lb-img-wrap">
+      <img id="lbImg" src="" alt=""/>
+    </div>
+    <div class="lb-info">
+      <div class="lb-cat-tag" id="lbCat"></div>
+      <div class="lb-title-tag" id="lbTitle"></div>
+    </div>
+    <div class="lb-counter" id="lbCounter"></div>
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
-  <p>&copy; 2025 Mohammed ALOUKAY &nbsp;|&nbsp; <a href="index.html">← Back to Home</a></p>
+  <p>© 2025 Mohammed ALOUKAY — <a href="index.html">Portfolio</a> · <a href="https://www.linkedin.com/in/mohammed-aloukay-733482168/" target="_blank">LinkedIn</a></p>
 </footer>
 
-<script src="nav.js"></script>
 <script>
-  function filterGallery(cat, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('#galleryGrid .gallery-item').forEach(item => {
-      item.style.display = (cat === 'all' || item.dataset.cat === cat) ? '' : 'none';
+/* LOADER */
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('hide'),1600));
+
+/* CURSOR */
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+document.addEventListener('mousemove',e=>{
+  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
+  ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';
+});
+
+/* PARTICLES */
+(function(){
+  const c=document.getElementById('particleCanvas'),ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight}
+  resize();addEventListener('resize',resize);
+  for(let i=0;i<80;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.2+.4});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(0,224,255,.5)';ctx.fill();
     });
-  }
-
-  function openLightbox(icon, title, desc) {
-    document.getElementById('lb-icon').textContent  = icon;
-    document.getElementById('lb-title').textContent = title;
-    document.getElementById('lb-desc').textContent  = desc;
-    document.getElementById('lightbox').classList.add('open');
-  }
-
-  function closeLightbox(e) {
-    if (e.target === document.getElementById('lightbox')) {
-      document.getElementById('lightbox').classList.remove('open');
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);
+        ctx.strokeStyle=`rgba(0,224,255,${.15*(1-d/120)})`;ctx.lineWidth=.5;ctx.stroke();}
     }
+    requestAnimationFrame(draw);
   }
+  draw();
+})();
 
-  function closeLightboxBtn() {
-    document.getElementById('lightbox').classList.remove('open');
-  }
+/* NAV SHRINK */
+addEventListener('scroll',()=>document.getElementById('mainNav').classList.toggle('shrink',scrollY>50));
+
+/* SCROLL REVEAL */
+const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+/* FILTER */
+const allItems=[...document.querySelectorAll('.gallery-item')];
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    allItems.forEach(item=>{
+      const show=f==='all'||item.dataset.cat===f;
+      item.style.transition='opacity .4s,transform .4s';
+      if(show){item.style.opacity='1';item.style.transform='scale(1)';item.style.display='block';}
+      else{item.style.opacity='0';item.style.transform='scale(.94)';setTimeout(()=>{if(f!=='all'&&item.dataset.cat!==f)item.style.display='none';},400);}
+    });
+  });
+});
+
+/* LIGHTBOX */
+const lb=document.getElementById('lightbox');
+const lbImg=document.getElementById('lbImg');
+const lbCat=document.getElementById('lbCat');
+const lbTitle=document.getElementById('lbTitle');
+const lbCounter=document.getElementById('lbCounter');
+let curIdx=0,vis=[];
+
+function getVisible(){return allItems.filter(i=>i.style.display!=='none')}
+function openLB(idx){vis=getVisible();curIdx=idx;update();lb.classList.add('open');document.body.style.overflow='hidden';}
+function closeLB(){lb.classList.remove('open');document.body.style.overflow='';}
+function update(){
+  const item=vis[curIdx];if(!item)return;
+  lbImg.src=item.querySelector('img').src;
+  lbImg.alt=item.dataset.title;
+  lbCat.textContent=item.querySelector('.overlay-cat').textContent;
+  lbTitle.textContent=item.dataset.title;
+  lbCounter.textContent=`${curIdx+1} / ${vis.length}`;
+}
+
+allItems.forEach(item=>{
+  item.addEventListener('click',()=>{
+    vis=getVisible();
+    const idx=vis.indexOf(item);
+    openLB(idx>=0?idx:0);
+  });
+});
+
+document.getElementById('lbClose').addEventListener('click',closeLB);
+document.getElementById('lbPrev').addEventListener('click',()=>{curIdx=(curIdx-1+vis.length)%vis.length;update();});
+document.getElementById('lbNext').addEventListener('click',()=>{curIdx=(curIdx+1)%vis.length;update();});
+lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
+document.addEventListener('keydown',e=>{
+  if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')closeLB();
+  if(e.key==='ArrowLeft'){curIdx=(curIdx-1+vis.length)%vis.length;update();}
+  if(e.key==='ArrowRight'){curIdx=(curIdx+1)%vis.length;update();}
+});
 </script>
 </body>
 </html>
