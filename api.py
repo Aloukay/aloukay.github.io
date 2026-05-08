@@ -26,6 +26,9 @@ Location: Jeddah, Saudi Arabia
 Email: M.Aloukay@gmail.com
 Phone: +966 53 391 2463
 LinkedIn: https://www.linkedin.com/in/mohammed-aloukay-733482168/
+age: 39 years
+son: Eyad
+daughter: Israa
 
 === PROFESSIONAL IDENTITY ===
 Mohammed is a technical engineering leader and operations manager with 17+ years of progressive experience at Procter & Gamble (P&G). He combines deep automation and electrical engineering expertise with strong management, coaching, and strategic leadership capabilities. He is known for delivering measurable business results across reliability, digital transformation, and operational KPIs.
