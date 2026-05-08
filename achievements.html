@@ -1,260 +1,1059 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Achievements &amp; Awards — Mohammed ALOUKAY</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    .page-hero {
-      padding: 140px 8% 60px;
-      position: relative; overflow: hidden;
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #030810;
+      --bg2:       #060f1e;
+      --bg3:       #0a1628;
+      --cyan:      #00e0ff;
+      --green:     #00ffa3;
+      --gold:      #ffd700;
+      --purple:    #a855f7;
+      --red:       #ff4d6d;
+      --glass:     rgba(255,255,255,0.04);
+      --glass2:    rgba(0,224,255,0.06);
+      --border:    rgba(0,224,255,0.15);
+      --border2:   rgba(0,255,163,0.15);
+      --text:      #e2e8f0;
+      --muted:     #94a3b8;
+      --shadow:    0 8px 32px rgba(0,0,0,0.5);
     }
-    .page-hero .blob { top: 0; right: 5%; }
-    .page-hero h1 {
-      font-size: 2.8rem; font-weight: 700;
-      background: linear-gradient(90deg, var(--cyan), var(--green));
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ============================================================
+       CUSTOM CURSOR
+    ============================================================ */
+    #cursor-dot {
+      position: fixed; top: 0; left: 0; z-index: 99999;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--cyan);
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      transition: transform .1s;
+      box-shadow: 0 0 10px var(--cyan);
+    }
+    #cursor-ring {
+      position: fixed; top: 0; left: 0; z-index: 99998;
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1.5px solid rgba(0,224,255,0.5);
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      transition: all .12s ease;
+    }
+
+    /* ============================================================
+       PARTICLES CANVAS
+    ============================================================ */
+    #particles-canvas {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 70px;
+      background: rgba(3,8,16,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: all .3s;
+    }
+    nav.shrink { height: 56px; background: rgba(3,8,16,0.97); }
+
+    .nav-logo {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--cyan);
+      text-decoration: none;
+      letter-spacing: .08em;
+    }
+    .nav-logo span { color: var(--green); }
+
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+    .nav-links a {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .95rem; font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: .05em;
+      transition: color .25s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 2px; background: var(--cyan);
+      transform: scaleX(0); transition: transform .25s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+    .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+    .nav-links a.rec-link { color: var(--green) !important; }
+    .nav-links a.rec-link::after { background: var(--green); }
+
+    /* ============================================================
+       HERO SECTION
+    ============================================================ */
+    .hero {
+      position: relative; z-index: 1;
+      padding: 140px 2.5rem 80px;
+      text-align: center;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,224,255,0.06) 0%, transparent 70%);
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .4rem 1.2rem;
+      background: rgba(0,224,255,0.08);
+      border: 1px solid rgba(0,224,255,0.25);
+      border-radius: 50px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .85rem; font-weight: 600;
+      color: var(--cyan);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge::before { content: '★'; font-size: .9rem; }
+
+    .hero h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff 0%, var(--cyan) 50%, var(--green) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .page-hero p { color: var(--muted); margin-top: 8px; }
 
-    /* AWARD HIGHLIGHT */
-    .award-highlight {
-      background: linear-gradient(135deg, rgba(0,224,255,.08), rgba(0,255,163,.06));
-      border: 1px solid rgba(0,224,255,.25);
-      border-radius: 20px;
-      padding: 32px 28px;
-      display: flex; gap: 24px; align-items: flex-start;
-      transition: transform .3s, box-shadow .3s;
+    .hero p {
+      font-size: 1.1rem; color: var(--muted);
+      max-width: 600px; margin: 0 auto 3rem;
+      line-height: 1.7;
     }
-    .award-highlight:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 10px 36px rgba(0,224,255,.18);
-    }
-    .award-highlight .aw-icon {
-      font-size: 3rem; min-width: 56px; text-align: center;
-    }
-    .award-highlight h3 {
-      font-size: 1.1rem; font-weight: 700; color: #fff;
-      margin-bottom: 4px;
-    }
-    .award-highlight .aw-year {
-      font-size: .82rem; color: var(--cyan);
-      margin-bottom: 8px;
-    }
-    .award-highlight p { font-size: .85rem; color: var(--muted); }
 
-    /* CERT CARD */
-    .cert-card {
-      display: flex; gap: 16px; align-items: flex-start;
+    /* ============================================================
+       STATS COUNTERS
+    ============================================================ */
+    .stats-grid {
+      display: flex; justify-content: center; gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 4rem;
     }
-    .cert-card .cert-icon {
-      font-size: 1.8rem; min-width: 40px; text-align: center;
+
+    .stat-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      min-width: 140px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .3s, border-color .3s;
     }
-    .cert-card h4 { font-size: .92rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
-    .cert-card p  { font-size: .8rem; color: var(--muted); }
+    .stat-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,224,255,0.05), transparent);
+      opacity: 0; transition: opacity .3s;
+    }
+    .stat-card:hover { transform: translateY(-4px); border-color: var(--cyan); }
+    .stat-card:hover::before { opacity: 1; }
+
+    .stat-number {
+      font-family: 'Orbitron', monospace;
+      font-size: 2.5rem; font-weight: 900;
+      color: var(--cyan);
+      line-height: 1;
+      margin-bottom: .3rem;
+    }
+    .stat-number.gold { color: var(--gold); }
+    .stat-number.green { color: var(--green); }
+    .stat-number.purple { color: var(--purple); }
+
+    .stat-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .85rem; font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    /* ============================================================
+       FILTER BAR
+    ============================================================ */
+    .filter-section {
+      position: relative; z-index: 1;
+      padding: 0 2.5rem 2rem;
+      display: flex; justify-content: center;
+    }
+
+    .filter-bar {
+      display: flex; gap: .75rem; flex-wrap: wrap;
+      justify-content: center;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 60px;
+      padding: .5rem .75rem;
+    }
+
+    .filter-btn {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .9rem; font-weight: 600;
+      padding: .45rem 1.2rem;
+      border-radius: 50px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .25s;
+      letter-spacing: .05em;
+    }
+    .filter-btn:hover { color: var(--cyan); border-color: rgba(0,224,255,0.3); }
+    .filter-btn.active {
+      background: rgba(0,224,255,0.12);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+    .filter-btn[data-cat="pg-awards"].active { background: rgba(255,215,0,0.1); border-color: var(--gold); color: var(--gold); }
+    .filter-btn[data-cat="recognition"].active { background: rgba(0,255,163,0.1); border-color: var(--green); color: var(--green); }
+    .filter-btn[data-cat="training"].active { background: rgba(168,85,247,0.1); border-color: var(--purple); color: var(--purple); }
+    .filter-btn[data-cat="education"].active { background: rgba(255,77,109,0.1); border-color: var(--red); color: var(--red); }
+
+    /* ============================================================
+       AWARDS GRID
+    ============================================================ */
+    .awards-section {
+      position: relative; z-index: 1;
+      padding: 0 2.5rem 6rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem; font-weight: 700;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .section-title::after {
+      content: ''; flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
+    }
 
     .awards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px,1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
     }
 
-    .cert-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
-      gap: 16px;
+    /* ============================================================
+       AWARD CARD
+    ============================================================ */
+    .award-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .35s cubic-bezier(.25,.8,.25,1),
+                  border-color .35s,
+                  box-shadow .35s;
+      position: relative;
+    }
+    .award-card::before {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(135deg, rgba(0,224,255,0.04), transparent 60%);
+      opacity: 0; transition: opacity .35s;
+      pointer-events: none;
+    }
+    .award-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      border-color: var(--cyan);
+      box-shadow: 0 20px 60px rgba(0,224,255,0.15), 0 0 0 1px rgba(0,224,255,0.1);
+    }
+    .award-card:hover::before { opacity: 1; }
+
+    .award-card[data-cat="pg-awards"] { border-color: rgba(255,215,0,0.2); }
+    .award-card[data-cat="pg-awards"]:hover { border-color: var(--gold); box-shadow: 0 20px 60px rgba(255,215,0,0.15); }
+    .award-card[data-cat="recognition"] { border-color: rgba(0,255,163,0.2); }
+    .award-card[data-cat="recognition"]:hover { border-color: var(--green); box-shadow: 0 20px 60px rgba(0,255,163,0.15); }
+    .award-card[data-cat="training"] { border-color: rgba(168,85,247,0.2); }
+    .award-card[data-cat="training"]:hover { border-color: var(--purple); box-shadow: 0 20px 60px rgba(168,85,247,0.15); }
+    .award-card[data-cat="education"] { border-color: rgba(255,77,109,0.2); }
+    .award-card[data-cat="education"]:hover { border-color: var(--red); box-shadow: 0 20px 60px rgba(255,77,109,0.15); }
+
+    /* Image container */
+    .award-img-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 68%;
+      overflow: hidden;
+      background: var(--bg3);
+    }
+    .award-img-wrap img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .5s ease;
+    }
+    .award-card:hover .award-img-wrap img { transform: scale(1.06); }
+
+    /* Zoom overlay */
+    .zoom-icon {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%) scale(0);
+      font-size: 2rem;
+      background: rgba(0,0,0,0.6);
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .3s;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .award-card:hover .zoom-icon { transform: translate(-50%,-50%) scale(1); }
+
+    /* Category badge on image */
+    .cat-badge {
+      position: absolute; top: 12px; left: 12px; z-index: 3;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .75rem; font-weight: 700;
+      padding: .25rem .7rem;
+      border-radius: 50px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .cat-badge.gold   { background: rgba(255,215,0,0.2); color: var(--gold); border: 1px solid rgba(255,215,0,0.4); }
+    .cat-badge.green  { background: rgba(0,255,163,0.15); color: var(--green); border: 1px solid rgba(0,255,163,0.35); }
+    .cat-badge.purple { background: rgba(168,85,247,0.15); color: var(--purple); border: 1px solid rgba(168,85,247,0.35); }
+    .cat-badge.red    { background: rgba(255,77,109,0.15); color: var(--red); border: 1px solid rgba(255,77,109,0.35); }
+    .cat-badge.cyan   { background: rgba(0,224,255,0.1); color: var(--cyan); border: 1px solid rgba(0,224,255,0.3); }
+
+    /* Card body */
+    .award-body {
+      padding: 1.25rem 1.4rem 1.4rem;
+    }
+    .award-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.05rem; font-weight: 700;
+      color: #fff;
+      margin-bottom: .35rem;
+      line-height: 1.3;
+    }
+    .award-meta {
+      font-size: .8rem; color: var(--muted);
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .award-meta .dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--cyan); flex-shrink: 0;
     }
 
-    /* COUNTER */
-    .counter-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
-      gap: 16px;
-      margin-bottom: 50px;
+    /* ============================================================
+       HIDDEN STATE
+    ============================================================ */
+    .award-card.hidden { display: none; }
+
+    /* ============================================================
+       LIGHTBOX
+    ============================================================ */
+    #lightbox {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    #lightbox.open { display: flex; }
+
+    #lightbox-img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 0 80px rgba(0,224,255,0.2);
+      border: 1px solid var(--border);
+    }
+
+    #lightbox-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50%;
+      color: #fff; font-size: 1.3rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s, transform .2s;
+    }
+    #lightbox-close:hover { background: rgba(255,77,109,0.3); transform: rotate(90deg); }
+
+    #lightbox-caption {
+      position: absolute; bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem; font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      max-width: 600px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    #lightbox-prev, #lightbox-next {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 48px; height: 48px;
+      background: rgba(0,224,255,0.1);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      color: var(--cyan); font-size: 1.3rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s;
+    }
+    #lightbox-prev { left: 1.5rem; }
+    #lightbox-next { right: 1.5rem; }
+    #lightbox-prev:hover, #lightbox-next:hover { background: rgba(0,224,255,0.2); }
+
+    /* ============================================================
+       SCROLL REVEAL
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: .8rem; color: var(--muted);
+      font-family: 'Rajdhani', sans-serif;
+    }
+    footer a { color: var(--cyan); text-decoration: none; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 900px) {
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: .8rem; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 0 1rem; }
+      .hero { padding: 110px 1rem 60px; }
+      .filter-section { padding: 0 1rem 1.5rem; }
+      .awards-section { padding: 0 1rem 4rem; }
+      .awards-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      #lightbox-prev { left: .5rem; }
+      #lightbox-next { right: .5rem; }
+    }
+    @media (max-width: 480px) {
+      .awards-grid { grid-template-columns: 1fr; }
+      .stats-grid { gap: 1rem; }
+      .stat-card { min-width: 110px; padding: 1rem 1.2rem; }
+      .stat-number { font-size: 2rem; }
+      .nav-links { gap: .6rem; }
+      .nav-links a { font-size: .72rem; }
     }
   </style>
 </head>
 <body>
 
-<div id="loader">Loading…</div>
-<div class="cursor" id="cursor"></div>
+<!-- Custom Cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
 
-<!-- NAV -->
-<nav>
-  <a class="logo" href="index.html">Aloukay</a>
-  <ul>
+<!-- Particles -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- Navigation -->
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo">M.<span>ALOUKAY</span></a>
+  <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="experience.html">Experience</a></li>
     <li><a href="competencies.html">Competencies</a></li>
     <li><a href="projects.html">Projects</a></li>
-    <li><a href="achievements.html">Achievements</a></li>
-    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="achievements.html" class="active">Achievements</a></li>
+    <li><a href="recommendations.html" class="rec-link">Recommendations</a></li>
+    <li><a href="gallery.html">Media</a></li>
   </ul>
 </nav>
 
-<!-- PAGE HERO -->
-<div class="page-hero fade">
-  <div class="blob"></div>
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-badge">Recognition &amp; Excellence</div>
   <h1>Achievements &amp; Awards</h1>
-  <p>Recognized for technical excellence, leadership, and consistent operational performance across global operations.</p>
+  <p>17+ years of P&amp;G excellence — recognized through CEO Awards, performance trophies, and professional certifications across three continents.</p>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card reveal">
+      <div class="stat-number gold" data-target="3">0</div>
+      <div class="stat-label">CEO Awards</div>
+    </div>
+    <div class="stat-card reveal">
+      <div class="stat-number green" data-target="20">0</div>
+      <div class="stat-label">Total Awards</div>
+    </div>
+    <div class="stat-card reveal">
+      <div class="stat-number" data-target="17">0</div>
+      <div class="stat-label">Years at P&amp;G</div>
+    </div>
+    <div class="stat-card reveal">
+      <div class="stat-number purple" data-target="8">0</div>
+      <div class="stat-label">Certifications</div>
+    </div>
+  </div>
+</section>
+
+<!-- Filter Bar -->
+<div class="filter-section">
+  <div class="filter-bar">
+    <button class="filter-btn active" data-cat="all">All Awards</button>
+    <button class="filter-btn" data-cat="pg-awards">CEO &amp; P&amp;G Awards</button>
+    <button class="filter-btn" data-cat="recognition">Recognition</button>
+    <button class="filter-btn" data-cat="training">Training &amp; Certs</button>
+    <button class="filter-btn" data-cat="education">Education</button>
+  </div>
 </div>
 
-<!-- COUNTERS -->
-<section style="padding-top:0;" class="fade">
-  <div class="counter-row">
-    <div class="card stat-box">
-      <div class="number">3</div>
-      <div class="label">P&amp;G Corporate Awards</div>
+<!-- Awards Grid -->
+<section class="awards-section">
+  <div class="section-title">Awards Gallery</div>
+
+  <div class="awards-grid" id="awards-grid">
+
+    <!-- 1: CEO Award 2015/2016 -->
+    <div class="award-card reveal" data-cat="pg-awards" data-img="awards/award01.jpg" data-title="The CEO Award 2015/2016 — P&G (David S. Taylor)">
+      <div class="award-img-wrap">
+        <span class="cat-badge gold">CEO Award</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award01.jpg" alt="P&G CEO Award 2015/2016" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">The CEO Award — FY 2015/2016</div>
+        <div class="award-meta"><span class="dot"></span> Signed by David S. Taylor, P&amp;G CEO</div>
+      </div>
     </div>
-    <div class="card stat-box">
-      <div class="number">11</div>
-      <div class="label">Certifications &amp; Accreditations</div>
+
+    <!-- 2: CEO Award 2022 -->
+    <div class="award-card reveal" data-cat="pg-awards" data-img="awards/award02.jpg" data-title="The 2022 CEO Award — P&G (Jon R. Moeller)">
+      <div class="award-img-wrap">
+        <span class="cat-badge gold">CEO Award</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award02.jpg" alt="P&G 2022 CEO Award" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">The 2022 CEO Award — FY 2021/2022</div>
+        <div class="award-meta"><span class="dot"></span> Signed by Jon R. Moeller, P&amp;G CEO</div>
+      </div>
     </div>
-    <div class="card stat-box">
-      <div class="number">2</div>
-      <div class="label">International Training Programs</div>
+
+    <!-- 3: Great Leaders Award (Pampers) -->
+    <div class="award-card reveal" data-cat="pg-awards" data-img="awards/award03.jpg" data-title="League of #GreatLeaders — Pampers Baby Care">
+      <div class="award-img-wrap">
+        <span class="cat-badge gold">Great Leader</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award03.jpg" alt="League of GreatLeaders Award" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">League of #GreatLeaders — Pampers</div>
+        <div class="award-meta"><span class="dot"></span> Selected from 7,000+ Baby Care PS employees</div>
+      </div>
     </div>
-    <div class="card stat-box">
-      <div class="number">17+</div>
-      <div class="label">Years of Excellence</div>
+
+    <!-- 4: شهادة تفوق P&G 2009 -->
+    <div class="award-card reveal" data-cat="recognition" data-img="awards/award04.jpg" data-title="شهادة تفوق — شركة المنتجات الحديثة P&G 2009">
+      <div class="award-img-wrap">
+        <span class="cat-badge green">تفوق</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award04.jpg" alt="شهادة تفوق P&G 2009" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">شهادة تفوق — P&amp;G Jeddah 2009</div>
+        <div class="award-meta"><span class="dot"></span> تميز خلال فترة التدريب — Feb 2009</div>
+      </div>
     </div>
+
+    <!-- 5: Stepping Up As A Force For Good -->
+    <div class="award-card reveal" data-cat="recognition" data-img="awards/award05.jpg" data-title="Stepping Up As A Force For Good — P&G Jeddah Plant">
+      <div class="award-img-wrap">
+        <span class="cat-badge green">Recognition</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award05.jpg" alt="Stepping Up As A Force For Good" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">Stepping Up As A Force For Good</div>
+        <div class="award-meta"><span class="dot"></span> P&amp;G Jeddah Plant — Signed by Tamer Elhawar</div>
+      </div>
+    </div>
+
+    <!-- 6: Mitsubishi PLC Certificate -->
+    <div class="award-card reveal" data-cat="training" data-img="awards/award06.jpg" data-title="PLC Motion & HMI Maintenance Training — Mitsubishi Electric, Italy 2017">
+      <div class="award-img-wrap">
+        <span class="cat-badge purple">Certification</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award06.jpg" alt="Mitsubishi PLC Certificate" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">PLC Motion &amp; HMI Maintenance Training</div>
+        <div class="award-meta"><span class="dot"></span> Mitsubishi Electric Europe — Feb 2017, Italy</div>
+      </div>
+    </div>
+
+    <!-- 7: شكر وتقدير من مصطفى قمز -->
+    <div class="award-card reveal" data-cat="recognition" data-img="awards/award07.jpg" data-title="شكر وتقدير — P&G من مصطفى قمز">
+      <div class="award-img-wrap">
+        <span class="cat-badge green">تقدير</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award07.jpg" alt="شكر وتقدير P&G" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">شكر وتقدير — P&amp;G</div>
+        <div class="award-meta"><span class="dot"></span> من مصطفى قمز — تقدير شخصي</div>
+      </div>
+    </div>
+
+    <!-- 8: GSUM+ Training Certificate -->
+    <div class="award-card reveal" data-cat="training" data-img="awards/award08.jpg" data-title="GSUM+ Training — P&G Jeddah Nov 2015">
+      <div class="award-img-wrap">
+        <span class="cat-badge purple">Training</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award08.jpg" alt="GSUM+ Training Certificate" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">GSUM+ Training Certificate</div>
+        <div class="award-meta"><span class="dot"></span> P&amp;G Jeddah — Nov 9/10, 2015</div>
+      </div>
+    </div>
+
+    <!-- 9: LE Workshop Certificate -->
+    <div class="award-card reveal" data-cat="training" data-img="awards/award09.jpg" data-title="LE Workshop — P&G Jeddah Plant Jan 2018">
+      <div class="award-img-wrap">
+        <span class="cat-badge purple">Workshop</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award09.jpg" alt="LE Workshop Certificate" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">LE Workshop — Certificate of Attendance</div>
+        <div class="award-meta"><span class="dot"></span> P&amp;G Jeddah Plant — Jan 17-18, 2018</div>
+      </div>
+    </div>
+
+    <!-- 10: رسالة تقدير مهند شهاب الدين 2022 -->
+    <div class="award-card reveal" data-cat="recognition" data-img="awards/award10.jpg" data-title="رسالة تقدير قيادي — P&G 2022 من مهند شهاب الدين">
+      <div class="award-img-wrap">
+        <span class="cat-badge green">تقدير</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award10.jpg" alt="رسالة تقدير قيادي 2022" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">رسالة تقدير قيادي — 2022</div>
+        <div class="award-meta"><span class="dot"></span> من مهند شهاب الدين — 17 فبراير 2022</div>
+      </div>
+    </div>
+
+    <!-- 11: شهادة شكر وتقدير Jeddah Plant -->
+    <div class="award-card reveal" data-cat="recognition" data-img="awards/award11.jpg" data-title="شهادة شكر وتقدير — P&G Jeddah Plant">
+      <div class="award-img-wrap">
+        <span class="cat-badge green">شكر وتقدير</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award11.jpg" alt="شهادة شكر وتقدير Jeddah Plant" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">شهادة شكر وتقدير — Jeddah Plant</div>
+        <div class="award-meta"><span class="dot"></span> أفضل أرقام تشغيلية في تاريخ مصنع جدة</div>
+      </div>
+    </div>
+
+    <!-- 12: شكر وتقدير أسبوع التنوع -->
+    <div class="award-card reveal" data-cat="recognition" data-img="awards/award12.jpg" data-title="شكر وتقدير — فعالية أسبوع التنوع والإندماج">
+      <div class="award-img-wrap">
+        <span class="cat-badge green">تنوع</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award12.jpg" alt="شكر وتقدير أسبوع التنوع" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">شكر وتقدير — أسبوع التنوع والإندماج</div>
+        <div class="award-meta"><span class="dot"></span> مصنع جدة — P&amp;G</div>
+      </div>
+    </div>
+
+    <!-- 13: تروفي أفضل نتيجة فيم كير أبريل 2021 -->
+    <div class="award-card reveal" data-cat="pg-awards" data-img="awards/award13.jpg" data-title="أفضل نتيجة في تاريخ فيم كير جدة — أبريل 2021">
+      <div class="award-img-wrap">
+        <span class="cat-badge gold">Best Result</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award13.jpg" alt="أفضل نتيجة فيم كير أبريل 2021" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">أفضل نتيجة في تاريخ فيم كير جدة</div>
+        <div class="award-meta"><span class="dot"></span> 8.5 توقفات غير مخططة يومياً — أبريل 2021</div>
+      </div>
+    </div>
+
+    <!-- 14: تروفي 3.87 توقف أغسطس 2021 -->
+    <div class="award-card reveal" data-cat="pg-awards" data-img="awards/award14.jpg" data-title="إنجاز غير مسبوق — 3.87 توقف يومياً أغسطس 2021">
+      <div class="award-img-wrap">
+        <span class="cat-badge gold">Record</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award14.jpg" alt="إنجاز 3.87 توقف أغسطس 2021" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">إنجاز غير مسبوق — مصنع جدة</div>
+        <div class="award-meta"><span class="dot"></span> 3.87 توقف غير مخطط يومياً — أغسطس 2021</div>
+      </div>
+    </div>
+
+    <!-- 15: Time Management Training P&G 2012 -->
+    <div class="award-card reveal" data-cat="training" data-img="awards/award15.jpg" data-title="Time Management Training — P&G Jan 2012">
+      <div class="award-img-wrap">
+        <span class="cat-badge purple">Training</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award15.jpg" alt="Time Management Training P&G" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">Time Management Training</div>
+        <div class="award-meta"><span class="dot"></span> P&amp;G Certificate of Training — Jan 2012</div>
+      </div>
+    </div>
+
+    <!-- 16: Coaching Training P&G 2012 -->
+    <div class="award-card reveal" data-cat="training" data-img="awards/award16.jpg" data-title="Coaching Training — P&G Jan 2012">
+      <div class="award-img-wrap">
+        <span class="cat-badge purple">Training</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award16.jpg" alt="Coaching Training P&G" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">Coaching Training Certificate</div>
+        <div class="award-meta"><span class="dot"></span> P&amp;G Certificate of Training — Jan 2012</div>
+      </div>
+    </div>
+
+    <!-- 17: تروفي 5.9 توقف مايو 2021 LCC3 -->
+    <div class="award-card reveal" data-cat="pg-awards" data-img="awards/award17.jpg" data-title="أفضل نتيجة LCC3 — 5.9 توقف مايو 2021">
+      <div class="award-img-wrap">
+        <span class="cat-badge gold">Record</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award17.jpg" alt="أفضل نتيجة LCC3 مايو 2021" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">أفضل نتيجة LCC3 — مصنع جدة</div>
+        <div class="award-meta"><span class="dot"></span> 5.9 توقفات غير مخططة يومياً — مايو 2021</div>
+      </div>
+    </div>
+
+    <!-- 18: تروفي 3.98 توقف يونيو 2021 -->
+    <div class="award-card reveal" data-cat="pg-awards" data-img="awards/award18.jpg" data-title="إنجاز غير مسبوق فيم كير — 3.98 توقف يونيو 2021">
+      <div class="award-img-wrap">
+        <span class="cat-badge gold">Record</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/award18.jpg" alt="إنجاز 3.98 توقف يونيو 2021" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">إنجاز غير مسبوق — فيم كير جدة</div>
+        <div class="award-meta"><span class="dot"></span> 3.98 توقفات غير مخططة يومياً — يونيو 2021</div>
+      </div>
+    </div>
+
+    <!-- 19: Diplôme de Technicien en Electricité -->
+    <div class="award-card reveal" data-cat="education" data-img="awards/diplome.jpg" data-title="Diplôme de Technicien en Electricité — Maroc 2008">
+      <div class="award-img-wrap">
+        <span class="cat-badge red">Diploma</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/diplome.jpg" alt="Diplôme de Technicien en Electricité" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">Diplôme de Technicien en Electricité</div>
+        <div class="award-meta"><span class="dot"></span> Royaume du Maroc — OFPPT, Dec 2008</div>
+      </div>
+    </div>
+
+    <!-- 20: GitHub Awards list screenshot -->
+    <div class="award-card reveal" data-cat="pg-awards" data-img="awards/github_awards.png" data-title="Awards Collection — aloukay.github.io Portfolio">
+      <div class="award-img-wrap">
+        <span class="cat-badge cyan">Collection</span>
+        <div class="zoom-icon">🔍</div>
+        <img src="awards/github_awards.png" alt="Awards Collection" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="award-body">
+        <div class="award-title">Awards Collection — Portfolio</div>
+        <div class="award-meta"><span class="dot"></span> Complete awards archive on GitHub Pages</div>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- P&G AWARDS -->
-<section style="padding-top:0;" class="fade">
-  <div class="section-title">P&amp;G Corporate Awards</div>
-  <div class="section-line"></div>
-  <div class="awards-grid">
-
-    <div class="award-highlight">
-      <div class="aw-icon">🏆</div>
-      <div>
-        <h3>P&amp;G CEO Award</h3>
-        <div class="aw-year">2022</div>
-        <p>Awarded by the Chief Executive Officer of Procter &amp; Gamble in recognition of outstanding contribution to operational excellence and innovation in automation systems.</p>
-      </div>
-    </div>
-
-    <div class="award-highlight">
-      <div class="aw-icon">🏆</div>
-      <div>
-        <h3>P&amp;G CEO Award</h3>
-        <div class="aw-year">2017</div>
-        <p>Second CEO Award recognizing exceptional leadership and technical performance in automation and control systems across P&amp;G manufacturing operations.</p>
-      </div>
-    </div>
-
-    <div class="award-highlight">
-      <div class="aw-icon">🌟</div>
-      <div>
-        <h3>P&amp;G Great Leadership Award</h3>
-        <div class="aw-year">2023</div>
-        <p>Recognized for exemplary cross-functional team leadership, driving digital transformation, and delivering measurable improvements in system reliability and operational efficiency.</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- CERTIFICATIONS -->
-<section class="fade">
-  <div class="section-title">Certifications &amp; Accreditations</div>
-  <div class="section-line"></div>
-  <div class="cert-grid">
-
-    <div class="card cert-card">
-      <div class="cert-icon">🤖</div>
-      <div>
-        <h4>Mitsubishi PLC &amp; Robotics Programming Excellence</h4>
-        <p>International certification obtained in Italy — Mitsubishi GX Works2/3 and robotics programming.</p>
-        <span class="tag">Italy</span>
-      </div>
-    </div>
-
-    <div class="card cert-card">
-      <div class="cert-icon">⚙️</div>
-      <div>
-        <h4>Allen-Bradley PLC &amp; Automation Training</h4>
-        <p>Certification in Studio 5000 and FactoryTalk programming obtained in Egypt.</p>
-        <span class="tag">Egypt</span>
-      </div>
-    </div>
-
-    <div class="card cert-card">
-      <div class="cert-icon">⏱️</div>
-      <div>
-        <h4>Time &amp; Coaching Management</h4>
-        <p>P&amp;G internal certification in leadership coaching and time management methodologies.</p>
-        <span class="tag">P&amp;G</span>
-      </div>
-    </div>
-
-    <div class="card cert-card">
-      <div class="cert-icon">📋</div>
-      <div>
-        <h4>GSUM &amp; LE Workshop Certifications</h4>
-        <p>Certified in Global Supply Unit Management and Loss Elimination workshops.</p>
-        <span class="tag">P&amp;G</span>
-      </div>
-    </div>
-
-    <div class="card cert-card">
-      <div class="cert-icon">⚠️</div>
-      <div>
-        <h4>Fundamentals of Risk Management</h4>
-        <p>Professional certification in risk assessment, mitigation strategies, and compliance frameworks.</p>
-        <span class="tag">Risk Management</span>
-      </div>
-    </div>
-
-    <div class="card cert-card">
-      <div class="cert-icon">🦺</div>
-      <div>
-        <h4>OSHA — Occupational Safety &amp; Health</h4>
-        <p>U.S. OSHA certification in occupational safety and health standards for industrial environments.</p>
-        <span class="tag">U.S. Certification</span>
-      </div>
-    </div>
-
-    <div class="card cert-card">
-      <div class="cert-icon">📐</div>
-      <div>
-        <h4>Lean Six Sigma</h4>
-        <p>Certified in Lean Six Sigma methodology per British Certification Requirements for process improvement.</p>
-        <span class="tag">British Certification</span>
-      </div>
-    </div>
-
-    <div class="card cert-card">
-      <div class="cert-icon">🛡️</div>
-      <div>
-        <h4>Governance, Risk Management &amp; Compliance (GRCP)</h4>
-        <p>Professional accreditation in GRC frameworks and enterprise risk governance.</p>
-        <span class="tag">GRCP</span>
-      </div>
-    </div>
-
-    <div class="card cert-card">
-      <div class="cert-icon">🏛️</div>
-      <div>
-        <h4>Professional Accreditation Certificate</h4>
-        <p>Officially accredited by the <strong>Saudi Council of Engineers</strong> as a professional engineer.</p>
-        <span class="tag">Saudi Council of Engineers</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- FOOTER -->
+<!-- Footer -->
 <footer>
-  <p>&copy; 2025 Mohammed ALOUKAY &nbsp;|&nbsp; <a href="index.html">← Back to Home</a></p>
+  <p>© 2025 Mohammed ALOUKAY — Engineering &amp; Automation Leader | <a href="index.html">Back to Home</a></p>
 </footer>
 
-<script src="nav.js"></script>
+<!-- Lightbox -->
+<div id="lightbox">
+  <button id="lightbox-close">✕</button>
+  <button id="lightbox-prev">&#8249;</button>
+  <img id="lightbox-img" src="" alt="">
+  <button id="lightbox-next">&#8250;</button>
+  <div id="lightbox-caption"></div>
+</div>
+
+<script>
+// ============================================================
+// CURSOR
+// ============================================================
+const dot  = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function animCursor() {
+  dot.style.left  = mx + 'px'; dot.style.top  = my + 'px';
+  rx += (mx - rx) * .12; ry += (my - ry) * .12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+})();
+document.querySelectorAll('a,button,.award-card').forEach(el => {
+  el.addEventListener('mouseenter', () => { ring.style.transform = 'translate(-50%,-50%) scale(1.6)'; });
+  el.addEventListener('mouseleave', () => { ring.style.transform = 'translate(-50%,-50%) scale(1)'; });
+});
+
+// ============================================================
+// PARTICLES
+// ============================================================
+(function() {
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  for (let i = 0; i < 70; i++) particles.push({
+    x: Math.random()*1920, y: Math.random()*1080,
+    vx: (Math.random()-.5)*.4, vy: (Math.random()-.5)*.4,
+    r: Math.random()*1.5+.5,
+    a: Math.random()*.5+.1
+  });
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(0,224,255,' + p.a + ')'; ctx.fill();
+    });
+    particles.forEach(function(a, i) {
+      for (var j = i+1; j < particles.length; j++) {
+        var b = particles[j];
+        var d = Math.hypot(a.x-b.x, a.y-b.y);
+        if (d < 120) {
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+          ctx.strokeStyle = 'rgba(0,224,255,' + (.12*(1-d/120)) + ')';
+          ctx.lineWidth = .5; ctx.stroke();
+        }
+      }
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ============================================================
+// NAV SHRINK
+// ============================================================
+window.addEventListener('scroll', function() {
+  document.getElementById('main-nav').classList.toggle('shrink', window.scrollY > 60);
+});
+
+// ============================================================
+// SCROLL REVEAL
+// ============================================================
+var revealObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e, i) {
+    if (e.isIntersecting) {
+      setTimeout(function() { e.target.classList.add('visible'); }, i * 60);
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: .1 });
+document.querySelectorAll('.reveal').forEach(function(el) { revealObserver.observe(el); });
+
+// ============================================================
+// COUNTER ANIMATION
+// ============================================================
+function animateCounter(el) {
+  var target = parseInt(el.dataset.target);
+  var current = 0;
+  var step = Math.ceil(target / 40);
+  var timer = setInterval(function() {
+    current = Math.min(current + step, target);
+    el.textContent = current + (target >= 10 ? '+' : '');
+    if (current >= target) clearInterval(timer);
+  }, 40);
+}
+var counterObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      animateCounter(e.target);
+      counterObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: .5 });
+document.querySelectorAll('[data-target]').forEach(function(el) { counterObserver.observe(el); });
+
+// ============================================================
+// FILTER
+// ============================================================
+var filterBtns = document.querySelectorAll('.filter-btn');
+var cards = document.querySelectorAll('.award-card');
+
+filterBtns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    filterBtns.forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    var cat = btn.dataset.cat;
+    var delay = 0;
+    cards.forEach(function(card) {
+      if (cat === 'all' || card.dataset.cat === cat) {
+        card.classList.remove('hidden');
+        card.classList.remove('visible');
+        var d = delay;
+        setTimeout(function() { card.classList.add('visible'); }, d);
+        delay += 50;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  });
+});
+
+// ============================================================
+// LIGHTBOX
+// ============================================================
+var lightbox = document.getElementById('lightbox');
+var lbImg    = document.getElementById('lightbox-img');
+var lbCap    = document.getElementById('lightbox-caption');
+var visibleCards = [], lbIndex = 0;
+
+function getVisible() {
+  return Array.from(cards).filter(function(c) { return !c.classList.contains('hidden'); });
+}
+
+function openLightbox(card) {
+  visibleCards = getVisible();
+  lbIndex = visibleCards.indexOf(card);
+  showLightboxItem(lbIndex);
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function showLightboxItem(idx) {
+  var card = visibleCards[idx];
+  if (!card) return;
+  lbImg.src = card.dataset.img;
+  lbCap.textContent = card.dataset.title;
+}
+
+cards.forEach(function(card) {
+  card.addEventListener('click', function() { openLightbox(card); });
+});
+
+document.getElementById('lightbox-close').addEventListener('click', function() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+});
+
+document.getElementById('lightbox-prev').addEventListener('click', function(e) {
+  e.stopPropagation();
+  lbIndex = (lbIndex - 1 + visibleCards.length) % visibleCards.length;
+  showLightboxItem(lbIndex);
+});
+
+document.getElementById('lightbox-next').addEventListener('click', function(e) {
+  e.stopPropagation();
+  lbIndex = (lbIndex + 1) % visibleCards.length;
+  showLightboxItem(lbIndex);
+});
+
+lightbox.addEventListener('click', function(e) {
+  if (e.target === lightbox) {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+
+document.addEventListener('keydown', function(e) {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape') { lightbox.classList.remove('open'); document.body.style.overflow = ''; }
+  if (e.key === 'ArrowLeft')  { lbIndex = (lbIndex - 1 + visibleCards.length) % visibleCards.length; showLightboxItem(lbIndex); }
+  if (e.key === 'ArrowRight') { lbIndex = (lbIndex + 1) % visibleCards.length; showLightboxItem(lbIndex); }
+});
+</script>
 </body>
 </html>
